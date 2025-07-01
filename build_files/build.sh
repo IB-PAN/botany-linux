@@ -22,3 +22,10 @@ dnf5 install -y tmux
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+# Branding test
+dnf5 -y swap aurora-logos fedora-logos
+sed -i "s|^PRETTY_NAME=.*|PRETTY_NAME=\"Botany Linux 42\"|" /usr/lib/os-release
+sed -i "s|^NAME=.*|NAME=\"Botany Linux\"|" /usr/lib/os-release
+sed -i "s|^HOME_URL=.*|HOME_URL=\"https://botany.pl\"|" /usr/lib/os-release
+sed -i "s|^LOGO=.*|LOGO=\"ibpan-logo\"|" /usr/lib/os-release

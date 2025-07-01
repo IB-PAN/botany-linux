@@ -1,0 +1,8 @@
+[KDE]
+#LookAndFeelPackage=dev.getaurora.aurora.desktop
+SingleClick=false
+ColorScheme=BreezeDark
+widgetStyle=Breeze
+
+[KDE Control Module Restrictions][$i]
+kcm_plymouth.desktop=false
