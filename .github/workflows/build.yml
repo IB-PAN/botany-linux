@@ -53,7 +53,12 @@ jobs:
           remove-codeql: true
 
       - name: Mount BTRFS for podman storage
+        continue-on-error: true
         uses: ublue-os/container-storage-action@main
+
+      - if: always()
+        run: |
+          journalctl -xe | cat
 
       - name: Get current date
         id: date
