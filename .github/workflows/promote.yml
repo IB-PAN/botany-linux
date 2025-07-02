@@ -1,0 +1,21 @@
+name: Promote latest to prod
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: "${{ github.event.repository.name }}"
+  IMAGE_REGISTRY: "${{ secrets.IMAGE_REGISTRY }}"
+  TAG_OLD: "latest"
+  TAG_NEW: "prod"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    steps:
+      - run: |
+          CONTENT_TYPE="application/vnd.docker.distribution.manifest.v2+json"
+          MANIFEST=$(curl -H "Accept: ${CONTENT_TYPE}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_OLD}")
+          curl -X PUT -H "Content-Type: ${CONTENT_TYPE}" -d "${MANIFEST}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_NEW}"
