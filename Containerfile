@@ -1,3 +1,10 @@
+ARG IMAGE_NAME
+ARG IMAGE_REGISTRY
+ARG REGISTRY_USER
+ARG REGISTRY_PASSWORD
+ARG REGISTRY_PULLER_USER
+ARG REGISTRY_PULLER_PASSWORD
+
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY build_files /
