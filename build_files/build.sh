@@ -21,9 +21,9 @@ dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
-mkdir -p /usr/opt/onlyoffice
-ln -s /opt/onlyoffice /usr/opt/onlyoffice
-dnf5 -y --installroot=/usr https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
+#mkdir -p /usr/opt/onlyoffice
+#ln -s /opt/onlyoffice /usr/opt/onlyoffice
+#dnf5 --installroot=/usr install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
 
 # Use a COPR Example:
 #
