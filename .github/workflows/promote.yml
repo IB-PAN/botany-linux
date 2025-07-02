@@ -19,5 +19,5 @@ jobs:
       - run: |
           CONTENT_TYPE="application/vnd.docker.distribution.manifest.v2+json"
           U="${{ secrets.REGISTRY_USER }}:${{ secrets.REGISTRY_PASSWORD }}"
-          MANIFEST=$(curl -H "Accept: ${CONTENT_TYPE}" -u "${U}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_OLD}")
-          curl -X PUT -H "Content-Type: ${CONTENT_TYPE}" -d "${MANIFEST}" -u "${U}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_NEW}"
+          MANIFEST=$(curl -v -H "Accept: ${CONTENT_TYPE}" -u "${U}" --no-progress-meter "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_OLD}")
+          curl -v -X PUT -H "Content-Type: ${CONTENT_TYPE}" -d "${MANIFEST}" -u "${U}" --no-progress-meter "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_NEW}"
