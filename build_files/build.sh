@@ -20,7 +20,12 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
-dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
+
+mkdir -p /usr/opt/onlyoffice
+ln -s /opt/onlyoffice /usr/opt/onlyoffice
+wget -nc -nv -O /tmp/onlyoffice-desktopeditors.x86_64.rpm https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
+rpm -i --relocate /opt=/usr/opt --badreloc /tmp/onlyoffice-desktopeditors.x86_64.rpm
+rm /tmp/onlyoffice-desktopeditors.x86_64.rpm
 
 # Use a COPR Example:
 #
