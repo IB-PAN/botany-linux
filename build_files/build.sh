@@ -38,7 +38,7 @@ systemctl enable podman.socket
 
 # bun
 wget -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
-7z x -si -o/tmp /tmp/bun.zip
+7z x -o/tmp/ /tmp/bun.zip
 rm /tmp/bun.zip
 pushd /tmp/bun-linux-*
 install -dm755 "completions"
@@ -61,7 +61,7 @@ bun /ctx/branding.js
 # MS fonts
 #git clone --separate-git-dir=$(mktemp -u) --depth=1 https://github.com/pjobson/Microsoft-365-Fonts.git /usr/share/fonts/Microsoft-365-Fonts && rm -rf /usr/share/fonts/Microsoft-365-Fonts/.git/* /usr/share/fonts/Microsoft-365-Fonts/.git
 wget -nc -nv -O /tmp/Microsoft-365-Fonts.zip https://github.com/pjobson/Microsoft-365-Fonts/archive/refs/heads/main.zip
-7z x -si -o/usr/share/fonts/ /tmp/Microsoft-365-Fonts.zip
+7z x -o/usr/share/fonts/ /tmp/Microsoft-365-Fonts.zip
 mv /usr/share/fonts/{Microsoft-365-Fonts-main,Microsoft-365-Fonts}
 rm /tmp/Microsoft-365-Fonts.zip
 fc-cache -f -v
