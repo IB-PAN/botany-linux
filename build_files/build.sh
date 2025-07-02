@@ -23,9 +23,7 @@ dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
 mkdir -p /usr/opt/onlyoffice
 ln -s /opt/onlyoffice /usr/opt/onlyoffice
-wget -nc -nv -O /tmp/onlyoffice-desktopeditors.x86_64.rpm https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
-rpm -i --relocate /opt=/usr/opt --badreloc /tmp/onlyoffice-desktopeditors.x86_64.rpm
-rm /tmp/onlyoffice-desktopeditors.x86_64.rpm
+dnf5 -y --installroot=/usr https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
 
 # Use a COPR Example:
 #
