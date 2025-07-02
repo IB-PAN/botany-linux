@@ -34,6 +34,12 @@ Then verify `/usr/lib/ostree/auth.json` exists on the new system and you may `su
 [ -f /usr/lib/ostree/auth.json ] && sudo rm /etc/ostree/auth.json || echo Fail
 ```
 
+Then do:
+
+```shell
+ujust install-system-flatpaks
+```
+
 ## Verification
 
 These images are signed with sigstore's [cosign](https://docs.sigstore.dev/cosign/overview/) using. You can verify the signature by running the following command:

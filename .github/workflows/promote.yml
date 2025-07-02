@@ -14,8 +14,10 @@ concurrency:
 
 jobs:
   promote:
+    runs-on: ubuntu-latest
     steps:
       - run: |
           CONTENT_TYPE="application/vnd.docker.distribution.manifest.v2+json"
-          MANIFEST=$(curl -H "Accept: ${CONTENT_TYPE}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_OLD}")
-          curl -X PUT -H "Content-Type: ${CONTENT_TYPE}" -d "${MANIFEST}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_NEW}"
+          U="${{ secrets.REGISTRY_USER }}:${{ secrets.REGISTRY_PASSWORD }}"
+          MANIFEST=$(curl -H "Accept: ${CONTENT_TYPE}" -u "${U}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_OLD}")
+          curl -X PUT -H "Content-Type: ${CONTENT_TYPE}" -d "${MANIFEST}" -u "${U}" "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_NEW}"
