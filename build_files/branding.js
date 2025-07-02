@@ -11,7 +11,9 @@ imageInfo["image-ref"] = `ostree-image-signed:docker://${process.env.IMAGE_REGIS
 
 await $`
 rm /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
-cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo{,white}.svg
+rm /usr/share/icons/hicolor/scalable/places/distributor-logo-white.svg
+rm /usr/share/icons/hicolor/scalable/apps/start-here.svg
+cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo{,-white}.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo.svg /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo-white.svg /usr/share/icons/hicolor/scalable/places/distributor-logo-white.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo-white.svg /usr/share/icons/hicolor/scalable/places/start-here.svg
@@ -34,7 +36,7 @@ cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/s
 `;
 
 const osReleaseFile = Bun.file("/usr/lib/os-release");
-const osRelease = Object.fromEntries(await osReleaseFile.text()).split("\n").map(l => l.trim()).filter(l => !!l)
+const osRelease = Object.fromEntries((await osReleaseFile.text()).split("\n").map(l => l.trim()).filter(l => !!l)
     .map(line => {
         const arr = line.split("=");
         const key = arr[0];
@@ -43,7 +45,7 @@ const osRelease = Object.fromEntries(await osReleaseFile.text()).split("\n").map
             value = value.slice(1, -1).replaceAll("\\\"", "\"");
         }
         return [key, value];
-    })
+    }));
 
 osRelease.PRETTY_NAME = "Botany Linux 42";
 osRelease.NAME = "Botany Linux";
