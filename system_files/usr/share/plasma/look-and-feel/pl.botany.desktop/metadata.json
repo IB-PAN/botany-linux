@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "",
+                "Name": "IB PAN"
+            }
+        ],
+        "Category": "",
+        "Description": "Botany — Theme variant of KDE Breeze",
+        "Id": "pl.botany.desktop",
+        "License": "GPLv2+",
+        "Name": "Botany",
+        "ServiceTypes": [
+            "Plasma/LookAndFeel"
+        ],
+        "Version": "0.01",
+        "Website": "https://botany.pl"
+    },
+    "X-KDE-ParentApp": "",
+    "X-Plasma-MainScript": "defaults"
+}

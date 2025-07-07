@@ -102,6 +102,12 @@ fc-cache -f -v
 
 /ctx/fix_kde_google_integration.sh
 
+rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
+
+# Favorites in Kickoff
+sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,preferred:\/\/filemanager<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
+sed -i '/<entry name="favorites" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.kate.desktop,org.kde.discover.desktop<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.kickoff/contents/config/main.xml
+
 # Cleanup
 rm -rf /tmp/* || true
 rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true

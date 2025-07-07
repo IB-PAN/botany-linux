@@ -10,10 +10,9 @@ imageInfo["image-flavor"] = "main";
 imageInfo["image-ref"] = `ostree-image-signed:docker://${process.env.IMAGE_REGISTRY}/${process.env.IMAGE_NAME}`;
 
 await $`
-rm /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
-rm /usr/share/icons/hicolor/scalable/places/distributor-logo-white.svg
-rm /usr/share/icons/hicolor/scalable/places/start-here.svg
-rm /usr/share/icons/hicolor/scalable/apps/start-here.svg
+mkdir -p /usr/icons/hicolor/scalable/{apps,places}/
+rm -f /usr/share/icons/hicolor/scalable/places/distributor-logo{,-white}.svg
+rm -f /usr/share/icons/hicolor/scalable/{apps,places}/start-here.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo-white.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo.svg /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
@@ -35,6 +34,17 @@ magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share
 magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo-white.png
 magick -background none -size 128x128 /usr/share/icons/ibpan-logo.svg /usr/share/plymouth/themes/spinner/watermark.png
 cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/kinoite-watermark.png
+mkdir -p /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
+gzip -c /usr/share/icons/ibpan-logo.svg > /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/ibpan_logo.svgz
+`;
+
+// fix default wallpaper until we have our own ones
+await $`
+ln -sf /usr/share/backgrounds/images/default.jxl /usr/share/backgrounds/default.jxl
+ln -sf /usr/share/backgrounds/images/default-dark.jxl /usr/share/backgrounds/default-dark.jxl
+ln -sf /usr/share/backgrounds/f*/default/f*.xml /usr/share/backgrounds/default.xml
+ln -sf /usr/share/backgrounds/default.jxl /usr/share/backgrounds/default.png
+ln -sf /usr/share/backgrounds/default-dark.jxl /usr/share/backgrounds/default-dark.png
 `;
 
 const osReleaseFile = Bun.file("/usr/lib/os-release");

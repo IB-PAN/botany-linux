@@ -1,5 +1,5 @@
 [KDE]
-#LookAndFeelPackage=dev.getaurora.aurora.desktop
+LookAndFeelPackage=pl.botany.desktop
 SingleClick=false
 ColorScheme=BreezeDark
 widgetStyle=Breeze
