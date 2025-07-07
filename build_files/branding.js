@@ -12,8 +12,10 @@ imageInfo["image-ref"] = `ostree-image-signed:docker://${process.env.IMAGE_REGIS
 await $`
 rm /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
 rm /usr/share/icons/hicolor/scalable/places/distributor-logo-white.svg
+rm /usr/share/icons/hicolor/scalable/places/start-here.svg
 rm /usr/share/icons/hicolor/scalable/apps/start-here.svg
-cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo{,-white}.svg
+cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo.svg
+cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo-white.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo.svg /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo-white.svg /usr/share/icons/hicolor/scalable/places/distributor-logo-white.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo-white.svg /usr/share/icons/hicolor/scalable/places/start-here.svg
@@ -25,13 +27,13 @@ cp /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/fedora-logo.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/fedora-logo-sprite.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/fedora_whitelogo.svg
-magick -size 128x32 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/fedora-logo-small.png
-magick -size 128x128 /usr/share/pixmaps/fedora-logo-sprite.svg /usr/share/pixmaps/fedora-logo-sprite.png
-magick -size 400x100 /usr/share/pixmaps/fedora-logo.svg /usr/share/pixmaps/fedora-logo.png
-magick -size 200x50 /usr/share/pixmaps/fedora-logo.svg /usr/share/pixmaps/fedora_logo_med.png
-magick -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo.png
-magick -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo-white.png
-magick -size 128x128 /usr/share/icons/ibpan-logo.svg /usr/share/plymouth/themes/spinner/watermark.png
+magick -background none -size 128x32 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/fedora-logo-small.png
+magick -background none -size 128x128 /usr/share/pixmaps/fedora-logo-sprite.svg /usr/share/pixmaps/fedora-logo-sprite.png
+magick -background none -size 400x100 /usr/share/pixmaps/fedora-logo.svg /usr/share/pixmaps/fedora-logo.png
+magick -background none -size 200x50 /usr/share/pixmaps/fedora-logo.svg /usr/share/pixmaps/fedora_logo_med.png
+magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo.png
+magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo-white.png
+magick -background none -size 128x128 /usr/share/icons/ibpan-logo.svg /usr/share/plymouth/themes/spinner/watermark.png
 cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/kinoite-watermark.png
 `;
 

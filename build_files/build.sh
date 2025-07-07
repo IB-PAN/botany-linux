@@ -17,12 +17,13 @@ echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y screen gparted signon-kwallet-extension signon-ui
+dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla
 
-dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus
+dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper
 
 # aurora-kde-config aurora-plymouth aurora-backgrounds aurora-cli-logos aurora-fastfetch kcm_ublue
-dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config
+dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
+rm -f /usr/share/applications/{documentation,Discourse}.desktop
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
@@ -43,7 +44,7 @@ systemctl enable podman.socket
 systemctl enable sshd.service
 
 # bun
-wget -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
+wget --no-local-db -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
 7z x -o/tmp/ /tmp/bun.zip
 rm /tmp/bun.zip
 pushd /tmp/bun-linux-*
@@ -66,7 +67,7 @@ bun /ctx/branding.js
 
 # MS fonts
 #git clone --separate-git-dir=$(mktemp -u) --depth=1 https://github.com/pjobson/Microsoft-365-Fonts.git /usr/share/fonts/Microsoft-365-Fonts && rm -rf /usr/share/fonts/Microsoft-365-Fonts/.git/* /usr/share/fonts/Microsoft-365-Fonts/.git
-wget -nc -nv -O /tmp/Microsoft-365-Fonts.zip https://github.com/pjobson/Microsoft-365-Fonts/archive/refs/heads/main.zip
+wget --no-local-db -nc -nv -O /tmp/Microsoft-365-Fonts.zip https://github.com/pjobson/Microsoft-365-Fonts/archive/refs/heads/main.zip
 7z x -o/usr/share/fonts/ /tmp/Microsoft-365-Fonts.zip
 mv /usr/share/fonts/{Microsoft-365-Fonts-main,Microsoft-365-Fonts}
 rm /tmp/Microsoft-365-Fonts.zip

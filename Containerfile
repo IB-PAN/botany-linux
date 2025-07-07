@@ -4,7 +4,7 @@ COPY build_files /
 
 # Base Image
 FROM ghcr.io/ublue-os/aurora:stable
-COPY system_files /
+COPY --chown=root:root system_files /
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
