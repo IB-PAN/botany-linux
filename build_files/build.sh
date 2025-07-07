@@ -14,8 +14,8 @@ mkdir -p /var/roothome/.gpg
 
 # handle /opt
 rm -rf /opt
-mkdir -p /usr/opt /var/opt
-ln -s /var/opt /opt
+mkdir -p /usr/opt
+ln -s /usr/opt /opt
 
 ### Install packages
 
@@ -37,8 +37,6 @@ dnf5 install -y inkscape gimp krita kdenlive
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
-mkdir -p /usr/opt/onlyoffice
-ln -s /usr/opt/onlyoffice /opt/onlyoffice
 dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
 
 # kopia.io
