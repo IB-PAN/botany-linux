@@ -37,7 +37,7 @@ Rectangle {
             anchors.centerIn: parent
 
             asynchronous: true
-            source: "ibpan_logo"
+            source: "images/ibpan_logo.svgz"
 
             sourceSize.width: size
             sourceSize.height: size

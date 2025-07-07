@@ -35,6 +35,8 @@ magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share
 magick -background none -size 128x128 /usr/share/icons/ibpan-logo.svg /usr/share/plymouth/themes/spinner/watermark.png
 cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/kinoite-watermark.png
 mkdir -p /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
+cp /usr/share/plasma/look-and-feel/org.kde.breeze.desktop/contents/splash/images/* /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
+rm /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/plasma.svgz
 gzip -c /usr/share/icons/ibpan-logo.svg > /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/ibpan_logo.svgz
 `;
 

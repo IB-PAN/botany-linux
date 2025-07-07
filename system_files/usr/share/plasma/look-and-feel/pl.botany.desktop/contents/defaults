@@ -3,6 +3,7 @@ widgetStyle=Breeze
 
 [kdeglobals][General]
 ColorScheme=BreezeLight
+AccentColor=61,212,37
 
 [kdeglobals][Icons]
 Theme=breeze
