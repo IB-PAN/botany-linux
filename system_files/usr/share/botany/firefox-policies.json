@@ -1,0 +1,57 @@
+{
+  "policies": {
+    "ManagedBookmarks": [
+      {
+        "toplevel_name": "Instytut Botaniki"
+      },
+      {
+        "name": "Strona Instytutu Botaniki",
+        "url": "https://botany.pl"
+      },
+      {
+        "name": "Poczta Google",
+        "url": "https://mail.google.com"
+      },
+      {
+        "name": "Różne",
+        "children": [
+          {
+            "name": "Repozytorium Cyfrowe Instytutów Naukowych: IB PAN",
+            "url": "https://rcin.org.pl/dlibra/collectiondescription/428"
+          },
+          {
+            "name": "Katalog biblioteki",
+            "url": "https://biblioteka.botany.pl/"
+          }
+        ]
+      }
+    ],
+    "FirefoxHome": {
+      "SponsoredTopSites": false,
+      "Pocket": false,
+      "SponsoredPocket": false
+    },
+    "NoDefaultBookmarks": true,
+    "SearchEngines": {
+      "Add": [
+        {
+          "Name": "Biblioteka IB PAN",
+          "URLTemplate": "https://biblioteka.botany.pl/search?q={searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://biblioteka.botany.pl/zasoby/Logo-IBPAN.svg",
+          "Alias": "@bib",
+          "Description": "Przeszukaj katalog biblioteczny IB PAN"
+        },
+        {
+          "Name": "NUKAT",
+          "URLTemplate": "https://katalog.nukat.edu.pl/search?q={searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://centrum.nukat.edu.pl/images/logotypy/logo/png/favico_violet.ico",
+          "Alias": "@nukat",
+          "Description": "Przeszukaj katalog biblioteczny NUKAT"
+        }
+      ]
+    },
+    "SkipTermsOfUse": true
+  }
+}
