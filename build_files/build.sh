@@ -35,6 +35,7 @@ dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+systemctl enable sshd.service
 
 # bun
 wget -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
