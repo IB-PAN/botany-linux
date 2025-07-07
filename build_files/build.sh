@@ -9,6 +9,14 @@ set -ouex pipefail
 
 echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64`\"}}}" | tee /usr/lib/ostree/auth.json
 
+# temporary
+mkdir -p /var/roothome/.gpg
+
+# handle /opt
+rm -rf /opt
+mkdir -p /usr/opt /var/opt
+ln -s /var/opt /opt
+
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.
@@ -25,18 +33,14 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 in
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse}.desktop
 
-dnf5 install -y inkscape gimp krita
+dnf5 install -y inkscape gimp krita kdenlive
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
-mv /opt /opt_
-mkdir /opt
-dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
-mkdir -p /usr/opt/
-mv /opt/onlyoffice /usr/opt/
-rmdir /opt
-mv /opt_ /opt
+mkdir -p /usr/opt/onlyoffice
 ln -s /usr/opt/onlyoffice /opt/onlyoffice
+dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
+
 
 # Use a COPR Example:
 #
@@ -87,6 +91,6 @@ fc-cache -f -v
 
 # Cleanup
 rm -rf /tmp/* || true
-rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome || true
+rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
 find /var/* -maxdepth 0 -type d \! -name cache -exec rm -fr {} \;
 find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 \! -name rpm-ostree -exec rm -fr {} \;
