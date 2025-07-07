@@ -41,6 +41,19 @@ mkdir -p /usr/opt/onlyoffice
 ln -s /usr/opt/onlyoffice /opt/onlyoffice
 dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
 
+# kopia.io
+rpm --import https://kopia.io/signing-key
+tee /etc/yum.repos.d/kopia.repo <<EOF
+[Kopia]
+name=Kopia
+baseurl=http://packages.kopia.io/rpm/stable/\$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://kopia.io/signing-key
+EOF
+dnf install -y kopia kopia-ui
+install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
+install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
 
 # Use a COPR Example:
 #
@@ -92,5 +105,5 @@ fc-cache -f -v
 # Cleanup
 rm -rf /tmp/* || true
 rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
-find /var/* -maxdepth 0 -type d \! -name cache -exec rm -fr {} \;
+find /var/* -maxdepth 0 -type d \! -name cache \! -name log -exec rm -fr {} \;
 find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 \! -name rpm-ostree -exec rm -fr {} \;
