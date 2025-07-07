@@ -102,6 +102,18 @@ jobs:
           sep-tags: " "
           sep-annotations: " "
 
+      - name: Image Env
+        id: image_env
+        run: |
+          cat <<EOF > .env
+          IMAGE_NAME=${{ env.IMAGE_NAME }}
+          IMAGE_REGISTRY=${{ env.IMAGE_REGISTRY }}
+          REGISTRY_USER=${{ secrets.REGISTRY_USER }}
+          REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}
+          REGISTRY_PULLER_USER=${{ secrets.REGISTRY_PULLER_USER }}
+          REGISTRY_PULLER_PASSWORD=${{ secrets.REGISTRY_PULLER_PASSWORD }}
+          EOF
+
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@v2
@@ -114,13 +126,6 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           oci: false
-          build-args: |
-            IMAGE_NAME=${{ env.IMAGE_NAME }}
-            IMAGE_REGISTRY=${{ env.IMAGE_REGISTRY }}
-            REGISTRY_USER=${{ secrets.REGISTRY_USER }}
-            REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}
-            REGISTRY_PULLER_USER=${{ secrets.REGISTRY_PULLER_USER }}
-            REGISTRY_PULLER_PASSWORD=${{ secrets.REGISTRY_PULLER_PASSWORD }}
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# import env
+set -a
+[ -f /.env ] && . /.env
+set +a
+
 set -ouex pipefail
 
 echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64`\"}}}" | tee /usr/lib/ostree/auth.json
