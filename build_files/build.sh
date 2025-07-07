@@ -64,6 +64,9 @@ wget -nc -nv -O /tmp/Microsoft-365-Fonts.zip https://github.com/pjobson/Microsof
 7z x -o/usr/share/fonts/ /tmp/Microsoft-365-Fonts.zip
 mv /usr/share/fonts/{Microsoft-365-Fonts-main,Microsoft-365-Fonts}
 rm /tmp/Microsoft-365-Fonts.zip
+chown -R root:root /usr/share/fonts/Microsoft-365-Fonts
+chmod -R 644 /usr/share/fonts/Microsoft-365-Fonts
+chmod -R a+X /usr/share/fonts/Microsoft-365-Fonts
 fc-cache -f -v
 
 /ctx/fix_kde_google_integration.sh
