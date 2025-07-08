@@ -32,7 +32,7 @@ Rectangle {
         Image {
             id: logo
             //match SDDM/lockscreen avatar positioning
-            readonly property real size: Kirigami.Units.gridUnit * 8
+            readonly property real size: Kirigami.Units.gridUnit * 32
 
             anchors.centerIn: parent
 
@@ -41,13 +41,16 @@ Rectangle {
 
             sourceSize.width: size
             sourceSize.height: size
+            //width: size
+            //height: size
         }
 
         // TODO: port to PlasmaComponents3.BusyIndicator
         Image {
             id: busyIndicator
             //in the middle of the remaining space
-            y: parent.height - (parent.height - logo.y) / 2 - height/2
+            //y: parent.height - (parent.height - logo.y) / 2 - height/2
+            y: logo.y + logo.height + height/2
             anchors.horizontalCenter: parent.horizontalCenter
             asynchronous: true
             source: "images/busywidget.svgz"
