@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany privileged 1 || exit 0
+version-script flatpaks-botany privileged 2 || exit 0
 
 set -x
 
@@ -11,4 +11,9 @@ ARCH=$(arch)
 if [ "$ARCH" != "aarch64" ] ; then
 	mkdir -p "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/policies"
 	/usr/bin/cp -f /usr/share/botany/firefox-policies.json "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/policies/policies.json"
+
+    mkdir -p "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref"
+	rm -f "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/*aurora*.js"
+	rm -f "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/*botany*.js"
+	/usr/bin/cp -rf /usr/share/ublue-os/firefox-config/* "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/"
 fi
