@@ -16,7 +16,7 @@
         "name": "Różne",
         "children": [
           {
-            "name": "Repozytorium Cyfrowe Instytutów Naukowych: IB PAN",
+            "name": "Repozytorium Cyfrowe Instytutów Naukowych — IB PAN",
             "url": "https://rcin.org.pl/dlibra/collectiondescription/428"
           },
           {
@@ -38,7 +38,7 @@
           "Name": "Biblioteka IB PAN",
           "URLTemplate": "https://biblioteka.botany.pl/search?q={searchTerms}",
           "Method": "GET",
-          "IconURL": "https://biblioteka.botany.pl/zasoby/Logo-IBPAN.svg",
+          "IconURL": "https://biblioteka.botany.pl/zasoby/favicon.png",
           "Alias": "@bib",
           "Description": "Przeszukaj katalog biblioteczny IB PAN"
         },
