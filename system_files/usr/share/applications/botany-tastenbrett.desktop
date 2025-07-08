@@ -3,6 +3,7 @@ Exec=tastenbrett
 Icon=preferences-desktop-keyboard
 Type=Application
 SingleMainWindow=true
+StartupNotify=false
 Name=Podgląd klawiatury
 Comment=Wyświetl podgląd używanego układu klawiatury, by wiedzieć jakie znaki są pod jakimi klawiszami
 Categories=Qt;Utility;

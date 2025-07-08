@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=dLibra RCIN
+Comment=Aplikacja redaktora i administratora biblioteki cyfrowej.
+Categories=Network;PCSS dLibra;Java;Javaws;
+Type=Application
+Icon=dlibra-soft-icon
+X-Vendor=Poznańskie Centrum Superkomputerowo-Sieciowe
+Exec=/usr/bin/javaws.itweb -property deployment.javaws.shortcut=NEVER -jnlp "https://rcin.org.pl/dlibra/dlibra-app.jnlp"
