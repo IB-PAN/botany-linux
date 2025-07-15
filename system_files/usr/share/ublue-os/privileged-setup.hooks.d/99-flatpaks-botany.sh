@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany privileged 2 || exit 0
+version-script flatpaks-botany privileged 3 || exit 0
 
 set -x
 
@@ -16,4 +16,7 @@ if [ "$ARCH" != "aarch64" ] ; then
 	rm -f "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/*aurora*.js"
 	rm -f "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/*botany*.js"
 	/usr/bin/cp -rf /usr/share/ublue-os/firefox-config/* "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/"
+
+    # https://github.com/IB-PAN/botany-browser-extension-linux
+	/usr/bin/cp -f /usr/share/botany/firefox-extension.xpi "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/firefox-extension.xpi"
 fi
