@@ -52,6 +52,18 @@
         }
       ]
     },
-    "SkipTermsOfUse": true
+    "SkipTermsOfUse": true,
+    "Handlers": {
+      "schemes": {
+        "mailto": {
+          "action": "useHelperApp",
+          "ask": false,
+          "handlers": [{
+            "name": "Gmail",
+            "uriTemplate": "https://mail.google.com/mail/?extsrc=mailto&url=%s"
+          }]
+        }
+      }
+    }
   }
 }
