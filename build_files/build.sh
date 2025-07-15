@@ -55,7 +55,7 @@ install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bas
 rm /etc/yum.repos.d/kopia.repo
 
 dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Alexx2000/Fedora_41/home:Alexx2000.repo --save-filename=Alexx2000
-dnf5 install doublecmd-qt6
+dnf5 install -y doublecmd-qt6
 rm /etc/yum.repos.d/Alexx2000.repo
 
 # Use a COPR Example:
