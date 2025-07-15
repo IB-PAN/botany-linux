@@ -1,0 +1,16 @@
+<oor:component-data oor:name="ToolbarMode" oor:package="org.openoffice.Office.UI">
+    <node oor:name="Applications">
+        <node oor:name="Writer">
+            <prop oor:name="Active" oor:type="xs:string" oor:finalized="false"><value>notebookbar.ui</value></prop>
+        </node>
+        <node oor:name="Calc">
+            <prop oor:name="Active" oor:type="xs:string" oor:finalized="false"><value>notebookbar.ui</value></prop>
+        </node>
+        <node oor:name="Draw">
+            <prop oor:name="Active" oor:type="xs:string" oor:finalized="false"><value>notebookbar.ui</value></prop>
+        </node>
+        <node oor:name="Impress">
+            <prop oor:name="Active" oor:type="xs:string" oor:finalized="false"><value>notebookbar.ui</value></prop>
+        </node>
+    </node>
+</oor:component-data>
