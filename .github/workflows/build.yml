@@ -42,6 +42,7 @@ jobs:
           # Lowercase the image uri
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+          echo "${{ secrets.IMAGE_REGISTRY_IP }} ${{ secrets.IMAGE_REGISTRY }}" | sudo tee -a /etc/hosts
 
       - name: Checkout
         uses: actions/checkout@v4
