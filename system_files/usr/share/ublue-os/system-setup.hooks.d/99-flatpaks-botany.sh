@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany system 2 || exit 0
+version-script flatpaks-botany system 3 || exit 0
 
 set -x
 
