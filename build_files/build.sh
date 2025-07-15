@@ -25,9 +25,9 @@ ln -s /usr/opt /opt
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla
+dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils
 
-dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale
+dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis
 
 # aurora-kde-config aurora-plymouth aurora-backgrounds aurora-cli-logos aurora-fastfetch kcm_ublue
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
