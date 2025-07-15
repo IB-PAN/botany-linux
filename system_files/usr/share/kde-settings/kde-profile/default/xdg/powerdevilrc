@@ -1,0 +1,6 @@
+[AC][Display]
+TurnOffDisplayIdleTimeoutSec=1200
+TurnOffDisplayWhenIdle=true
+
+[AC][SuspendAndShutdown]
+AutoSuspendIdleTimeoutSec=1800

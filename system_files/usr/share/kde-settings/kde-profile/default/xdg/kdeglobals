@@ -1,8 +1,11 @@
 [KDE]
 LookAndFeelPackage=pl.botany.desktop
 SingleClick=false
-ColorScheme=BreezeDark
+ColorScheme=BreezeLight
 widgetStyle=Breeze
+
+[General]
+AccentColor=61,212,37
 
 [KDE Control Module Restrictions][$i]
 kcm_plymouth.desktop=false
