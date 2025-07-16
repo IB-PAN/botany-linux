@@ -17,6 +17,8 @@ rm -rf /opt
 mkdir -p /usr/opt
 ln -s /usr/opt /opt
 
+rm -f /etc/ublue-os/system-flatpaks*.list
+
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.

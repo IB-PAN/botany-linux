@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany system 3 || exit 0
+version-script flatpaks-botany system 4 || exit 0
 
 set -x
 
@@ -16,4 +16,4 @@ for remote in fedora fedora-testing; do
 done
 
 # --reinstall --or-update
-xargs flatpak --system -y install < /etc/ublue-os/system-flatpaks.list
+xargs flatpak --system -y install < /usr/share/ublue-os/system-flatpaks.list
