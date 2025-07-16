@@ -8,14 +8,36 @@ version-script flatpaks-botany system 5-$checksum || exit 0
 
 set -x
 
-flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
+function run {
+    # needs working network and DNS
+    while true; do
+        if [[ $(systemctl is-active network-online.target) == "active" ]]; then
+            nslookup -timeout=2 -retry=0 example.com >/dev/null 2>&1
+            dns_status=$?
+            if [[ $dns_status == 0 ]]; then
+                break
+            fi
+        fi
 
-# Disable Fedora Flatpak remotes
-for remote in fedora fedora-testing; do
-    if flatpak remote-list | grep -q "$remote"; then
-        flatpak remote-delete "$remote"
-    fi
-done
+        sleep 1
+    done
 
-# --reinstall --or-update
-xargs flatpak --system -y install < /usr/share/ublue-os/system-flatpaks.list
+    flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
+
+    # Disable Fedora Flatpak remotes
+    for remote in fedora fedora-testing; do
+        if flatpak remote-list | grep -q "$remote"; then
+            flatpak remote-delete "$remote"
+        fi
+    done
+
+    # --reinstall --or-update
+    xargs flatpak --system -y install < /usr/share/ublue-os/system-flatpaks.list
+}
+
+if [ $(systemctl is-active network-online.target) == "active" ]; then
+    run
+else
+    echo "Waiting for network..."
+    run &
+fi
