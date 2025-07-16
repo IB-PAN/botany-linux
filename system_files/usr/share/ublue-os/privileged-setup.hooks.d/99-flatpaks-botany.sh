@@ -1,8 +1,10 @@
 #!/usr/bin/bash
 
+checksum=$(sha256sum /usr/share/botany/firefox-* /usr/share/ublue-os/firefox-config/* | md5sum | awk '{print $1}')
+
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany privileged 5 || exit 0
+version-script flatpaks-botany privileged 5-$checksum || exit 0
 
 set -x
 

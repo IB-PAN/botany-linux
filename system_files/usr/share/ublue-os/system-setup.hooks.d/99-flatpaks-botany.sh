@@ -1,8 +1,10 @@
 #!/usr/bin/bash
 
+checksum=$(sha256sum /usr/share/ublue-os/system-flatpaks.list | md5sum | awk '{print $1}')
+
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany system 4 || exit 0
+version-script flatpaks-botany system 5-$checksum || exit 0
 
 set -x
 
