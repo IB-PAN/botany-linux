@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany privileged 4 || exit 0
+version-script flatpaks-botany privileged 5 || exit 0
 
 set -x
 

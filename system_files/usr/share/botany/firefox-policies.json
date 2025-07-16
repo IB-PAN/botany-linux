@@ -71,6 +71,7 @@
         "install_url": "file:///app/etc/firefox/firefox-extension.xpi",
         "private_browsing": true
       }
-    }
+    },
+    "OverrideFirstRunPage": ""
   }
 }
