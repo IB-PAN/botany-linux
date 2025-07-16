@@ -106,6 +106,7 @@ chmod -R a+X /usr/share/fonts/Microsoft-365-Fonts
 fc-cache -f -v
 
 /ctx/fix_kde_google_integration.sh
+/ctx/fix_libreoffice_pl_icons.sh
 
 rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 
