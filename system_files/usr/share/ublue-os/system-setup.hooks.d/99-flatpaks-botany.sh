@@ -1,18 +1,22 @@
 #!/usr/bin/bash
 
-checksum=$(sha256sum /usr/share/ublue-os/system-flatpaks.list | md5sum | awk '{print $1}')
+checksum=$(sha256sum /usr/share/ublue-os/system-flatpaks*.list | md5sum | awk '{print $1}')
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany system 5-$checksum || exit 0
+version-script flatpaks-botany system 6-$checksum || exit 0
 
 set -x
 
 function run {
+    # removal doesn't need network
+    flatpak list --system --columns=application | grep -Fxf /usr/share/ublue-os/system-flatpaks-remove.list \
+        | xargs --no-run-if-empty flatpak --system --force-remove -y uninstall
+
     # needs working internet and DNS
     while true; do
         if /usr/share/botany/scripts/is_internet_online.sh; then
-                break
+            break
         fi
         sleep 1
     done

@@ -27,15 +27,16 @@ rm -f /etc/ublue-os/system-flatpaks*.list
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils
+dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
+    krusader krename kompare md5sum lhasa unrar \
+    gnome-commander \
+    kcalc gwenview okular kweather haruna kontact
 
-dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis
+dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
 # aurora-kde-config aurora-plymouth aurora-backgrounds aurora-cli-logos aurora-fastfetch kcm_ublue
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse}.desktop
-
-dnf5 install -y inkscape gimp krita kdenlive
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
@@ -59,6 +60,8 @@ rm /etc/yum.repos.d/kopia.repo
 dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Alexx2000/Fedora_41/home:Alexx2000.repo --save-filename=Alexx2000
 dnf5 install -y doublecmd-qt6
 rm /etc/yum.repos.d/Alexx2000.repo
+
+dnf5 install -y https://github.com/cyanfish/naps2/releases/download/v8.2.0/naps2-8.2.0-linux-x64.rpm
 
 # Use a COPR Example:
 #
@@ -112,7 +115,7 @@ rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 
 # Favorites in Kickoff
 sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,preferred:\/\/filemanager<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
-sed -i '/<entry name="favorites" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.kate.desktop,org.kde.discover.desktop,org.kde.plasma-systemmonitor.desktop,onlyoffice-desktopeditors.desktop,libreoffice-startcenter.desktop,com.github.IsmaelMartinez.teams_for_linux.desktop,doublecmd.desktop<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.kickoff/contents/config/main.xml
+sed -i '/<entry name="favorites" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.kate.desktop,org.kde.discover.desktop,org.kde.plasma-systemmonitor.desktop,onlyoffice-desktopeditors.desktop,libreoffice-startcenter.desktop,com.github.IsmaelMartinez.teams_for_linux.desktop,org.kde.krusader.desktop<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.kickoff/contents/config/main.xml
 
 # dLibra
 wget --no-local-db -nc -nv -O /usr/share/icons/dlibra-soft-icon.png https://rcin.org.pl/jnlp2/softIcon.png
