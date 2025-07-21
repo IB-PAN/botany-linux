@@ -33,7 +33,7 @@ find /ctx/just -iname '*.just' -exec printf "\n\n" \; -exec cat {} \; >>/usr/sha
 dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
     krusader krename kompare md5sum lhasa unrar \
     gnome-commander \
-    kcalc gwenview okular kweather haruna kontact
+    kcalc gwenview okular kweather haruna kontact qdirstat kdiskmark kolourpaint
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
