@@ -19,6 +19,9 @@ ln -s /usr/opt /opt
 
 rm -f /etc/ublue-os/system-flatpaks*.list
 
+# Consolidate Just Files
+find /ctx/just -iname '*.just' -exec printf "\n\n" \; -exec cat {} \; >>/usr/share/ublue-os/just/61-botany.just
+
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.
@@ -37,6 +40,8 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 in
 # aurora-kde-config aurora-plymouth aurora-backgrounds aurora-cli-logos aurora-fastfetch kcm_ublue
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse}.desktop
+
+dnf5 install -y wine q4wine wine-dxvk wine-mono winetricks samba 
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
@@ -95,7 +100,7 @@ rm -rf /tmp/bun-linux-*
 # Branding test
 #dnf5 -y swap aurora-logos fedora-logos
 # Problem: installed package aurora-kde-config-0.1.1-1.fc42.noarch requires aurora-logos, but none of the providers can be installed
-bun /ctx/branding.js
+bun /ctx/build_files/branding.js
 
 # MS fonts
 #git clone --separate-git-dir=$(mktemp -u) --depth=1 https://github.com/pjobson/Microsoft-365-Fonts.git /usr/share/fonts/Microsoft-365-Fonts && rm -rf /usr/share/fonts/Microsoft-365-Fonts/.git/* /usr/share/fonts/Microsoft-365-Fonts/.git
@@ -108,8 +113,8 @@ chmod -R 644 /usr/share/fonts/Microsoft-365-Fonts
 chmod -R a+X /usr/share/fonts/Microsoft-365-Fonts
 fc-cache -f -v
 
-/ctx/fix_kde_google_integration.sh
-/ctx/fix_libreoffice_pl_icons.sh
+/ctx/build_files/fix_kde_google_integration.sh
+/ctx/build_files/fix_libreoffice_pl_icons.sh
 
 rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 

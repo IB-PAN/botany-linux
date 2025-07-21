@@ -1,6 +1,7 @@
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
-COPY build_files /
+COPY build_files /build_files
+COPY just /just
 
 # Base Image
 FROM ghcr.io/ublue-os/aurora:stable
@@ -24,7 +25,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     --mount=type=bind,source=.env,target=/.env \
-    /ctx/build.sh && \
+    /ctx/build_files/build.sh && \
     ostree container commit
     
 ### LINTING
