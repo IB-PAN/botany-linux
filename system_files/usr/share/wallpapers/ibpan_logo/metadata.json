@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "",
+                "Name": "Instytut Botaniki"
+            }
+        ],
+        "Id": "IBPAN_logo",
+        "Name": "IB PAN – Logo",
+        "License": "Proprietary"
+    }
+}

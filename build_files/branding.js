@@ -40,6 +40,31 @@ rm /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/plas
 gzip -c /usr/share/icons/ibpan-logo.svg > /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/ibpan_logo.svgz
 `;
 
+for await (const contents of new Bun.Glob("ibpan_*/contents").scan({ cwd: "/usr/share/wallpapers", onlyFiles: false, absolute: true })) {
+    //console.log(contents);
+    const screenshot_png = `${contents}/screenshot.png`;
+    if (!(await Bun.file(screenshot_png).exists())) {
+        const wallpaper_1920_1080_svg = `${contents}/images/1920x1080.svg`;
+        const wallpaper_1920_1080_png = `${contents}/images/1920x1080.png`;
+        const wallpaper_1920_1080_jpg = `${contents}/images/1920x1080.jpg`;
+        let wallpaper = null;
+        if (await Bun.file(wallpaper_1920_1080_svg).exists()) wallpaper = wallpaper_1920_1080_svg;
+        else if (await Bun.file(wallpaper_1920_1080_png).exists()) wallpaper = wallpaper_1920_1080_png;
+        else if (await Bun.file(wallpaper_1920_1080_jpg).exists()) wallpaper = wallpaper_1920_1080_jpg;
+        else {
+            try {
+                const fallback = await Array.fromAsync(new Bun.Glob("images/*").scan({ cwd: contents, onlyFiles: true, absolute: true }));
+                if (fallback && fallback[0])
+                    wallpaper = fallback[0];
+            } catch (e) {}
+        }
+
+        if (wallpaper) {
+            await $`magick -background none -size 400x225 ${wallpaper} ${screenshot_png}`;
+        }
+    }
+}
+
 // fix default wallpaper until we have our own ones
 await $`
 ln -sf /usr/share/backgrounds/images/default.jxl /usr/share/backgrounds/default.jxl
