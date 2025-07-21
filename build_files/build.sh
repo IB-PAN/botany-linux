@@ -41,7 +41,11 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 in
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse}.desktop
 
-dnf5 install -y wine q4wine wine-dxvk wine-mono winetricks samba 
+dnf5 install -y wine q4wine wine-dxvk wine-mono winetricks samba
+
+# Virtualization: https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
+# we don't enable libvirtd service by default
+dnf5 group install -y --with-optional virtualization
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
