@@ -97,6 +97,13 @@ install -Dm644 completions/bun.fish "/usr/share/fish/vendor_completions.d/bun.fi
 popd
 rm -rf /tmp/bun-linux-*
 
+# deno
+wget --no-local-db -nc -nv -O /tmp/deno.zip https://github.com/denoland/deno/releases/latest/download/deno-$CARCH-unknown-linux-gnu.zip
+7z x -o/tmp/ /tmp/deno.zip
+rm /tmp/deno.zip
+install -Dm755 "/tmp/deno" "/usr/bin/deno"
+rm /tmp/deno
+
 wget --no-local-db -nc -nv -O /usr/share/icons/teamviewer.svg https://upload.wikimedia.org/wikipedia/commons/3/31/TeamViewer_Logo_Icon_Only.svg
 
 # Branding test
@@ -117,6 +124,7 @@ fc-cache -f -v
 
 /ctx/build_files/fix_kde_google_integration.sh
 /ctx/build_files/fix_libreoffice_pl_icons.sh
+deno --allow-read --allow-write --allow-env /ctx/build_files/mime_types.js
 
 rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 
