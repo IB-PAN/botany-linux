@@ -9,16 +9,11 @@ version-script flatpaks-botany system 5-$checksum || exit 0
 set -x
 
 function run {
-    # needs working network and DNS
+    # needs working internet and DNS
     while true; do
-        if [[ $(systemctl is-active network-online.target) == "active" ]]; then
-            nslookup -timeout=2 -retry=0 example.com >/dev/null 2>&1
-            dns_status=$?
-            if [[ $dns_status == 0 ]]; then
+        if /usr/share/botany/scripts/is_internet_online.sh; then
                 break
-            fi
         fi
-
         sleep 1
     done
 
