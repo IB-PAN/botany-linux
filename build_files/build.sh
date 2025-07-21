@@ -102,7 +102,7 @@ popd
 rm -rf /tmp/bun-linux-*
 
 # deno
-wget --no-local-db -nc -nv -O /tmp/deno.zip https://github.com/denoland/deno/releases/latest/download/deno-$CARCH-unknown-linux-gnu.zip
+wget --no-local-db -nc -nv -O /tmp/deno.zip https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip
 7z x -o/tmp/ /tmp/deno.zip
 rm /tmp/deno.zip
 install -Dm755 "/tmp/deno" "/usr/bin/deno"
