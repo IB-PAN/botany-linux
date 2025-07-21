@@ -97,6 +97,8 @@ install -Dm644 completions/bun.fish "/usr/share/fish/vendor_completions.d/bun.fi
 popd
 rm -rf /tmp/bun-linux-*
 
+wget --no-local-db -nc -nv -O /usr/share/icons/teamviewer.svg https://upload.wikimedia.org/wikipedia/commons/3/31/TeamViewer_Logo_Icon_Only.svg
+
 # Branding test
 #dnf5 -y swap aurora-logos fedora-logos
 # Problem: installed package aurora-kde-config-0.1.1-1.fc42.noarch requires aurora-logos, but none of the providers can be installed

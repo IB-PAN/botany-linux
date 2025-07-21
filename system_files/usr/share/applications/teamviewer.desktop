@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Categories=Network;
+
+Name=TeamViewer QuickSupport
+Comment=Remote control solution.
+Exec=/usr/share/botany/scripts/run_teamviewer_qs.sh
+StartupWMClass=TeamViewer
+
+Icon=teamviewer
