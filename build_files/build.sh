@@ -21,6 +21,7 @@ rm -f /etc/ublue-os/system-flatpaks*.list
 
 # Consolidate Just Files
 find /ctx/just -iname '*.just' -exec printf "\n\n" \; -exec cat {} \; >>/usr/share/ublue-os/just/61-botany.just
+echo 'import? "/usr/share/ublue-os/just/61-botany.just"' >>/usr/share/ublue-os/justfile
 
 ### Install packages
 
@@ -31,7 +32,7 @@ find /ctx/just -iname '*.just' -exec printf "\n\n" \; -exec cat {} \; >>/usr/sha
 
 # this installs a package from fedora repos
 dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
-    krusader krename kompare md5sum lhasa unrar \
+    krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact qdirstat kdiskmark kolourpaint
 
@@ -108,7 +109,7 @@ rm /tmp/deno.zip
 install -Dm755 "/tmp/deno" "/usr/bin/deno"
 rm /tmp/deno
 
-wget --no-local-db -nc -nv -O /usr/share/icons/teamviewer.svg https://upload.wikimedia.org/wikipedia/commons/3/31/TeamViewer_Logo_Icon_Only.svg
+wget --no-local-db -nc -nv -O /usr/share/icons/teamviewer-dl.svg https://upload.wikimedia.org/wikipedia/commons/3/31/TeamViewer_Logo_Icon_Only.svg
 
 # Branding test
 #dnf5 -y swap aurora-logos fedora-logos

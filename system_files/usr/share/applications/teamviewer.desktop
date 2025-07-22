@@ -9,4 +9,4 @@ Comment=Remote control solution.
 Exec=/usr/share/botany/scripts/run_teamviewer_qs.sh
 StartupWMClass=TeamViewer
 
-Icon=teamviewer
+Icon=teamviewer-dl
