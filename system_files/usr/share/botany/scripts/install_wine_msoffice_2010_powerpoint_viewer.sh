@@ -21,5 +21,16 @@ WINEPREFIX=~/.local/share/wineprefixes/msoffice2010-powerpoint-viewer WINEARCH=w
 WINEPREFIX=~/.local/share/wineprefixes/msoffice2010-powerpoint-viewer WINEARCH=win32 wine ppviewersp2010-kb2687456-fullfile-x86-en-us.exe /passive /norestart
 WINEPREFIX=~/.local/share/wineprefixes/msoffice2010-powerpoint-viewer WINEARCH=win32 wine pptview2010-kb4011191-fullfile-x86-glb.exe /passive /norestart
 
+cat > ./override-dll.reg <<_EOF_
+REGEDIT4
+
+[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides]
+"*riched20"="native,builtin"
+_EOF_
+WINEPREFIX=~/.local/share/wineprefixes/msoffice2010-powerpoint-viewer WINEARCH=win32 wine "C:\\windows\\regedit.exe" /S ./override-dll.reg
+# if the prefix was 64-bit (wow64) (run IN ADDITION to the one on top with the other regedit.exe):
+#WINEPREFIX=~/.local/share/wineprefixes/msoffice2010-powerpoint-viewer WINEARCH=win64 wine "C:\\windows\\syswow64\\regedit.exe" /S
+rm ./override-dll.reg
+
 popd
 rm -rf /tmp/msoffice2010-powerpoint-viewer
