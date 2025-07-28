@@ -17,8 +17,8 @@ cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor
 cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo-white.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo.svg /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
 ln -sr /usr/share/icons/hicolor/scalable/distributor-logo-white.svg /usr/share/icons/hicolor/scalable/places/distributor-logo-white.svg
-ln -sr /usr/share/icons/hicolor/scalable/distributor-logo-white.svg /usr/share/icons/hicolor/scalable/places/start-here.svg
-ln -sr /usr/share/icons/hicolor/scalable/distributor-logo-white.svg /usr/share/icons/hicolor/scalable/apps/start-here.svg
+ln -sr /usr/share/icons/ibpan-logo-notext.svg /usr/share/icons/hicolor/scalable/places/start-here.svg
+ln -sr /usr/share/icons/ibpan-logo-notext.svg /usr/share/icons/hicolor/scalable/apps/start-here.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/places/distributor-logo.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/places/distributor-logo-white.svg
 rm /usr/share/pixmaps/system-logo*.png
@@ -32,7 +32,7 @@ magick -background none -size 400x100 /usr/share/pixmaps/fedora-logo.svg /usr/sh
 magick -background none -size 200x50 /usr/share/pixmaps/fedora-logo.svg /usr/share/pixmaps/fedora_logo_med.png
 magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo.png
 magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo-white.png
-magick -background none -size 128x128 /usr/share/icons/ibpan-logo.svg /usr/share/plymouth/themes/spinner/watermark.png
+magick -background none -size 660x192 /usr/share/icons/ibpan-logo-text.svg /usr/share/plymouth/themes/spinner/watermark.png
 cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/kinoite-watermark.png
 mkdir -p /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
 cp /usr/share/plasma/look-and-feel/org.kde.breeze.desktop/contents/splash/images/* /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
