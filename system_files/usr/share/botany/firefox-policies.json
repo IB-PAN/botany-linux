@@ -66,9 +66,14 @@
       }
     },
     "ExtensionSettings": {
-     "browser-extension-linux@botany.edu.pl": {
+      "browser-extension-linux@botany.edu.pl": {
         "installation_mode": "force_installed",
         "install_url": "file:///app/etc/firefox/firefox-extension.xpi",
+        "private_browsing": true
+      },
+      "plasma-browser-integration@kde.org": {
+        "installation_mode": "normal_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/file/4298512/latest.xpi",
         "private_browsing": true
       }
     },
