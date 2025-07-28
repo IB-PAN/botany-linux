@@ -251,4 +251,4 @@ for (const [key, val] of Object.entries(defaultApps)) {
 
 const newMimeAppsListText = ini.stringify(mimeAppsList);
 console.log(newMimeAppsListText);
-//await Deno.writeTextFile("/usr/share/applications/mimeapps.list", newMimeAppsListText);
+await Deno.writeTextFile("/usr/share/applications/mimeapps.list", newMimeAppsListText);
