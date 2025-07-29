@@ -42,7 +42,8 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 in
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse}.desktop
 
-dnf5 install -y wine q4wine wine-dxvk wine-mono winetricks samba
+dnf5 install -y wine q4wine wine-dxvk wine-mono winetricks
+dnf5 install -y samba samba-tools
 
 # Virtualization: https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 # we don't enable libvirtd service by default
@@ -84,6 +85,8 @@ dnf5 install -y https://github.com/cyanfish/naps2/releases/download/v8.2.0/naps2
 
 systemctl enable podman.socket
 systemctl enable sshd.service
+systemctl enable smb.service
+systemctl enable nmb.service
 
 # bun
 wget --no-local-db -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
