@@ -30,6 +30,9 @@ echo 'import? "/usr/share/ublue-os/just/61-botany.just"' >>/usr/share/ublue-os/j
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
+dnf5 -y copr enable ublue-os/staging
+dnf5 -y copr enable ublue-os/packages
+
 # this installs a package from fedora repos
 dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
@@ -48,6 +51,9 @@ dnf5 install -y samba samba-tools
 # Virtualization: https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 # we don't enable libvirtd service by default
 dnf5 group install -y --with-optional virtualization
+dnf5 install -y libvirt-nss ublue-os-libvirt-workarounds
+systemctl enable swtpm-workaround.service
+systemctl enable ublue-os-libvirt-workarounds.service
 
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
@@ -74,19 +80,15 @@ rm /etc/yum.repos.d/Alexx2000.repo
 
 dnf5 install -y https://github.com/cyanfish/naps2/releases/download/v8.2.0/naps2-8.2.0-linux-x64.rpm
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
-
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
 systemctl enable sshd.service
 systemctl enable smb.service
 systemctl enable nmb.service
+
+# Allow sharing CUPS printers (port 631) (disabled by default, still needs explicit enablement in settings)
+firewall-offline-cmd --service=ipp
 
 # bun
 wget --no-local-db -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
@@ -114,7 +116,7 @@ rm /tmp/deno
 
 wget --no-local-db -nc -nv -O /usr/share/icons/teamviewer-dl.svg https://upload.wikimedia.org/wikipedia/commons/3/31/TeamViewer_Logo_Icon_Only.svg
 
-# Branding test
+# Branding
 #dnf5 -y swap aurora-logos fedora-logos
 # Problem: installed package aurora-kde-config-0.1.1-1.fc42.noarch requires aurora-logos, but none of the providers can be installed
 bun /ctx/build_files/branding.js
@@ -151,6 +153,8 @@ QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\
 chmod 0600 "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
 
 # Cleanup
+dnf5 -y copr disable ublue-os/staging
+dnf5 -y copr disable ublue-os/packages
 rm -rf /tmp/* || true
 rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
 find /var/* -maxdepth 0 -type d \! -name cache \! -name log -exec rm -fr {} \;

@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script botany-misc system 1 || exit 0
+version-script botany-misc system 2 || exit 0
 
 set -x
 
@@ -15,5 +15,5 @@ append_group() {
 	fi
 }
 
-# fix Samba usershares
 append_group usershares
+append_group libvirt
