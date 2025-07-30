@@ -90,6 +90,9 @@ systemctl enable nmb.service
 # Allow sharing CUPS printers (port 631) (disabled by default, still needs explicit enablement in settings)
 firewall-offline-cmd --service=ipp
 
+# Allow sharing NAPS2 scanners via ESCL/AirScan (https://www.naps2.com/doc/scanner-sharing)
+firewall-offline-cmd --port=9801-9850:tcp --port=9901-9950:tcp
+
 # bun
 wget --no-local-db -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
 7z x -o/tmp/ /tmp/bun.zip
