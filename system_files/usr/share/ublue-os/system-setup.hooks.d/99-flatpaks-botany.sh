@@ -4,7 +4,7 @@ checksum=$(sha256sum /usr/share/ublue-os/system-flatpaks*.list | md5sum | awk '{
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany system 6-$checksum || exit 0
+version-script flatpaks-botany system 7-$checksum || exit 0
 
 set -x
 
@@ -32,4 +32,4 @@ for remote in fedora fedora-testing; do
 done
 
 # --reinstall --or-update
-xargs flatpak --system -y install < /usr/share/ublue-os/system-flatpaks.list
+xargs -n 5 flatpak --system -y install < /usr/share/ublue-os/system-flatpaks.list
