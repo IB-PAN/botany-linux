@@ -38,7 +38,7 @@ dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gph
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
-    xmlstarlet
+    xmlstarlet duperemove fdupes
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -156,6 +156,12 @@ QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\
 /usr/bin/dracut --no-hostonly --kver "$QUALIFIED_KERNEL" --reproducible -v --add ostree -f "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
 chmod 0600 "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
 
+# Deduplication service
+systemctl enable duperemove-weekly@$(systemd-escape /var/home).timer
+# Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
+# (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
+hardlink --ignore-time --method sha1 --respect-xattrs /usr
+
 # Cleanup
 dnf5 -y copr disable ublue-os/staging
 dnf5 -y copr disable ublue-os/packages
@@ -163,3 +169,4 @@ rm -rf /tmp/* || true
 rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
 find /var/* -maxdepth 0 -type d \! -name cache \! -name log -exec rm -fr {} \;
 find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 \! -name rpm-ostree -exec rm -fr {} \;
+echo "Build script completed!"
