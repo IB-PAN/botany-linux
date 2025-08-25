@@ -156,6 +156,13 @@ systemctl enable duperemove-weekly@$(systemd-escape /var/home).timer
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
 hardlink --ignore-time --method sha1 --respect-xattrs /usr
 
+# Sudo helpers
+chown root:root /etc/sudoers.d/botany
+chmod 440 /etc/sudoers.d/botany
+echo 'alias botany_sudo="sudo -u BOTANY_ADM"' >> /etc/bashrc
+echo 'alias botany_su="sudo -u BOTANY_ADM su"' >> /etc/bashrc
+echo 'alias botany_adm="su - BOTANY_ADM"' >> /etc/bashrc
+
 # Regenerate initramfs
 KERNEL_SUFFIX=""
 QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\d+)' | sed -E 's/kernel-(|'"$KERNEL_SUFFIX"'-)//')"
