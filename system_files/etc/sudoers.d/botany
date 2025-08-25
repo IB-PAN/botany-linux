@@ -1,8 +1,12 @@
-# Anyone using `sudo -u BOTANY_ADM` to be asked BOTANY_ADM's password instead of their own
+# Anyone using `sudo -u botany_adm` to be asked botany_adm's password instead of their own
 Defaults>BOTANY_ADM targetpw
 
-# Don't ask for password when BOTANY_ADM uses sudo
-BOTANY_ADM ALL=(ALL) NOPASSWD: ALL
+# Allow anyone using `sudo -u botany_adm` to run `sudo` this way (after authenticating properly)
+# /usr/sbin/sudo
+ALL ALL=(botany_adm) /usr/sbin/sudo, /bin/bash
+
+# Don't ask for password when botany_adm uses sudo
+botany_adm ALL=(ALL) NOPASSWD: ALL
 
 # Password typing feedback
 Defaults pwfeedback

@@ -159,9 +159,9 @@ hardlink --ignore-time --method sha1 --respect-xattrs /usr
 # Sudo helpers
 chown root:root /etc/sudoers.d/botany
 chmod 440 /etc/sudoers.d/botany
-echo 'alias botany_sudo="sudo -u BOTANY_ADM"' >> /etc/bashrc
-echo 'alias botany_su="sudo -u BOTANY_ADM su"' >> /etc/bashrc
-echo 'alias botany_adm="su - BOTANY_ADM"' >> /etc/bashrc
+echo 'alias botany_sudo="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo"' >> /etc/bashrc
+echo 'alias botany_su="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo /usr/sbin/su -"' >> /etc/bashrc
+echo 'alias botany_adm="/usr/sbin/sudo -u botany_adm -i ;"' >> /etc/bashrc
 
 # Starship prompt
 rm -f /etc/skel/.config/starship.toml
