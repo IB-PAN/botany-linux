@@ -150,17 +150,17 @@ sed -i '/<entry name="favorites" type="StringList">/,/<\/entry>/ s/<default>[^<]
 wget --no-local-db -nc -nv -O /usr/share/icons/dlibra-soft-icon.png https://rcin.org.pl/jnlp2/softIcon.png
 dnf5 install -y icedtea-web
 
-# Regenerate initramfs
-KERNEL_SUFFIX=""
-QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\d+)' | sed -E 's/kernel-(|'"$KERNEL_SUFFIX"'-)//')"
-/usr/bin/dracut --no-hostonly --kver "$QUALIFIED_KERNEL" --reproducible -v --add ostree -f "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
-chmod 0600 "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
-
 # Deduplication service
 systemctl enable duperemove-weekly@$(systemd-escape /var/home).timer
 # Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
 hardlink --ignore-time --method sha1 --respect-xattrs /usr
+
+# Regenerate initramfs
+KERNEL_SUFFIX=""
+QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\d+)' | sed -E 's/kernel-(|'"$KERNEL_SUFFIX"'-)//')"
+/usr/bin/dracut --no-hostonly --kver "$QUALIFIED_KERNEL" --reproducible -v --add ostree -f "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
+chmod 0600 "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
 
 # Cleanup
 dnf5 -y copr disable ublue-os/staging
