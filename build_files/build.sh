@@ -38,7 +38,7 @@ dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gph
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
-    xmlstarlet duperemove fdupes
+    xmlstarlet jq yq duperemove fdupes
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -162,6 +162,14 @@ chmod 440 /etc/sudoers.d/botany
 echo 'alias botany_sudo="sudo -u BOTANY_ADM"' >> /etc/bashrc
 echo 'alias botany_su="sudo -u BOTANY_ADM su"' >> /etc/bashrc
 echo 'alias botany_adm="su - BOTANY_ADM"' >> /etc/bashrc
+
+# Starship prompt
+rm -f /etc/skel/.config/starship.toml
+sed -i '/^eval "$(starship init bash)"$/d' /etc/bashrc
+echo 'export STARSHIP_CONFIG=/usr/share/botany/starship.toml' >> /etc/bashrc
+echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/botany/starship_root.toml fi' >> /etc/bashrc
+echo 'eval "$(starship init bash)"' >> /etc/bashrc
+sed -r "/(success|error)_symbol/s|=.*|= '[#](bold bright-red)'|" /usr/share/botany/starship.toml > /usr/share/botany/starship_root.toml
 
 # Regenerate initramfs
 KERNEL_SUFFIX=""
