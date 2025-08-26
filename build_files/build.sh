@@ -167,7 +167,7 @@ echo 'alias botany_adm="/usr/sbin/sudo -u botany_adm -i ;"' >> /etc/bashrc
 rm -f /etc/skel/.config/starship.toml
 sed -i '/^eval "$(starship init bash)"$/d' /etc/bashrc
 echo 'export STARSHIP_CONFIG=/usr/share/botany/starship.toml' >> /etc/bashrc
-echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/botany/starship_root.toml fi' >> /etc/bashrc
+echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/botany/starship_root.toml; fi' >> /etc/bashrc
 echo 'eval "$(starship init bash)"' >> /etc/bashrc
 sed -r "/(success|error)_symbol/s|=.*|= '[#](bold bright-red)'|" /usr/share/botany/starship.toml > /usr/share/botany/starship_root.toml
 
