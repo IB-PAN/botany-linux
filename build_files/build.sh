@@ -38,7 +38,7 @@ dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gph
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
-    xmlstarlet jq yq duperemove fdupes
+    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
