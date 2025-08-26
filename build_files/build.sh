@@ -24,6 +24,15 @@ rm -f /etc/ublue-os/system-flatpaks*.list
 find /ctx/just -iname '*.just' -exec printf "\n\n" \; -exec cat {} \; >>/usr/share/ublue-os/just/61-botany.just
 echo 'import? "/usr/share/ublue-os/just/61-botany.just"' >>/usr/share/ublue-os/justfile
 
+# Restore Discover over Bazaar
+discover_apps=(org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop)
+for app in "${discover_apps[@]}"; do
+    if [ -f "/usr/share/applications/${app}.disabled" ]; then
+        mv "/usr/share/applications/${app}.disabled" "/usr/share/applications/${app}"
+    fi
+done
+sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /usr/share/applications/mimeapps.list
+
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.
