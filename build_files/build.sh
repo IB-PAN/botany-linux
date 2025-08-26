@@ -38,7 +38,7 @@ dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gph
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
-    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator
+    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -56,6 +56,14 @@ dnf5 install -y libvirt-nss ublue-os-libvirt-workarounds
 systemctl enable swtpm-workaround.service
 systemctl enable ublue-os-libvirt-workarounds.service
 
+# swapspace daemon (dynamic swap files creation)
+rpm --import https://download.opensuse.org/repositories/home:/Tobi_Peter:/swapspace/openSUSE_Tumbleweed/repodata/repomd.xml.key
+curl -Lo /etc/yum.repos.d/home_Tobi_Peter_swapspace.repo https://download.opensuse.org/repositories/home:Tobi_Peter:swapspace/openSUSE_Tumbleweed/home:Tobi_Peter:swapspace.repo
+dnf5 install -y swapspace
+rm /etc/yum.repos.d/home_Tobi_Peter_swapspace.repo
+sed -i 's!/usr/local/sbin/swapspace!/usr/sbin/swapspace!' /usr/lib/systemd/system/swapspace.service
+systemctl enable swapspace.service
+
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
 dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
@@ -70,10 +78,10 @@ gpgcheck=1
 enabled=1
 gpgkey=https://kopia.io/signing-key
 EOF
-dnf install -y kopia kopia-ui
+dnf5 install -y kopia kopia-ui
+rm /etc/yum.repos.d/kopia.repo
 install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
-rm /etc/yum.repos.d/kopia.repo
 
 dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Alexx2000/Fedora_41/home:Alexx2000.repo --save-filename=Alexx2000
 dnf5 install -y doublecmd-qt6
