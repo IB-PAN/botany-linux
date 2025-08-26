@@ -13,9 +13,10 @@ echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_
 mkdir -p /var/roothome/.gpg
 
 # handle /opt
-rm -rf /opt
-mkdir -p /usr/opt
-ln -s /usr/opt /opt
+rm -rf /opt /usr/opt
+#mkdir -p /usr/opt
+#ln -s usr/opt /opt
+mkdir -p /opt
 
 rm -f /etc/ublue-os/system-flatpaks*.list
 
