@@ -35,11 +35,13 @@ dnf5 -y copr enable ublue-os/staging
 dnf5 -y copr enable ublue-os/packages
 
 # this installs a package from fedora repos
-dnf5 install -y screen zstd gparted signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
+dnf5 install -y screen zstd gparted gsmartcontrol signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
-    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester
+    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester \
+    wine q4wine wine-dxvk wine-mono winetricks \
+    samba samba-tools
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -47,8 +49,9 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 in
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse}.desktop
 
-dnf5 install -y wine q4wine wine-dxvk wine-mono winetricks
-dnf5 install -y samba samba-tools
+# Office suites (LibreOffice + OnlyOffice)
+dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
+dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
 
 # Virtualization: https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 # we don't enable libvirtd service by default
@@ -59,15 +62,17 @@ systemctl enable ublue-os-libvirt-workarounds.service
 
 # swapspace daemon (dynamic swap files creation)
 rpm --import https://download.opensuse.org/repositories/home:/Tobi_Peter:/swapspace/openSUSE_Tumbleweed/repodata/repomd.xml.key
-curl -Lo /etc/yum.repos.d/home_Tobi_Peter_swapspace.repo https://download.opensuse.org/repositories/home:Tobi_Peter:swapspace/openSUSE_Tumbleweed/home:Tobi_Peter:swapspace.repo
+dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Tobi_Peter:swapspace/openSUSE_Tumbleweed/home:Tobi_Peter:swapspace.repo --save-filename=home_Tobi_Peter_swapspace
 dnf5 install -y swapspace
 rm /etc/yum.repos.d/home_Tobi_Peter_swapspace.repo
 sed -i 's!/usr/local/sbin/swapspace!/usr/sbin/swapspace!' /usr/lib/systemd/system/swapspace.service
 systemctl enable swapspace.service
 
-dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
-
-dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
+# Double Commander
+rpm --import https://download.opensuse.org/repositories/home:/Alexx2000/Fedora_41/repodata/repomd.xml.key
+dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Alexx2000/Fedora_41/home:Alexx2000.repo --save-filename=home_Alexx2000
+dnf5 install -y doublecmd-qt6
+rm /etc/yum.repos.d/home_Alexx2000.repo
 
 # kopia.io
 rpm --import https://kopia.io/signing-key
@@ -84,11 +89,13 @@ rm /etc/yum.repos.d/kopia.repo
 install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
 
-dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Alexx2000/Fedora_41/home:Alexx2000.repo --save-filename=Alexx2000
-dnf5 install -y doublecmd-qt6
-rm /etc/yum.repos.d/Alexx2000.repo
-
+# NAPS2
 dnf5 install -y https://github.com/cyanfish/naps2/releases/download/v8.2.0/naps2-8.2.0-linux-x64.rpm
+
+# QDiskInfo
+dnf5 -y copr enable birkch/QDiskInfo
+dnf5 install -y QDiskInfo
+dnf5 -y copr disable birkch/QDiskInfo
 
 #### Example for enabling a System Unit File
 
