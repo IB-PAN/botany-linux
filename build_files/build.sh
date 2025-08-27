@@ -175,15 +175,27 @@ rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,preferred:\/\/filemanager<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
 sed -i '/<entry name="favorites" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.krusader.desktop,org.kde.kate.desktop,org.kde.discover.desktop,onlyoffice-desktopeditors.desktop,libreoffice-startcenter.desktop,com.github.IsmaelMartinez.teams_for_linux.desktop,org.kde.plasma-systemmonitor.desktop<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.kickoff/contents/config/main.xml
 
+# Starship prompt
+rm -f /etc/skel/.config/starship.toml
+sed -i '/^eval "$(starship init bash)"$/d' /etc/bashrc
+echo 'export STARSHIP_CONFIG=/usr/share/botany/starship.toml' >> /etc/bashrc
+echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/botany/starship_root.toml; fi' >> /etc/bashrc
+echo 'eval "$(starship init bash)"' >> /etc/bashrc
+sed -r "/(success|error)_symbol/s|=.*|= '[#](bold bright-red)'|" /usr/share/botany/starship.toml > /usr/share/botany/starship_root.toml
+
+# Sudo helpers
+chown root:root /etc/sudoers.d/botany
+chmod 440 /etc/sudoers.d/botany
+echo 'alias botany_sudo="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo"' >> /etc/bashrc
+echo 'alias botany_su="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo /usr/sbin/su -"' >> /etc/bashrc
+echo 'alias botany_adm="/usr/sbin/sudo -u botany_adm -i ;"' >> /etc/bashrc
+
 # dLibra
 wget --no-local-db -nc -nv -O /usr/share/icons/dlibra-soft-icon.png https://rcin.org.pl/jnlp2/softIcon.png
 dnf5 install -y icedtea-web
 
 # Deduplication service
 systemctl enable duperemove-weekly@$(systemd-escape /var/home).timer
-# Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
-# (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
-hardlink --ignore-time --method sha1 --respect-xattrs /usr
 
 # Filesystem scrubbing
 sed -i \
@@ -194,20 +206,9 @@ systemctl start btrfsmaintenance-refresh.service
 sed -i 's!^OnCalendar=.*$!OnCalendar=monthly\nAccuracySec=1h!' /usr/lib/systemd/system/xfs_scrub_all.timer
 systemctl enable xfs_scrub_all.timer
 
-# Sudo helpers
-chown root:root /etc/sudoers.d/botany
-chmod 440 /etc/sudoers.d/botany
-echo 'alias botany_sudo="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo"' >> /etc/bashrc
-echo 'alias botany_su="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo /usr/sbin/su -"' >> /etc/bashrc
-echo 'alias botany_adm="/usr/sbin/sudo -u botany_adm -i ;"' >> /etc/bashrc
-
-# Starship prompt
-rm -f /etc/skel/.config/starship.toml
-sed -i '/^eval "$(starship init bash)"$/d' /etc/bashrc
-echo 'export STARSHIP_CONFIG=/usr/share/botany/starship.toml' >> /etc/bashrc
-echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/botany/starship_root.toml; fi' >> /etc/bashrc
-echo 'eval "$(starship init bash)"' >> /etc/bashrc
-sed -r "/(success|error)_symbol/s|=.*|= '[#](bold bright-red)'|" /usr/share/botany/starship.toml > /usr/share/botany/starship_root.toml
+# Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
+# (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
+hardlink --ignore-time --method sha1 --respect-xattrs /usr
 
 # Regenerate initramfs
 KERNEL_SUFFIX=""
