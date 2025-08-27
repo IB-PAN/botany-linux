@@ -48,7 +48,7 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
-    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester \
+    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub
