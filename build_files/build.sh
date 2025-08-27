@@ -44,13 +44,14 @@ dnf5 -y copr enable ublue-os/staging
 dnf5 -y copr enable ublue-os/packages
 
 # this installs a package from fedora repos
-dnf5 install -y screen zstd gparted gsmartcontrol signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
+dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
     xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester \
     wine q4wine wine-dxvk wine-mono winetricks \
-    samba samba-tools
+    samba samba-tools \
+    gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -183,6 +184,15 @@ systemctl enable duperemove-weekly@$(systemd-escape /var/home).timer
 # Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
 hardlink --ignore-time --method sha1 --respect-xattrs /usr
+
+# Filesystem scrubbing
+sed -i \
+    -e 's!^BTRFS_SCRUB_MOUNTPOINTS="[^"]*"$!BTRFS_SCRUB_MOUNTPOINTS="auto"!' \
+    -e 's!^BTRFS_BALANCE_PERIOD="[^"]*"$!BTRFS_BALANCE_PERIOD="none"!' \
+    /etc/sysconfig/btrfsmaintenance
+systemctl start btrfsmaintenance-refresh.service
+sed -i 's!^OnCalendar=.*$!OnCalendar=monthly\nAccuracySec=1h!' /usr/lib/systemd/system/xfs_scrub_all.timer
+systemctl enable xfs_scrub_all.timer
 
 # Sudo helpers
 chown root:root /etc/sudoers.d/botany
