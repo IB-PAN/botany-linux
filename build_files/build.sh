@@ -44,7 +44,7 @@ dnf5 -y copr enable ublue-os/staging
 dnf5 -y copr enable ublue-os/packages
 
 # this installs a package from fedora repos
-dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils \
+dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
@@ -206,6 +206,43 @@ systemctl enable xfs_scrub_all.timer
 # Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
 hardlink --ignore-time --method sha1 --respect-xattrs /usr
+
+# Deploy Secure Boot MOK keys
+cp /ctx/MOK.der "$DER_PATH"
+DER_PATH=/etc/pki/akmods/certs/botany.der
+if [ -f "/etc/pki/akmods/certs/akmods-ublue.der" ]; then
+    mv /etc/pki/akmods/certs/akmods-ublue.der /etc/pki/akmods/certs/akmods-ublue-original.der
+fi
+ln -s "$DER_PATH" /etc/pki/akmods/certs/akmods-ublue.der
+mkdir -p /usr/share/ublue-os/etc/pki/akmods/certs/akmods-ublue.der
+ln -sf "$DER_PATH" /usr/share/ublue-os/etc/pki/akmods/certs/akmods-ublue.der
+jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /usr/share/ublue-os/image-info.json | sponge /usr/share/ublue-os/image-info.json
+
+# Sign kernel
+mkdir -p /etc/pki/kernel/{public,private}
+PUBLIC_KEY_PATH="/etc/pki/kernel/public/public_key.crt"
+PRIVATE_KEY_PATH="/etc/pki/kernel/private/private_key.priv"
+cp /ctx/MOK.crt "$PUBLIC_KEY_PATH"
+cp /ctx/MOK.key "$PRIVATE_KEY_PATH"
+for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
+    KERNEL=$(basename $(dirname "$VMLINUZ"))
+    sbsign --cert "$PUBLIC_KEY_PATH" --key "$PRIVATE_KEY_PATH" "$VMLINUZ" --output "$VMLINUZ"
+
+    # Verify
+    sbverify --list "$VMLINUZ"
+    if ! sbverify --cert "$PUBLIC_KEY_PATH" "$VMLINUZ"; then
+        exit 1
+    fi
+
+    # Sign modules
+    #for module in /usr/lib/modules/"${KERNEL}"/extra/*/*.ko*; do
+    #    module_extension="${module##*.}"
+    #    module_basename="${module%.*}"
+    #    # We don't use any extras currently, so need to sign them
+    #    # They'd need kernel headers installed for signing though...
+    #done
+done
+rm -f "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH"
 
 # Regenerate initramfs
 KERNEL_SUFFIX=""

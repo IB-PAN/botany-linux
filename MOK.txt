@@ -1,0 +1,5 @@
+openssl req -nodes -new -x509 -newkey rsa:2048 -keyout MOK.key -outform DER -out MOK.der -days 40759 -subj "/C=PL/L=Krakow/O=Instytut Botaniki PAN/OU=Botany Secure Boot/CN=botany"
+openssl x509 -inform der -in MOK.der -out MOK.crt
+
+mokutil --timeout -1
+ENROLLMENT_PASSWORD=botany echo -e "$ENROLLMENT_PASSWORD\n$ENROLLMENT_PASSWORD" | mokutil --import "MOK.der"
