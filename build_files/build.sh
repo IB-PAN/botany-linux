@@ -102,9 +102,6 @@ install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bas
 # NAPS2
 dnf5 install -y https://github.com/cyanfish/naps2/releases/download/v8.2.0/naps2-8.2.0-linux-x64.rpm
 
-# Xerox Office Standard Driver
-dnf5 install -y https://download.support.xerox.com/pub/drivers/CQ8580/drivers/linux/pt_BR/XeroxOfficev5Pkg-Linuxx86_64-5.20.661.4684.rpm
-
 # QDiskInfo
 dnf5 copr enable -y birkch/QDiskInfo
 dnf5 install -y QDiskInfo
