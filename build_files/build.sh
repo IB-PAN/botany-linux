@@ -219,13 +219,9 @@ ln -sf "$DER_PATH" /usr/share/ublue-os/etc/pki/akmods/certs/akmods-ublue.der
 jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /usr/share/ublue-os/image-info.json | sponge /usr/share/ublue-os/image-info.json
 
 # Sign kernel
-mkdir -p /etc/pki/kernel/{public,private}
-PUBLIC_KEY_PATH="/etc/pki/kernel/public/public_key.crt"
-PRIVATE_KEY_PATH="/etc/pki/kernel/private/private_key.priv"
-cp /ctx/MOK.crt "$PUBLIC_KEY_PATH"
-cp /ctx/MOK.key "$PRIVATE_KEY_PATH"
+PUBLIC_KEY_PATH="/ctx/MOK.crt"
+PRIVATE_KEY_PATH="/ctx/MOK.key"
 for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
-    KERNEL=$(basename $(dirname "$VMLINUZ"))
     sbsign --cert "$PUBLIC_KEY_PATH" --key "$PRIVATE_KEY_PATH" "$VMLINUZ" --output "$VMLINUZ"
 
     # Verify
@@ -233,16 +229,7 @@ for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
     if ! sbverify --cert "$PUBLIC_KEY_PATH" "$VMLINUZ"; then
         exit 1
     fi
-
-    # Sign modules
-    #for module in /usr/lib/modules/"${KERNEL}"/extra/*/*.ko*; do
-    #    module_extension="${module##*.}"
-    #    module_basename="${module%.*}"
-    #    # We don't use any extras currently, so need to sign them
-    #    # They'd need kernel headers installed for signing though...
-    #done
 done
-rm -f "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH"
 
 # Regenerate initramfs
 KERNEL_SUFFIX=""
