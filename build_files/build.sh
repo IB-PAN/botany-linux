@@ -122,9 +122,10 @@ xmlstarlet edit --inplace --update "/AppConfig/DefaultProfileSettings/PageSize" 
 xmlstarlet edit --inplace --update "/AppConfig/OcrDefaultLanguage" --value "pol+eng" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/ComponentsPath" --value "/usr/lib/naps2/components" /usr/lib/naps2/appsettings.xml 2>/dev/null
 mkdir -p /usr/lib/naps2/components
-curl -Lo /tmp/pol.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/latest/pol.traineddata.zip
-curl -Lo /tmp/eng.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/latest/eng.traineddata.zip
-unzip /tmp/{pol,eng}.traineddata.zip -d /usr/lib/naps2/components/
+curl --no-progress-meter -Lo /tmp/pol.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/tesseract-4.0.0b4/pol.traineddata.zip
+curl --no-progress-meter -Lo /tmp/eng.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/tesseract-4.0.0b4/eng.traineddata.zip
+unzip /tmp/pol.traineddata.zip -d /usr/lib/naps2/components/
+unzip /tmp/eng.traineddata.zip -d /usr/lib/naps2/components/
 rm /tmp/{pol,eng}.traineddata.zip
 
 # QDiskInfo
@@ -217,7 +218,7 @@ wget --no-local-db -nc -nv -O /usr/share/icons/dlibra-soft-icon.png https://rcin
 dnf5 install -y icedtea-web
 
 # Scrutiny agent
-curl -Lo /usr/bin/scrutiny-collector-metrics https://github.com/AnalogJ/scrutiny/releases/download/latest/scrutiny-collector-metrics-linux-amd64
+curl --no-progress-meter -Lo /usr/bin/scrutiny-collector-metrics https://github.com/AnalogJ/scrutiny/releases/latest/download/scrutiny-collector-metrics-linux-amd64
 chmod +x /usr/bin/scrutiny-collector-metrics
 echo "COLLECTOR_API_ENDPOINT=${SCRUTINY_COLLECTOR_API_ENDPOINT}" > /usr/share/botany/scrutiny-collector.env
 systemctl enable scrutiny-collector.timer
