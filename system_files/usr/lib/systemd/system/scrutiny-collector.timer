@@ -1,0 +1,14 @@
+[Unit]
+Description=Run Scrutiny disk health monitor
+After=network.target
+Requires=network.target
+Conflicts=shutdown.target rescue.target rescue.service emergency.service
+
+[Timer]
+RandomizedDelaySec=30
+Persistent=true
+OnCalendar=daily
+OnBootSec=180
+
+[Install]
+WantedBy=multi-user.target

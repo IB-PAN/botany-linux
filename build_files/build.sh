@@ -216,6 +216,12 @@ echo 'alias botany_adm="/usr/sbin/sudo -u botany_adm -i ;"' >> /etc/bashrc
 wget --no-local-db -nc -nv -O /usr/share/icons/dlibra-soft-icon.png https://rcin.org.pl/jnlp2/softIcon.png
 dnf5 install -y icedtea-web
 
+# Scrutiny agent
+curl -Lo /usr/bin/scrutiny-collector-metrics https://github.com/AnalogJ/scrutiny/releases/download/latest/scrutiny-collector-metrics-linux-amd64
+chmod +x /usr/bin/scrutiny-collector-metrics
+echo "COLLECTOR_API_ENDPOINT=${SCRUTINY_COLLECTOR_API_ENDPOINT}" > /usr/share/botany/scrutiny-collector.env
+systemctl enable scrutiny-collector.timer
+
 # Deduplication service
 systemctl enable duperemove-weekly@$(systemd-escape /var/home).timer
 

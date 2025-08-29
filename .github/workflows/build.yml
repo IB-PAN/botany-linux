@@ -113,6 +113,7 @@ jobs:
           REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}
           REGISTRY_PULLER_USER=${{ secrets.REGISTRY_PULLER_USER }}
           REGISTRY_PULLER_PASSWORD=${{ secrets.REGISTRY_PULLER_PASSWORD }}
+          SCRUTINY_COLLECTOR_API_ENDPOINT=${{ secrets.SCRUTINY_COLLECTOR_API_ENDPOINT }}
           EOF
           echo "${{ secrets.MOK_PRIVATE_KEY }}" > MOK.key
 

@@ -1,0 +1,19 @@
+[Unit]
+Description=Scrutiny disk health monitor
+Documentation=https://github.com/AnalogJ/scrutiny
+Conflicts=shutdown.target rescue.target rescue.service emergency.service
+After=network-online.target
+Wants=network-online.target
+ConditionFirstBoot=no
+
+[Service]
+Type=oneshot
+EnvironmentFile=/usr/share/botany/scrutiny-collector.env
+MemoryHigh=128M
+IOWeight=25
+CPUWeight=25
+Nice=18
+IOSchedulingClass=idle
+CPUSchedulingPolicy=idle
+CPUQuota=30%
+ExecStart=/usr/bin/scrutiny-collector-metrics run --host-id "$(hostnamectl hostname)"
