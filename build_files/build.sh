@@ -231,7 +231,8 @@ sed -i \
     -e 's!^BTRFS_SCRUB_MOUNTPOINTS="[^"]*"$!BTRFS_SCRUB_MOUNTPOINTS="auto"!' \
     -e 's!^BTRFS_BALANCE_PERIOD="[^"]*"$!BTRFS_BALANCE_PERIOD="none"!' \
     /etc/sysconfig/btrfsmaintenance
-systemctl start btrfsmaintenance-refresh.service
+/usr/share/btrfsmaintenance/btrfsmaintenance-refresh-cron.sh systemd-timer
+systemctl enable btrfs-scrub.timer
 sed -i 's!^OnCalendar=.*$!OnCalendar=monthly\nAccuracySec=1h!' /usr/lib/systemd/system/xfs_scrub_all.timer
 systemctl enable xfs_scrub_all.timer
 
