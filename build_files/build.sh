@@ -47,7 +47,7 @@ dnf5 -y copr enable ublue-os/packages
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
-    kcalc gwenview okular kweather haruna kontact kolourpaint qdirstat kdiskmark filelight \
+    kcalc gwenview okular kweather haruna kolourpaint qdirstat kdiskmark filelight \
     xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
@@ -58,6 +58,9 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 in
 # aurora-kde-config aurora-plymouth aurora-backgrounds aurora-cli-logos aurora-fastfetch kcm_ublue
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse}.desktop
+
+# remove KDE Akonadi/PIM backend/apps, since they take a lot of resources, are finnicky and we don't currently directly need them
+dnf5 remove -y akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-search kdepimlibs-akonadi kdepimlibs libkdepim kdepim kdepim-runtime kontact
 
 # Office suites (LibreOffice + OnlyOffice)
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
