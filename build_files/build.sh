@@ -241,8 +241,8 @@ systemctl enable xfs_scrub_all.timer
 hardlink --ignore-time --method sha1 --respect-xattrs /usr
 
 # Deploy Secure Boot MOK keys
-cp /ctx/MOK.der "$DER_PATH"
 DER_PATH=/etc/pki/akmods/certs/botany.der
+cp /ctx/MOK.der "$DER_PATH"
 if [ -f "/etc/pki/akmods/certs/akmods-ublue.der" ]; then
     mv /etc/pki/akmods/certs/akmods-ublue.der /etc/pki/akmods/certs/akmods-ublue-original.der
 fi
