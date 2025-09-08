@@ -257,7 +257,9 @@ jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /usr/share/ublue-os/im
 # Sign kernel
 PUBLIC_KEY_PATH="/ctx/MOK.crt"
 PRIVATE_KEY_PATH="/ctx/MOK.key"
+KERNEL_SIGN_FILE="/ctx/build_files/sign-file"
 for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
+    KERNEL=$(basename $(dirname "$VMLINUZ"))
     sbsign --cert "$PUBLIC_KEY_PATH" --key "$PRIVATE_KEY_PATH" "$VMLINUZ" --output "$VMLINUZ"
 
     # Verify
@@ -265,6 +267,23 @@ for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
     if ! sbverify --cert "$PUBLIC_KEY_PATH" "$VMLINUZ"; then
         exit 1
     fi
+
+    # Sign modules
+    for module in /usr/lib/modules/"${KERNEL}"/extra/*/*.ko*; do
+        module_extension="${module##*.}"
+        module_basename="${module%.*}"
+        if [[ "$module_extension" == "xz" ]]; then
+            xz --decompress "$module"
+            "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
+            xz -C crc32 -f "${module_basename}"
+        elif [[ "$module_extension" == "gz" ]]; then
+            gzip -d "$module"
+            "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
+            gzip -9f "${module_basename}"
+        else
+            "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "${module}"
+        fi
+    done
 done
 
 # Regenerate initramfs
