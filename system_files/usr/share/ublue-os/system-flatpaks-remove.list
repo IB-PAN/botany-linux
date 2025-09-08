@@ -4,3 +4,5 @@ org.kde.kontact
 org.kde.okular
 org.kde.kweather
 org.kde.haruna
+org.fkoehler.KTailctl
+com.ranfdev.DistroShelf
