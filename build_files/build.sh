@@ -250,7 +250,7 @@ if [ -f "/etc/pki/akmods/certs/akmods-ublue.der" ]; then
     mv /etc/pki/akmods/certs/akmods-ublue.der /etc/pki/akmods/certs/akmods-ublue-original.der
 fi
 ln -s "$DER_PATH" /etc/pki/akmods/certs/akmods-ublue.der
-mkdir -p /usr/share/ublue-os/etc/pki/akmods/certs/akmods-ublue.der
+mkdir -p /usr/share/ublue-os/etc/pki/akmods/certs/
 ln -sf "$DER_PATH" /usr/share/ublue-os/etc/pki/akmods/certs/akmods-ublue.der
 jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /usr/share/ublue-os/image-info.json | sponge /usr/share/ublue-os/image-info.json
 
