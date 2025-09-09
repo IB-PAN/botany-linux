@@ -68,7 +68,7 @@ if ! grep -q tpm2-tss <<< "$(lsinitrd)"; then
   #  rpm-ostree initramfs --enable --arg=--force-add --arg=tpm2-tss
   #fi
   exit 1
-else
+#else
   #echo "tpm2-tss already present in current initramfs. Good."
   #read -rs -p "Press enter to continue..."
 fi
@@ -134,7 +134,7 @@ else
   RECOV_DMP="/tmp/luks_crypt_recovery_key_${HOSTNAME}.txt"
   hostnamectl > "$RECOV_DMP"
   ip -brief link | grep -vE '^lo\s+' >> "$RECOV_DMP"
-  dmidecode --type 0,1,2 >> "$RECOV_DMP"
+  dmidecode --type 0,1,2 --quiet >> "$RECOV_DMP"
   lsblk >> "$RECOV_DMP"
 
   if [[ -z "$SET_RECOVERY_KEY_ARG" ]]; then echo "Wiping password now... (will also save it to ${RECOV_DMP})"
@@ -144,6 +144,7 @@ else
 
   echo systemd-cryptenroll $SET_RECOVERY_KEY_ARG $WIPE_PASSWORD_ARG "$CRYPT_DISK"
   systemd-cryptenroll $SET_RECOVERY_KEY_ARG $WIPE_PASSWORD_ARG "$CRYPT_DISK" 2>&1 | tee -a "$RECOV_DMP"
+  echo "Currently enrolled slots:" >> "$RECOV_DMP"
   systemd-cryptenroll "$CRYPT_DISK" >> "$RECOV_DMP"
 fi
 
