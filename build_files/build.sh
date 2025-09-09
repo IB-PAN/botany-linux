@@ -284,6 +284,10 @@ for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
         "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
         zstd -T0 --rm --long -8 "$module_basename"
         modinfo "${module_basename}.zst" | grep -E '^filename:|signer:'
+        if [[ ! -e "$module" && "$module" != "${module_basename}.zst" ]]; then
+          # ugly symlink hack
+          ln -s "${module_basename}.zst" "$module"
+        fi
     done
 done
 
