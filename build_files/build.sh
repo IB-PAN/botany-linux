@@ -272,6 +272,7 @@ for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
     for module in /usr/lib/modules/"${KERNEL}"/extra/*/*.ko*; do
         module_extension="${module##*.}"
         module_basename="${module%.*}"
+
         if [[ "$module_extension" == "xz" ]]; then
             xz --decompress --force "$module"
         elif [[ "$module_extension" == "gz" ]]; then
@@ -281,13 +282,18 @@ for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
         elif [[ "$module_extension" == "ko" ]]; then
             module_basename="${module_basename}.ko"
         fi
+
         "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
-        zstd -T0 --rm --long -8 "$module_basename"
-        modinfo "${module_basename}.zst" | grep -E '^filename:|signer:'
-        if [[ ! -e "$module" && "$module" != "${module_basename}.zst" ]]; then
-          # ugly symlink hack
-          ln -s "${module_basename}.zst" "$module"
+        
+        if [[ "$module_extension" == "xz" ]]; then
+            xz -C crc32 -f "$module_basename"
+        elif [[ "$module_extension" == "gz" ]]; then
+            gzip -9f "$module_basename"
+        elif [[ "$module_extension" == "zst" ]]; then
+            zstd -T0 --rm --long -15 "$module_basename"
         fi
+
+        modinfo "$module" | grep -E '^filename:|signer:'
     done
 done
 
