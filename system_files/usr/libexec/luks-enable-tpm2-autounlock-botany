@@ -58,7 +58,7 @@ if [[ ! -L "$CRYPT_DISK" ]]; then
   exit 1
 fi
 
-if ! lsinitrd 2>&1 | grep -q tpm2-tss; then
+if ! grep -q tpm2-tss <<< "$(lsinitrd)"; then
   # This shouldn't ever be the case nowadays, so I keep this as a sanity check.
   echo "ERROR: tpm2-tss is not in initramfs"
   #if rpm-ostree initramfs | grep tpm2 > /dev/null; then
@@ -79,6 +79,8 @@ if cryptsetup luksDump "$CRYPT_DISK" | grep -q systemd-tpm2; then
   read -p "Wipe it and re-enroll? (y/N): " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Wiping TPM2 slot now..."
+    echo systemd-cryptenroll --wipe-slot=tpm2 "$CRYPT_DISK"
     systemd-cryptenroll --wipe-slot=tpm2 "$CRYPT_DISK"
   else
     echo
@@ -97,6 +99,7 @@ if grep -q "recovery" <<< "$(systemd-cryptenroll "$CRYPT_DISK")"; then
     SET_RECOVERY_KEY_ARG="--recovery-key --wipe-slot=recovery"
   else
     echo "Keeping the existing recovery key intact... Make sure you have it backed up!"
+    SET_RECOVERY_KEY_ARG=""
   fi
 fi
 
@@ -119,9 +122,35 @@ fi
 
 ## Run crypt enroll
 echo "Enrolling TPM2 unlock requires your existing LUKS2 unlock password"
-systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7+14 $SET_TPM_PIN_ARG $SET_RECOVERY_KEY_ARG $WIPE_PASSWORD_ARG "$CRYPT_DISK"
+echo "Enrolling TPM2 now..."
+echo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7+14 $SET_TPM_PIN_ARG "$CRYPT_DISK"
+systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7+14 $SET_TPM_PIN_ARG "$CRYPT_DISK"
+
+echo
+
+if [[ -z "$SET_RECOVERY_KEY_ARG" && -z "$WIPE_PASSWORD_ARG" ]]; then
+  echo "WARN: Not setting a new recovery key and not wiping a password!"
+else
+  RECOV_DMP="/tmp/luks_crypt_recovery_key_${HOSTNAME}.txt"
+  hostnamectl > "$RECOV_DMP"
+  ip -brief link | grep -vE '^lo\s+' >> "$RECOV_DMP"
+  dmidecode --type 0,1,2 >> "$RECOV_DMP"
+  lsblk >> "$RECOV_DMP"
+
+  if [[ -z "$SET_RECOVERY_KEY_ARG" ]]; then echo "Wiping password now... (will also save it to ${RECOV_DMP})"
+  elif [[ -z "$WIPE_PASSWORD_ARG" ]]; then echo "Enrolling recovery key now... (will also save it to ${RECOV_DMP})"
+  else echo "Enrolling recovery key and wiping password now... (will also save it to ${RECOV_DMP})"
+  fi
+
+  echo systemd-cryptenroll $SET_RECOVERY_KEY_ARG $WIPE_PASSWORD_ARG "$CRYPT_DISK"
+  systemd-cryptenroll $SET_RECOVERY_KEY_ARG $WIPE_PASSWORD_ARG "$CRYPT_DISK" 2>&1 | tee -a "$RECOV_DMP"
+  systemd-cryptenroll "$CRYPT_DISK" >> "$RECOV_DMP"
+fi
+
 
 ## Now reboot
+echo "Currently enrolled slots:"
+systemd-cryptenroll "$CRYPT_DISK"
 echo
 echo "TPM2 LUKS auto-unlock configured. Reboot now."
 
