@@ -278,7 +278,7 @@ for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
             gzip --decompress --force "$module"
         elif [[ "$module_extension" == "zst" ]]; then
             zstd --decompress --force --rm -T0 "$module"
-        else [[ "$module_extension" == "ko" ]]; then
+        elif [[ "$module_extension" == "ko" ]]; then
             module_basename="${module_basename}.ko"
         fi
         "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
