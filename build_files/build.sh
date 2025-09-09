@@ -273,16 +273,17 @@ for VMLINUZ in /usr/lib/modules/*/vmlinuz; do
         module_extension="${module##*.}"
         module_basename="${module%.*}"
         if [[ "$module_extension" == "xz" ]]; then
-            xz --decompress "$module"
-            "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
-            xz -C crc32 -f "${module_basename}"
+            xz --decompress --force "$module"
         elif [[ "$module_extension" == "gz" ]]; then
-            gzip -d "$module"
-            "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
-            gzip -9f "${module_basename}"
-        else
-            "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "${module}"
+            gzip --decompress --force "$module"
+        elif [[ "$module_extension" == "zst" ]]; then
+            zstd --decompress --force --rm -T0 "$module"
+        else [[ "$module_extension" == "ko" ]]; then
+            module_basename="${module_basename}.ko"
         fi
+        "$KERNEL_SIGN_FILE" sha512 "$PRIVATE_KEY_PATH" "$PUBLIC_KEY_PATH" "$module_basename"
+        zstd -T0 --rm --long -8 "$module_basename"
+        modinfo "${module_basename}.zst" | grep -E '^filename:|signer:'
     done
 done
 
