@@ -51,7 +51,8 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
-    gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub
+    gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub \
+    curl dialog freerdp git iproute libnotify nmap-ncat
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
