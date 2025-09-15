@@ -25,7 +25,7 @@ rm /usr/share/pixmaps/system-logo*.png
 cp /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo.svg
 cp /usr/share/icons/ibpan-logo-text-black.svg /usr/share/pixmaps/fedora-logo.svg
 cp /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/fedora-logo-sprite.svg
-cp /usr/share/icons/ibpan-logo-text.svg /usr/share/pixmaps/fedora_whitelogo.svg
+cp /usr/share/icons/ibpan-logo-text-white.svg /usr/share/pixmaps/fedora_whitelogo.svg
 magick -background none -size 150x47 /usr/share/pixmaps/fedora-logo.svg /usr/share/pixmaps/fedora-logo-small.png
 magick -background none -size 252x252 /usr/share/pixmaps/fedora-logo-sprite.svg /usr/share/pixmaps/fedora-logo-sprite.png
 magick -background none -size 521x164 /usr/share/pixmaps/fedora-logo.svg /usr/share/pixmaps/fedora-logo.png
@@ -34,7 +34,7 @@ magick -background none -size 279x80 /usr/share/pixmaps/fedora_whitelogo.svg /us
 magick -background none -size 149x43 /usr/share/pixmaps/fedora_whitelogo.svg /usr/share/pixmaps/fedora-gdm-logo.png
 magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo.png
 magick -background none -size 256x256 /usr/share/icons/ibpan-logo.svg /usr/share/pixmaps/system-logo-white.png
-magick -background none -size 660x192 /usr/share/icons/ibpan-logo-text.svg /usr/share/plymouth/themes/spinner/watermark.png
+magick -background none -size 660x192 /usr/share/icons/ibpan-logo-text-white.svg /usr/share/plymouth/themes/spinner/watermark.png
 cp /usr/share/plymouth/themes/spinner/watermark.png /usr/share/plymouth/themes/spinner/kinoite-watermark.png
 mkdir -p /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
 cp /usr/share/plasma/look-and-feel/org.kde.breeze.desktop/contents/splash/images/* /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
@@ -42,6 +42,7 @@ rm /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/plas
 gzip -c /usr/share/icons/ibpan-logo.svg > /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/ibpan_logo.svgz
 `;
 
+// Generate a preview screenshot.png of wallpapers
 for await (const contents of new Bun.Glob("ibpan_*/contents").scan({ cwd: "/usr/share/wallpapers", onlyFiles: false, absolute: true })) {
     //console.log(contents);
     const screenshot_png = `${contents}/screenshot.png`;
