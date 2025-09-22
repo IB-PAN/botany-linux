@@ -4,6 +4,7 @@ io.github.arunsivaramanneo.GPUViewer
 org.gtk.Gtk3theme.Breeze
 org.kde.kclock
 com.github.jeromerobert.pdfarranger
+io.github.pleromix.IceBox
 org.fedoraproject.MediaWriter
 io.missioncenter.MissionCenter
 org.gnome.World.PikaBackup
