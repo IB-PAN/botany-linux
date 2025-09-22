@@ -52,7 +52,7 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub \
-    curl dialog freerdp git iproute libnotify nmap-ncat
+    curl dialog freerdp git iproute libnotify nmap-ncat iperf3
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -136,6 +136,12 @@ rm /tmp/{pol,eng}.traineddata.zip
 dnf5 copr enable -y birkch/QDiskInfo
 dnf5 install -y QDiskInfo
 dnf5 copr disable -y birkch/QDiskInfo
+
+# Ookla Speedtest
+rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
+dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=$(awk -F'=' '/^VERSION_ID=/{ print $2 }' /etc/os-release)" --save-filename=ookla_speedtest_cli
+dnf5 install -y speedtest --repo ookla_speedtest-cli
+rm /etc/yum.repos.d/ookla_speedtest_cli.repo
 
 #### Example for enabling a System Unit File
 
