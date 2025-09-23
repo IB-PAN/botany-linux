@@ -104,7 +104,7 @@ install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
 
 # NAPS2
-dnf5 install -y https://github.com/cyanfish/naps2/releases/download/v8.2.0/naps2-8.2.0-linux-x64.rpm
+dnf5 install -y "$(curl -s https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
 xmlstarlet edit --inplace --update "/AppConfig/HideDonateButton" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/NoUpdatePrompt" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 #xmlstarlet edit --inplace --update "/AppConfig/ShowPageNumbers[@mode='default']" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
@@ -125,11 +125,11 @@ xmlstarlet edit --inplace --update "/AppConfig/DefaultProfileSettings/PageSize" 
 #xmlstarlet edit --inplace --subnode "/AppConfig/PdfSettings" --type elem --name "SinglePageTiff" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/OcrDefaultLanguage" --value "pol+eng" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/ComponentsPath" --value "/usr/lib/naps2/components" /usr/lib/naps2/appsettings.xml 2>/dev/null
-mkdir -p /usr/lib/naps2/components
+mkdir -p /usr/lib/naps2/components/tesseract4
 curl --no-progress-meter -Lo /tmp/pol.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/tesseract-4.0.0b4/pol.traineddata.zip
 curl --no-progress-meter -Lo /tmp/eng.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/tesseract-4.0.0b4/eng.traineddata.zip
-unzip /tmp/pol.traineddata.zip -d /usr/lib/naps2/components/
-unzip /tmp/eng.traineddata.zip -d /usr/lib/naps2/components/
+unzip /tmp/pol.traineddata.zip -d /usr/lib/naps2/components/tesseract4/
+unzip /tmp/eng.traineddata.zip -d /usr/lib/naps2/components/tesseract4/
 rm /tmp/{pol,eng}.traineddata.zip
 
 # QDiskInfo
