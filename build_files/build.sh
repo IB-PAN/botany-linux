@@ -246,9 +246,6 @@ systemctl enable btrfs-scrub.timer
 sed -i 's!^OnCalendar=.*$!OnCalendar=monthly\nAccuracySec=1h!' /usr/lib/systemd/system/xfs_scrub_all.timer
 systemctl enable xfs_scrub_all.timer
 
-# TEMP: downgrade Qt6 until QTBUG-140018 is fixed
-rpm -qa | grep '^qt6-.*-6\..*-' | sed 's/-6\..*//g' | awk '{ print $1"-6.9.1" }' | xargs dnf5 downgrade -y --allow-downgrade --allowerasing
-
 # Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
 hardlink --ignore-time --method sha1 --respect-xattrs /usr
