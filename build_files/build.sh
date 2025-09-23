@@ -139,7 +139,7 @@ dnf5 copr disable -y birkch/QDiskInfo
 
 # Ookla Speedtest
 rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
-dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=$(awk -F'=' '/^VERSION_ID=/{ print $2 }' /etc/os-release)" --save-filename=ookla_speedtest_cli
+dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
 dnf5 install -y speedtest --repo ookla_speedtest-cli
 rm /etc/yum.repos.d/ookla_speedtest_cli.repo
 
