@@ -48,10 +48,12 @@ SPECS=(
 	"libblockdev-dm"
 	"anaconda-live"
 	"anaconda-webui"
+	"firefox"
 )
 if [[ "$(rpm -E %fedora)" -le 42 ]]; then
-    dnf copr enable -y @rhinstaller/Anaconda-webui
-    dnf copr enable -y @rhinstaller/Anaconda
+    #dnf copr enable -y jreilly1821/anaconda-webui
+    #dnf copr enable -y @rhinstaller/Anaconda-webui
+    #dnf copr enable -y @rhinstaller/Anaconda
 fi
 dnf install -y "${SPECS[@]}"
 
@@ -93,7 +95,7 @@ custom_stylesheet = /usr/share/anaconda/pixmaps/fedora.css
 #	root-password
 
 [Localization]
-use_geolocation = False
+use_geolocation = True
 EOF
 
 # Configure
@@ -119,7 +121,8 @@ timezone Europe/Warsaw
 %include /usr/share/anaconda/post-scripts/disable-fedora-flatpak.ks
 %include /usr/share/anaconda/post-scripts/install-flatpaks.ks
 %include /usr/share/anaconda/post-scripts/secureboot-enroll-key.ks
-%include /usr/share/anaconda/post-scripts/botany-configure-users.ks
+%include /usr/share/anaconda/post-scripts/botany-configure.ks
+%include /usr/share/anaconda/post-scripts/botany-configure-nochroot.ks
 EOF
 
 # Signed Images
@@ -175,9 +178,31 @@ echo -e "$ENROLLMENT_PASSWORD\n$ENROLLMENT_PASSWORD" | mokutil --import "$SECURE
 %end
 EOF
 
-# Configure users
-tee /usr/share/anaconda/post-scripts/botany-configure-users.ks <<'EOF'
+tee /usr/share/anaconda/post-scripts/botany-configure.ks <<'EOF'
 %post --erroronfail
-useradd --comment "BOTANY_ADM" --password "123" --groups wheel botany_adm
+useradd --comment "BOTANY_ADM" --password "" --groups wheel botany_adm
+%end
+EOF
+
+tee /usr/share/anaconda/post-scripts/botany-configure-nochroot.ks <<'EOF'
+%post --erroronfail --nochroot
+
+deployment="$(ostree rev-parse --repo=/mnt/sysimage/ostree/repo ostree/0/1/0)"
+target="/mnt/sysimage/ostree/deploy/default/deploy/$deployment.0"
+hostname_file="$target/etc/hostname"
+if [[ -f "$hostname_file" ]]; then
+	hostname_numbers=$(grep -oE '[1-9]+$' "$hostname_file")
+	if [[ -n "$hostname_numbers" ]]; then
+		filesystem_type=$(stat -f -c %T "$target")
+		target_mountpoint=$(stat --printf=%m "$target")
+		if [[ "$filesystem_type" == "btrfs ]]; then
+			btrfs filesystem label "$target_mountpoint" "botany_linux_$hostname_numbers" || true
+		elif [[ "$filesystem_type" == "xfs ]]; then
+			label=$(echo -n "botany$hostname_numbers" | cut -b1-12)
+			xfs_io -c "label -s $label" "$target_mountpoint"
+		fi
+	fi
+fi
+
 %end
 EOF
