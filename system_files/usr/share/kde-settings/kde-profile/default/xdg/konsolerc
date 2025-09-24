@@ -1,0 +1,7 @@
+[UiSettings]
+# /usr/share/qtermwidget6/color-schemes/BlackOnWhite.colorscheme
+ColorScheme=BlackOnWhite
+
+[Desktop Entry]
+# /usr/share/konsole/Botany.profile
+DefaultProfile=Botany.profile
