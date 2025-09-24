@@ -48,7 +48,8 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather haruna kolourpaint qdirstat kdiskmark filelight cpu-x \
-    xmlstarlet jq yq duperemove fdupes sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
+    xmlstarlet jq yq sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
+    ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub \
@@ -219,9 +220,6 @@ sed -r "/(success|error)_symbol/s|=.*|= '[#](bold bright-red)'|" /usr/share/bota
 # Sudo helpers
 chown root:root /etc/sudoers.d/botany
 chmod 440 /etc/sudoers.d/botany
-echo 'alias botany_sudo="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo"' >> /etc/bashrc
-echo 'alias botany_su="/usr/sbin/sudo -u botany_adm /usr/sbin/sudo /usr/sbin/su -"' >> /etc/bashrc
-echo 'alias botany_adm="/usr/sbin/sudo -u botany_adm -i ;"' >> /etc/bashrc
 
 # dLibra
 wget --no-local-db -nc -nv -O /usr/share/icons/dlibra-soft-icon.png https://rcin.org.pl/jnlp2/softIcon.png
@@ -259,7 +257,9 @@ fi
 ln -s "$DER_PATH" /etc/pki/akmods/certs/akmods-ublue.der
 mkdir -p /usr/share/ublue-os/etc/pki/akmods/certs/
 ln -sf "$DER_PATH" /usr/share/ublue-os/etc/pki/akmods/certs/akmods-ublue.der
-jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /usr/share/ublue-os/image-info.json | sponge /usr/share/ublue-os/image-info.json
+jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /etc/ublue-os/setup.json | sponge /etc/ublue-os/setup.json
+jq '.["check-secureboot"] = true' /etc/ublue-os/setup.json | sponge /etc/ublue-os/setup.json
+systemctl enable check-sb-key.service
 
 # Sign kernel
 PUBLIC_KEY_PATH="/ctx/MOK.crt"
