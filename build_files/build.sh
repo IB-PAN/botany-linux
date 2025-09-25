@@ -52,8 +52,9 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
-    gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub \
-    curl dialog freerdp git iproute libnotify nmap-ncat iperf3
+    gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub duperemove fdupes \
+    curl dialog freerdp git iproute libnotify nmap-ncat iperf3 \
+    tesseract-langpack-pol tesseract-langpack-eng
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -126,12 +127,11 @@ xmlstarlet edit --inplace --update "/AppConfig/DefaultProfileSettings/PageSize" 
 #xmlstarlet edit --inplace --subnode "/AppConfig/PdfSettings" --type elem --name "SinglePageTiff" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/OcrDefaultLanguage" --value "pol+eng" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/ComponentsPath" --value "/usr/lib/naps2/components" /usr/lib/naps2/appsettings.xml 2>/dev/null
-mkdir -p /usr/lib/naps2/components/tesseract4
-curl --no-progress-meter -Lo /tmp/pol.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/tesseract-4.0.0b4/pol.traineddata.zip
-curl --no-progress-meter -Lo /tmp/eng.traineddata.zip https://github.com/cyanfish/naps2-components/releases/download/tesseract-4.0.0b4/eng.traineddata.zip
-unzip /tmp/pol.traineddata.zip -d /usr/lib/naps2/components/tesseract4/
-unzip /tmp/eng.traineddata.zip -d /usr/lib/naps2/components/tesseract4/
-rm /tmp/{pol,eng}.traineddata.zip
+mkdir -p /usr/lib/naps2/components/tesseract4/{best,fast}
+curl --no-progress-meter -Lo /usr/lib/naps2/components/tesseract4/best/pol.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/pol.traineddata
+curl --no-progress-meter -Lo /usr/lib/naps2/components/tesseract4/best/eng.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/eng.traineddata
+ln -sf /usr/share/tesseract/tessdata/pol.traineddata /usr/lib/naps2/components/tesseract4/fast/pol.traineddata
+ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/tesseract4/fast/eng.traineddata
 
 # QDiskInfo
 dnf5 copr enable -y birkch/QDiskInfo
