@@ -54,7 +54,8 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     samba samba-tools \
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub duperemove fdupes \
     curl dialog freerdp git iproute libnotify nmap-ncat iperf3 \
-    tesseract-langpack-pol tesseract-langpack-eng
+    tesseract-langpack-pol tesseract-langpack-eng \
+    hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
@@ -132,6 +133,16 @@ curl --no-progress-meter -Lo /usr/lib/naps2/components/tesseract4/best/pol.train
 curl --no-progress-meter -Lo /usr/lib/naps2/components/tesseract4/best/eng.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/eng.traineddata
 ln -sf /usr/share/tesseract/tessdata/pol.traineddata /usr/lib/naps2/components/tesseract4/fast/pol.traineddata
 ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/tesseract4/fast/eng.traineddata
+
+# HPLIP firmware and plugins
+HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip)
+curl --no-progress-meter -Lo /tmp/hplip.tar.zst https://builds.garudalinux.org/repos/chaotic-aur/x86_64/hplip-minimal-${HPLIP_VERSION}-1-x86_64.pkg.tar.zst
+mkdir -p /tmp/hplip
+tar -xvf /tmp/hplip.tar.zst -C /tmp/hplip
+rsync -a --mkpath {/tmp/hplip,}/usr/share/hplip/data/firmware/
+rsync -a --mkpath {/tmp/hplip,}/usr/share/hplip/prnt/plugins/
+rsync -a --mkpath {/tmp/hplip,}/usr/share/hplip/
+rm -rf /tmp/hplip{,.tar.zst}
 
 # QDiskInfo
 dnf5 copr enable -y birkch/QDiskInfo
