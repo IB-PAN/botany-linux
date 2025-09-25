@@ -8,8 +8,6 @@ imageInfo["image-vendor"] = "IB-PAN";
 delete imageInfo["image-tag"];
 imageInfo["image-flavor"] = "main";
 imageInfo["image-ref"] = `ostree-image-signed:docker://${process.env.IMAGE_REGISTRY}/${process.env.IMAGE_NAME}`;
-imageInfo["template-file"] = "/usr/share/botany/ublue_motd_template.md";
-imageInfo["default-theme"] = "green";
 
 await $`
 mkdir -p /usr/icons/hicolor/scalable/{apps,places}/
