@@ -47,7 +47,7 @@ dnf5 -y copr enable ublue-os/packages
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
-    kcalc gwenview okular kweather haruna kolourpaint qdirstat kdiskmark filelight cpu-x \
+    kcalc gwenview okular kweather krecorder haruna kolourpaint qdirstat kdiskmark filelight cpu-x audacity \
     xmlstarlet jq yq sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
