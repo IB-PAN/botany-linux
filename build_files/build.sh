@@ -52,7 +52,7 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
-    gparted gsmartcontrol btrfs-assistant btrfsmaintenance xfsprogs-xfs_scrub duperemove fdupes \
+    gparted gsmartcontrol btrfs-assistant btrfsmaintenance snapper xfsprogs-xfs_scrub duperemove fdupes \
     curl dialog freerdp git iproute libnotify nmap-ncat iperf3 \
     tesseract-langpack-pol tesseract-langpack-eng \
     hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs
