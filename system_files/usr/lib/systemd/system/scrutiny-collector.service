@@ -16,4 +16,4 @@ Nice=18
 IOSchedulingClass=idle
 CPUSchedulingPolicy=idle
 CPUQuota=30%
-ExecStart=/usr/bin/scrutiny-collector-metrics run --host-id "$(hostnamectl hostname)"
+ExecStart=/usr/bin/bash -c '/usr/bin/scrutiny-collector-metrics run --host-id "$(hostnamectl hostname)"'
