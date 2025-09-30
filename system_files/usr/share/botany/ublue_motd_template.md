@@ -1,6 +1,7 @@
 # Welcome to Botany Linux
 
-Witaj. 🌱
+🌱 `%IMAGE_NAME%:%IMAGE_TAG%`
+Witaj.
 
 |  Command | Description |
 | ------- | ----------- |

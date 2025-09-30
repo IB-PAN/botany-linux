@@ -5,7 +5,7 @@ const imageName = process.env.IMAGE_NAME; // botany-linux
 
 imageInfo["image-name"] = imageName;
 imageInfo["image-vendor"] = "IB-PAN";
-delete imageInfo["image-tag"];
+imageInfo["image-tag"] = new Date().toISOString().split("T")[0].replaceAll("-", "");
 imageInfo["image-flavor"] = "main";
 imageInfo["image-ref"] = `ostree-image-signed:docker://${process.env.IMAGE_REGISTRY}/${process.env.IMAGE_NAME}`;
 
