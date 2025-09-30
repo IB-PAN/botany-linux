@@ -55,7 +55,7 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance snapper xfsprogs-xfs_scrub duperemove fdupes \
     curl dialog freerdp git iproute libnotify nmap-ncat iperf3 \
     tesseract-langpack-pol tesseract-langpack-eng \
-    hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs sane libusb-compat-0.1
+    hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs libusb-compat-0.1 sane-backends sane-airscan
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
 
