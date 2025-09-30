@@ -137,7 +137,7 @@ ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/t
 # HPLIP firmware and plugins
 HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip)
 curl --no-progress-meter -Lo /tmp/hplip-plugin.run https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run
-sh hplip-plugin.run --target "/tmp/hplip-plugin-extract" --noexec
+sh /tmp/hplip-plugin.run --target "/tmp/hplip-plugin-extract" --noexec
 pushd /tmp/hplip-plugin-extract
 python installPlugin.py
 if [[ -d /usr/local/lib ]]; then
