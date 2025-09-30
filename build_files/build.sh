@@ -136,13 +136,16 @@ ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/t
 
 # HPLIP firmware and plugins
 HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip)
-curl --no-progress-meter -Lo /tmp/hplip.tar.zst https://builds.garudalinux.org/repos/chaotic-aur/x86_64/hplip-minimal-${HPLIP_VERSION}-1-x86_64.pkg.tar.zst
-mkdir -p /tmp/hplip
-tar -xvf /tmp/hplip.tar.zst -C /tmp/hplip
-rsync -a --mkpath {/tmp/hplip,}/usr/share/hplip/data/firmware/
-rsync -a --mkpath {/tmp/hplip,}/usr/share/hplip/prnt/plugins/
-rsync -a --mkpath {/tmp/hplip,}/usr/share/hplip/
-rm -rf /tmp/hplip{,.tar.zst}
+curl --no-progress-meter -Lo /tmp/hplip-plugin.run https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run
+sh hplip-plugin.run --target "/tmp/hplip-plugin-extract" --noexec
+pushd /tmp/hplip-plugin-extract
+python installPlugin.py
+if [[ -d /usr/local/lib ]]; then
+    symlinks -c /usr/local/lib
+    rsync -av --remove-source-files /usr/local/lib/ /usr/lib/
+fi
+popd
+rm -rf /tmp/hplip-plugin{.run,-extract}
 
 # QDiskInfo
 dnf5 copr enable -y birkch/QDiskInfo
