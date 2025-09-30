@@ -140,19 +140,22 @@ curl --no-progress-meter -Lo /tmp/hplip-plugin.run https://www.openprinting.org/
 sh /tmp/hplip-plugin.run --target "/tmp/hplip-plugin-extract" --noexec
 curl --no-progress-meter -Lo /tmp/hplip-plugin-extract/scan-plugin-spec.py 'https://aur.archlinux.org/cgit/aur.git/plain/scan-plugin-spec.py?h=hplip-plugin&id=1c76c4dd3748486b75a3658ad172eeda88e6de3d'
 pushd /tmp/hplip-plugin-extract
-local line
-while read -r line
-do
-    local -a splitted
-    readarray -d, -n3 -t splitted <<< "$line"
-    splitted[-1]="${splitted[-1]%$'\n'}"
-    install -Dvm644 "${splitted[0]}" "/${splitted[1]}"
-    if [[ -n "${splitted[2]}" ]]
-    then
-        mkdir -p "$(dirname "${splitted[2]}")"
-        ln -srfv "${splitted[1]}" "${splitted[2]}"
-    fi
-done < <(CARCH="x86_64" python "./scan-plugin-spec.py" | sort -u)
+hplip_install() {
+    local line
+    while read -r line
+    do
+        local -a splitted
+        readarray -d, -n3 -t splitted <<< "$line"
+        splitted[-1]="${splitted[-1]%$'\n'}"
+        install -Dvm644 "${splitted[0]}" "/${splitted[1]}"
+        if [[ -n "${splitted[2]:-}" ]]
+        then
+            mkdir -p "$(dirname "${splitted[2]}")"
+            ln -srfv "${splitted[1]}" "${splitted[2]}"
+        fi
+    done < <(CARCH="x86_64" python "./scan-plugin-spec.py" | sort -u)
+}
+hplip_install
 popd
 rm -rf /tmp/hplip-plugin{.run,-extract}
 install -Dm644 /dev/stdin "/usr/share/hplip/hplip.state" << EOF
