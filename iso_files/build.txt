@@ -13,3 +13,8 @@ just build "${IMAGE_REGISTRY}/${IMAGE_NAME}:prod" "1" "$(realpath ../botany-linu
 sudo chown $(id -u):$(id -g) ./output.iso && mv ./output.iso "./botany-linux_$(printf '%(%Y-%m-%d)T' -1).iso"
 
 sudo cp -f --reflink=always "./botany-linux_$(printf '%(%Y-%m-%d)T' -1).iso" "/var/lib/libvirt/images/botany-linux.iso"
+
+###
+
+qemu-img create -f qcow2 botany-linux.qcow2 40G
+sudo just vm output.iso -drive file=botany-linux.qcow2,format=qcow2,if=virtio

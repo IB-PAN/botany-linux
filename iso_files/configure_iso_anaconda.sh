@@ -3,7 +3,9 @@
 set -eoux pipefail
 
 IMAGE_INFO="$(cat /usr/share/ublue-os/image-info.json)"
-IMAGE_TAG="$(jq -c -r '."image-tag"' <<<"$IMAGE_INFO")"
+#IMAGE_TAG="$(jq -c -r '."image-tag"' <<<"$IMAGE_INFO")"
+#IMAGE_TAG="prod"
+IMAGE_TAG="latest"
 IMAGE_REF="$(jq -c -r '."image-ref"' <<<"$IMAGE_INFO")"
 IMAGE_REF="${IMAGE_REF##*://}"
 
@@ -46,15 +48,16 @@ SPECS=(
 	"libblockdev-btrfs"
 	"libblockdev-lvm"
 	"libblockdev-dm"
+	"xfsprogs"
 	"anaconda-live"
 	"anaconda-webui"
 	"firefox"
 )
-if [[ "$(rpm -E %fedora)" -le 42 ]]; then
+#if [[ "$(rpm -E %fedora)" -le 42 ]]; then
     #dnf copr enable -y jreilly1821/anaconda-webui
     #dnf copr enable -y @rhinstaller/Anaconda-webui
     #dnf copr enable -y @rhinstaller/Anaconda
-fi
+#fi
 dnf install -y "${SPECS[@]}"
 
 # Anaconda Profile Detection
@@ -88,11 +91,12 @@ default_partitioning =
 
 [User Interface]
 custom_stylesheet = /usr/share/anaconda/pixmaps/fedora.css
-#hidden_spokes =
-#	PasswordSpoke
-#	UserSpoke
-#hidden_webui_pages =
-#	root-password
+hidden_spokes =
+	PasswordSpoke
+	UserSpoke
+hidden_webui_pages =
+	root-password
+	anaconda-screen-accounts
 
 [Localization]
 use_geolocation = True
