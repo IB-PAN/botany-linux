@@ -176,6 +176,16 @@ dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/rep
 dnf5 install -y speedtest --repo ookla_speedtest-cli
 rm /etc/yum.repos.d/ookla_speedtest_cli.repo
 
+# Sigillum
+SIGILLUM_SIGN_VERSION="1.11.31"
+SIGILLUM_MANAGER_VERSION="1.0.12"
+curl --no-progress-meter -Lo /tmp/Sigillum.run https://sigillum.pl/binaries/content/assets/Pliki/Sigillum_sign_od_2022/Linux/Sigillum_${SIGILLUM_SIGN_VERSION}.run
+curl --no-progress-meter -Lo /tmp/Sigman.run https://sigillum.pl/binaries/content/assets/Pliki/Sigman/Linux/Sigman_${SIGILLUM_MANAGER_VERSION}.run
+chmod +x /tmp/{Sigillum,Sigman}.run
+/tmp/Sigman.run --root "/opt/sigman" --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
+/tmp/Sigillum.run --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
+rm /tmp/{Sigillum,Sigman}.run
+
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
