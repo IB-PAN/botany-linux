@@ -1,9 +1,9 @@
-# Welcome to Botany Linux
+# Witaj w Botany Linux
 
 🌱 `%IMAGE_NAME%:%IMAGE_TAG%`
 Witaj.
 
-|  Command | Description |
+|  Polecenie | Opis |
 | ------- | ----------- |
 | `ujust --choose`  | Show available commands  |
 | `brew help` | Manage command line packages | 

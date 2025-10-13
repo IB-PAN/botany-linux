@@ -44,11 +44,11 @@ dnf5 -y copr enable ublue-os/staging
 dnf5 -y copr enable ublue-os/packages
 
 # this installs a package from fedora repos
-dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils \
+dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander \
     kcalc gwenview okular kweather krecorder haruna kolourpaint qdirstat kdiskmark filelight cpu-x audacity \
-    xmlstarlet jq yq sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
+    xmlstarlet jq yq bc sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
