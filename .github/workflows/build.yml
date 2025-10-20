@@ -152,10 +152,10 @@ jobs:
 
       - name: Run Rechunker
         id: rechunk
-        uses: hhd-dev/rechunk@v1.2.3
+        uses: hhd-dev/rechunk@v1.2.4
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         with:
-          rechunk: 'ghcr.io/hhd-dev/rechunk:v1.2.3'
+          rechunk: 'ghcr.io/hhd-dev/rechunk:v1.2.4'
           ref: "containers-storage:localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
           prev-ref: "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
           skip_compression: true
