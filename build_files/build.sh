@@ -185,6 +185,7 @@ chmod +x /tmp/{Sigillum,Sigman}.run
 /tmp/Sigman.run --root "/opt/sigman" --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
 /tmp/Sigillum.run --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
 rm /tmp/{Sigillum,Sigman}.run
+sed -i '/^Version=.*$/d' /etc/xdg/autostart/sigillum_monitor.desktop
 desktop-file-edit --set-key=X-GNOME-Autostart-enabled --set-value="false" /etc/xdg/autostart/sigillum_monitor.desktop
 desktop-file-edit --set-key=Hidden --set-value="true" /etc/xdg/autostart/sigillum_monitor.desktop
 # not sure if the below actually does anything, shrug
