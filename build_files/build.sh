@@ -86,10 +86,7 @@ sed -i 's!/usr/local/sbin/swapspace!/usr/sbin/swapspace!' /usr/lib/systemd/syste
 systemctl enable swapspace.service
 
 # Double Commander
-rpm --import https://download.opensuse.org/repositories/home:/Alexx2000/Fedora_41/repodata/repomd.xml.key
-dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Alexx2000/Fedora_41/home:Alexx2000.repo --save-filename=home_Alexx2000
 dnf5 install -y doublecmd-qt6
-rm /etc/yum.repos.d/home_Alexx2000.repo
 
 # kopia.io
 rpm --import https://kopia.io/signing-key
@@ -182,8 +179,8 @@ SIGILLUM_MANAGER_VERSION="1.0.12"
 curl --no-progress-meter -Lo /tmp/Sigillum.run https://sigillum.pl/binaries/content/assets/Pliki/Sigillum_sign_od_2022/Linux/Sigillum_${SIGILLUM_SIGN_VERSION}.run
 curl --no-progress-meter -Lo /tmp/Sigman.run https://sigillum.pl/binaries/content/assets/Pliki/Sigman/Linux/Sigman_${SIGILLUM_MANAGER_VERSION}.run
 chmod +x /tmp/{Sigillum,Sigman}.run
-/tmp/Sigman.run --root "/opt/sigman" --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
 /tmp/Sigillum.run --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
+/tmp/Sigman.run --root "/opt/sigman" --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
 rm /tmp/{Sigillum,Sigman}.run
 sed -i '/^Version=.*$/d' /etc/xdg/autostart/sigillum_monitor.desktop
 desktop-file-edit --set-key=X-GNOME-Autostart-enabled --set-value="false" /etc/xdg/autostart/sigillum_monitor.desktop
