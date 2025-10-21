@@ -167,6 +167,11 @@ dnf5 copr enable -y birkch/QDiskInfo
 dnf5 install -y QDiskInfo
 dnf5 copr disable -y birkch/QDiskInfo
 
+# kio-onedrive
+dnf5 copr enable -y bernardogn/kio-onedrive
+dnf5 install -y kio-onedrive
+dnf5 copr disable -y bernardogn/kio-onedrive
+
 # Ookla Speedtest
 rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
 dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
