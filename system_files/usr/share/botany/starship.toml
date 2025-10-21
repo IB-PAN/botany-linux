@@ -8,8 +8,8 @@ continuation_prompt = '[▶▶](dimmed white)  '
 disabled = false
 
 [username]
-style_user = 'blue bold'
-style_root = 'red bold'
+style_user = 'blue'
+style_root = 'red'
 format = '[$user]($style)'
 disabled = false
 show_always = true
@@ -17,7 +17,7 @@ show_always = true
 [hostname]
 ssh_only = false
 ssh_symbol = ""
-format = '@[$hostname](bold green)[$ssh_symbol](bold gray)'
+format = '@[$hostname](green)[$ssh_symbol](gray)'
 disabled = false
 
 [character]
@@ -47,7 +47,7 @@ symbol = " "
 
 [directory]
 read_only = "󰌾"
-format = ' [$path](bold yellow)[$read_only]($read_only_style) '
+format = ' [$path](purple)[$read_only]($read_only_style) '
 truncation_length = 8
 truncation_symbol = "[...]/"
 
