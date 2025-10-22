@@ -29,7 +29,7 @@ jobs:
 
       - name: Get manifest (from old tag)
         run: |
-          REGISTRY_TOKEN=${{ steps.auth.outputs.token }}"
+          REGISTRY_TOKEN="${{ steps.auth.outputs.token }}"
           curl -o /tmp/manifest.json -v -H "Accept: ${CONTENT_TYPE}" -H "Authorization: Bearer ${REGISTRY_TOKEN}" --no-progress-meter "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_OLD}"
 
       - name: Print manifest
@@ -38,5 +38,5 @@ jobs:
 
       - name: Submit manifest (to new tag)
         run: |
-          REGISTRY_TOKEN=${{ steps.auth.outputs.token }}"
+          REGISTRY_TOKEN="${{ steps.auth.outputs.token }}"
           curl -v -X PUT -H "Content-Type: ${CONTENT_TYPE}" --data-binary "@/tmp/manifest.json" -H "Authorization: Bearer ${REGISTRY_TOKEN}" --no-progress-meter "https://${IMAGE_REGISTRY}/v2/${IMAGE_NAME}/manifests/${TAG_NEW}"
