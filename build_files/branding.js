@@ -89,7 +89,7 @@ const osRelease = Object.fromEntries((await osReleaseFile.text()).split("\n").ma
         return [key, value];
     }));
 
-osRelease.PRETTY_NAME = "Botany Linux 42";
+osRelease.PRETTY_NAME = `Botany Linux ${osRelease.VERSION_ID}`;
 osRelease.NAME = "Botany Linux";
 osRelease.HOME_URL = "https://botany.pl";
 osRelease.LOGO = "ibpan-logo";

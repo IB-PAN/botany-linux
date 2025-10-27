@@ -7,6 +7,8 @@ set +a
 
 set -ouex pipefail
 
+source /ctx/build_files/copr-helpers.sh
+
 echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64`\"}}}" | tee /usr/lib/ostree/auth.json
 
 # temporary
@@ -40,8 +42,12 @@ sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
-dnf5 -y copr enable ublue-os/staging
-dnf5 -y copr enable ublue-os/packages
+# TEMP
+copr="@kdesig/kde-final"
+copr_sanitized="${copr//@/group_}"
+repo_id="copr:copr.fedorainfracloud.org:${copr_sanitized////:}"
+dnf5 -y copr enable "$copr"
+dnf5 -y config-manager setopt "${repo_id}.priority=1"
 
 # this installs a package from fedora repos
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
@@ -66,14 +72,19 @@ rm -f /usr/share/applications/{documentation,Discourse}.desktop
 # remove KDE Akonadi/PIM backend/apps, since they take a lot of resources, are finnicky and we don't currently directly need them
 dnf5 remove -y akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-search kdepimlibs-akonadi kdepimlibs libkdepim kdepim kdepim-runtime kontact
 
-# Office suites (LibreOffice + OnlyOffice)
+# Office suites (LibreOffice)
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
-dnf5 install -y https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
+
+# Office suites (OnlyOffice)
+echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros
+dnf5 install -y --nogpgcheck https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
+rm -f /root/.rpmmacros
 
 # Virtualization: https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 # we don't enable libvirtd service by default
 dnf5 group install -y --with-optional virtualization
-dnf5 install -y libvirt-nss ublue-os-libvirt-workarounds
+dnf5 install -y libvirt-nss
+copr_install_isolated "ublue-os/packages" "ublue-os-libvirt-workarounds"
 systemctl enable swtpm-workaround.service
 systemctl enable ublue-os-libvirt-workarounds.service
 
@@ -104,7 +115,7 @@ install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
 
 # NAPS2
-dnf5 install -y "$(curl -s https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
+dnf5 install -y --nogpgcheck "$(curl -s https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
 xmlstarlet edit --inplace --update "/AppConfig/HideDonateButton" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/NoUpdatePrompt" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 #xmlstarlet edit --inplace --update "/AppConfig/ShowPageNumbers[@mode='default']" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
@@ -135,7 +146,7 @@ ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/t
 HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip)
 curl --no-progress-meter -Lo /tmp/hplip-plugin.run https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run
 sh /tmp/hplip-plugin.run --target "/tmp/hplip-plugin-extract" --noexec
-curl --no-progress-meter -Lo /tmp/hplip-plugin-extract/scan-plugin-spec.py 'https://aur.archlinux.org/cgit/aur.git/plain/scan-plugin-spec.py?h=hplip-plugin&id=1c76c4dd3748486b75a3658ad172eeda88e6de3d'
+curl --no-progress-meter -Lo /tmp/hplip-plugin-extract/scan-plugin-spec.py 'https://raw.githubusercontent.com/archlinux/aur/1c76c4dd3748486b75a3658ad172eeda88e6de3d/scan-plugin-spec.py'
 pushd /tmp/hplip-plugin-extract
 hplip_install() {
     local line
@@ -163,20 +174,18 @@ version = $HPLIP_VERSION
 EOF
 
 # QDiskInfo
-dnf5 copr enable -y birkch/QDiskInfo
-dnf5 install -y QDiskInfo
-dnf5 copr disable -y birkch/QDiskInfo
+copr_install_isolated "birkch/QDiskInfo" "QDiskInfo"
 
 # kio-onedrive
-dnf5 copr enable -y bernardogn/kio-onedrive
-dnf5 install -y kio-onedrive
-dnf5 copr disable -y bernardogn/kio-onedrive
+copr_install_isolated "bernardogn/kio-onedrive" "kio-onedrive"
 
 # Ookla Speedtest
 rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
 dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
-dnf5 install -y speedtest --repo ookla_speedtest-cli
+echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros
+dnf5 install -y --nogpgcheck speedtest --repo ookla_speedtest-cli
 rm /etc/yum.repos.d/ookla_speedtest_cli.repo
+rm -f /root/.rpmmacros
 
 # Sigillum
 SIGILLUM_SIGN_VERSION="1.11.31"
@@ -260,8 +269,10 @@ deno --allow-read --allow-write --allow-env /ctx/build_files/mime_types.js
 rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 
 # Favorites in Kickoff
-sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,preferred:\/\/filemanager<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
-sed -i '/<entry name="favorites" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.krusader.desktop,org.kde.kate.desktop,org.kde.discover.desktop,onlyoffice-desktopeditors.desktop,libreoffice-startcenter.desktop,com.github.IsmaelMartinez.teams_for_linux.desktop,org.kde.plasma-systemmonitor.desktop<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.kickoff/contents/config/main.xml
+sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>\
+    preferred:\/\/browser,\
+    preferred:\/\/filemanager\
+    <\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
 
 # Starship prompt
 rm -f /etc/skel/.config/starship.toml
@@ -365,8 +376,6 @@ QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\
 chmod 0600 "/lib/modules/$QUALIFIED_KERNEL/initramfs.img"
 
 # Cleanup
-dnf5 -y copr disable ublue-os/staging
-dnf5 -y copr disable ublue-os/packages
 rm -rf /tmp/* || true
 rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
 find /var/* -maxdepth 0 -type d \! -name cache \! -name log -exec rm -fr {} \;

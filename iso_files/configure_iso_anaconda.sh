@@ -53,11 +53,6 @@ SPECS=(
 	"anaconda-webui"
 	"firefox"
 )
-#if [[ "$(rpm -E %fedora)" -le 42 ]]; then
-    #dnf copr enable -y jreilly1821/anaconda-webui
-    #dnf copr enable -y @rhinstaller/Anaconda-webui
-    #dnf copr enable -y @rhinstaller/Anaconda
-#fi
 dnf install -y "${SPECS[@]}"
 
 # Anaconda Profile Detection

@@ -1,6 +1,6 @@
 # Witaj w Botany Linux
 
-🌱 `%IMAGE_NAME%:%IMAGE_TAG%`
+🌱`%IMAGE_NAME%:%IMAGE_TAG%`
 Witaj.
 
 |  Polecenie | Opis |
