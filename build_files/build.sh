@@ -9,7 +9,7 @@ set -ouex pipefail
 
 source /ctx/build_files/copr-helpers.sh
 
-echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64`\"}}}" | tee /usr/lib/ostree/auth.json
+echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64 -w0`\"}}}" | tee /usr/lib/ostree/auth.json
 
 # temporary
 mkdir -p /var/roothome/.gpg
@@ -269,10 +269,7 @@ deno --allow-read --allow-write --allow-env /ctx/build_files/mime_types.js
 rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 
 # Favorites in Kickoff
-sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>\
-    preferred:\/\/browser,\
-    preferred:\/\/filemanager\
-    <\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
+sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,preferred:\/\/filemanager<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
 
 # Starship prompt
 rm -f /etc/skel/.config/starship.toml

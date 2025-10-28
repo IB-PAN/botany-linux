@@ -9,7 +9,7 @@ Use the installation method for the respective upstream, Aurora, uCore, etc.
 Add registry authorization:
 
 ```shell
-echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64`\"}}}" | sudo tee /etc/ostree/auth.json
+echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64 -w0`\"}}}" | sudo tee /etc/ostree/auth.json
 ```
 
 Switch without signature verification first:
