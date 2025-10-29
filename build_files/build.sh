@@ -63,7 +63,7 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     tesseract-langpack-pol tesseract-langpack-eng \
     hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs libusb-compat-0.1 sane-backends sane-airscan
 
-dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks
+dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks dosbox-staging
 
 # aurora-kde-config aurora-plymouth aurora-backgrounds aurora-cli-logos aurora-fastfetch kcm_ublue
 dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
