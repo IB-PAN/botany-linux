@@ -7,6 +7,3 @@ widgetStyle=Breeze
 [General]
 AccentColor=61,212,37
 fixed=FiraCode Nerd Font,10,-1,5,50,0,0,0,0,0
-
-[KDE Control Module Restrictions][$i]
-kcm_plymouth.desktop=false

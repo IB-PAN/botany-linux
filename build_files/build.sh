@@ -260,6 +260,14 @@ rm /tmp/Microsoft-365-Fonts.zip
 chown -R root:root /usr/share/fonts/Microsoft-365-Fonts
 chmod -R 644 /usr/share/fonts/Microsoft-365-Fonts
 chmod -R a+X /usr/share/fonts/Microsoft-365-Fonts
+# FiraCode Nerd Font
+wget --no-local-db -nc -nv -O /tmp/FiraCodeNerdFont.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip
+mkdir -p /usr/share/fonts/nerd-fonts/FiraCodeNerdFont/
+7z x -o/usr/share/fonts/nerd-fonts/FiraCodeNerdFont/ /tmp/FiraCodeNerdFont.zip
+rm /tmp/FiraCodeNerdFont.zip
+chown -R root:root /usr/share/fonts/nerd-fonts/
+chmod -R 644 /usr/share/fonts/nerd-fonts/
+chmod -R a+X /usr/share/fonts/nerd-fonts/
 fc-cache -f -v
 
 /ctx/build_files/fix_kde_google_integration.sh
