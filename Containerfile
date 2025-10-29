@@ -5,7 +5,7 @@ COPY just /just
 COPY MOK.der MOK.crt MOK.key /
 
 # Base Image
-FROM ghcr.io/ublue-os/aurora:beta
+FROM ghcr.io/ublue-os/aurora:latest
 COPY --chown=root:root system_files /
 
 ### MODIFICATIONS
