@@ -42,13 +42,6 @@ sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# TEMP
-copr="@kdesig/kde-final"
-copr_sanitized="${copr//@/group_}"
-repo_id="copr:copr.fedorainfracloud.org:${copr_sanitized////:}"
-dnf5 -y copr enable "$copr"
-dnf5 -y config-manager setopt "${repo_id}.priority=1"
-
 # this installs a package from fedora repos
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
