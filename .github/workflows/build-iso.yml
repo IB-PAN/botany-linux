@@ -36,7 +36,7 @@ jobs:
           echo "${{ secrets.IMAGE_REGISTRY_IP }} ${{ secrets.IMAGE_REGISTRY }}" | sudo tee -a /etc/hosts
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Maximize build space
         if: matrix.platform != 'arm64'

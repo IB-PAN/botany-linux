@@ -45,7 +45,7 @@ jobs:
           echo "${{ secrets.IMAGE_REGISTRY_IP }} ${{ secrets.IMAGE_REGISTRY }}" | sudo tee -a /etc/hosts
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # This is optional, but if you see that your builds are way too big for the runners, you can enable this by uncommenting the following lines:
       - name: Maximize build space
