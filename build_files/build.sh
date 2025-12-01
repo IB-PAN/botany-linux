@@ -45,7 +45,7 @@ sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /
 # this installs a package from fedora repos
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
-    gnome-commander \
+    gnome-commander doublecmd-qt6 \
     kcalc gwenview okular kweather krecorder haruna kolourpaint qdirstat kdiskmark filelight cpu-x audacity \
     xmlstarlet jq yq bc sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
     ripgrep msedit \
@@ -74,6 +74,7 @@ dnf5 remove -y akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
 # Office suites (OnlyOffice)
+# TODO: next package after 2025-12-01 should fix the digest issue...
 echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros
 dnf5 install -y --nogpgcheck https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
 rm -f /root/.rpmmacros
@@ -87,15 +88,12 @@ systemctl enable swtpm-workaround.service
 systemctl enable ublue-os-libvirt-workarounds.service
 
 # swapspace daemon (dynamic swap files creation)
-rpm --import https://download.opensuse.org/repositories/home:/Tobi_Peter:/swapspace/openSUSE_Tumbleweed/repodata/repomd.xml.key
-dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:Tobi_Peter:swapspace/openSUSE_Tumbleweed/home:Tobi_Peter:swapspace.repo --save-filename=home_Tobi_Peter_swapspace
-dnf5 install -y swapspace
-rm /etc/yum.repos.d/home_Tobi_Peter_swapspace.repo
+rpm --import https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/repodata/repomd.xml.key
+dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/filesystems.repo --save-filename=openSUSE_Tumbleweed_filesystems
+sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/openSUSE_Tumbleweed_filesystems.repo
+dnf5 install -y --from-repo=filesystems swapspace
 sed -i 's!/usr/local/sbin/swapspace!/usr/sbin/swapspace!' /usr/lib/systemd/system/swapspace.service
 systemctl enable swapspace.service
-
-# Double Commander
-dnf5 install -y doublecmd-qt6
 
 # kopia.io
 rpm --import https://kopia.io/signing-key
@@ -107,8 +105,8 @@ gpgcheck=1
 enabled=1
 gpgkey=https://kopia.io/signing-key
 EOF
-dnf5 install -y kopia kopia-ui
-rm /etc/yum.repos.d/kopia.repo
+sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/kopia.repo
+dnf5 install -y --from-repo=Kopia kopia kopia-ui
 install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
 rm -f /opt/KopiaUI/resources/app-update.yml
@@ -181,9 +179,9 @@ copr_install_isolated "bernardogn/kio-onedrive" "kio-onedrive"
 # Ookla Speedtest
 rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
 dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
+sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/ookla_speedtest_cli.repo
 echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros
-dnf5 install -y --nogpgcheck speedtest --repo ookla_speedtest-cli
-rm /etc/yum.repos.d/ookla_speedtest_cli.repo
+dnf5 install -y --nogpgcheck --from-repo=ookla_speedtest-cli speedtest
 rm -f /root/.rpmmacros
 
 # Sigillum
