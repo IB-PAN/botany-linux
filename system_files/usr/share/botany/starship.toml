@@ -24,6 +24,10 @@ disabled = false
 success_symbol = '[❯](bold green)'
 error_symbol = '[❯](bold red)'
 
+[cmd_duration]
+format = 'took [$duration]($style) '
+style = 'purple'
+
 [aws]
 symbol = "  "
 
