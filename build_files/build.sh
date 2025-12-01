@@ -58,9 +58,14 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks dosbox-staging
 
-# aurora-kde-config aurora-plymouth aurora-backgrounds aurora-cli-logos aurora-fastfetch kcm_ublue
-dnf5 remove -y aurora-plymouth aurora-backgrounds aurora-kde-config kcm_ublue
-rm -f /usr/share/applications/{documentation,Discourse}.desktop
+dnf5 remove -y kcm_ublue
+rm -f /usr/share/applications/{documentation,Discourse,dev.getaurora.aurora-docs}.desktop
+rm -f /usr/share/kglobalaccel/dev.getaurora.aurora-docs.desktop
+rm -f /usr/share/doc/aurora/aurora.pdf
+rm -rf /usr/share/backgrounds/aurora/aurora-wallpaper-*
+rm -rf /usr/share/wallpapers/aurora-wallpaper-*
+rm -rf /usr/share/sddm/themes/01-breeze-aurora
+rm -rf /usr/share/plasma/look-and-feel/dev.getaurora.aurora.desktop
 
 # remove KDE Akonadi/PIM backend/apps, since they take a lot of resources, are finnicky and we don't currently directly need them
 dnf5 remove -y akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-search kdepimlibs-akonadi kdepimlibs libkdepim kdepim kdepim-runtime kontact
@@ -241,8 +246,6 @@ rm /tmp/deno
 wget --no-local-db -nc -nv -O /usr/share/icons/teamviewer-dl.svg https://upload.wikimedia.org/wikipedia/commons/3/31/TeamViewer_Logo_Icon_Only.svg
 
 # Branding
-#dnf5 -y swap aurora-logos fedora-logos
-# Problem: installed package aurora-kde-config-0.1.1-1.fc42.noarch requires aurora-logos, but none of the providers can be installed
 bun /ctx/build_files/branding.js
 
 # MS fonts
