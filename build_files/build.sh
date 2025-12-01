@@ -106,6 +106,7 @@ dnf5 install -y kopia kopia-ui
 rm /etc/yum.repos.d/kopia.repo
 install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
+rm -f /opt/KopiaUI/resources/app-update.yml
 
 # NAPS2
 dnf5 install -y --nogpgcheck "$(curl -s https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
