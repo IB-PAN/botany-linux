@@ -40,6 +40,7 @@ mkdir -p /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/image
 cp /usr/share/plasma/look-and-feel/org.kde.breeze.desktop/contents/splash/images/* /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/
 rm /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/plasma.svgz
 gzip -c /usr/share/icons/ibpan-logo.svg > /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/splash/images/ibpan_logo.svgz
+cp /usr/share/plasma/look-and-feel/org.kde.breeze.desktop/contents/previews/{fullscreenpreview.jpg,lockscreen.png,preview.png} /usr/share/plasma/look-and-feel/pl.botany.desktop/contents/previews/
 `;
 
 // Generate a preview screenshot.png of wallpapers
