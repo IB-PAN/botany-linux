@@ -47,7 +47,7 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander doublecmd-qt6 \
     kcalc gwenview okular kweather krecorder haruna kolourpaint qdirstat kdiskmark filelight cpu-x audacity \
-    xmlstarlet jq yq bc sbsigntools zram-generator stress memtester monitor-edid edid-decode drm_info \
+    xmlstarlet jq yq bc sbsigntools zram-generator stress stress-ng memtester monitor-edid edid-decode drm_info \
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
@@ -61,6 +61,7 @@ dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 in
 dnf5 remove -y kcm_ublue
 rm -f /usr/share/applications/{documentation,Discourse,dev.getaurora.aurora-docs}.desktop
 rm -f /usr/share/kglobalaccel/dev.getaurora.aurora-docs.desktop
+rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 rm -f /usr/share/doc/aurora/aurora.pdf
 rm -rf /usr/share/backgrounds/aurora/aurora-wallpaper-*
 rm -rf /usr/share/wallpapers/aurora-wallpaper-*
@@ -274,8 +275,6 @@ fc-cache -f -v
 /ctx/build_files/fix_kde_google_integration.sh
 /ctx/build_files/fix_libreoffice_pl_icons.sh
 deno --allow-read --allow-write --allow-env /ctx/build_files/mime_types.js
-
-rm -f /usr/share/kglobalaccel/org.gnome.Ptyxis.desktop
 
 # Favorites in Kickoff
 sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,preferred:\/\/filemanager<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
