@@ -170,6 +170,12 @@ eula = 1
 version = $HPLIP_VERSION
 EOF
 
+# Samsung Unified Linux Driver (printers)
+dnf5 config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-uld.repo --save-filename=negativo17-fedora-uld
+sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/negativo17-fedora-uld.repo
+dnf5 install -y --from-repo=fedora-uld uld
+firewall-offline-cmd --service=uld
+
 # QDiskInfo
 copr_install_isolated "birkch/QDiskInfo" "QDiskInfo"
 
