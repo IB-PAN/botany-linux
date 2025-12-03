@@ -52,7 +52,7 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance snapper xfsprogs-xfs_scrub duperemove fdupes \
-    curl dialog freerdp git iproute libnotify nmap-ncat iperf3 \
+    curl dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose \
     tesseract-langpack-pol tesseract-langpack-eng \
     hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs libusb-compat-0.1 sane-backends sane-airscan
 
@@ -111,6 +111,19 @@ dnf5 install -y --from-repo=Kopia kopia kopia-ui
 install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
 rm -f /opt/KopiaUI/resources/app-update.yml
+
+# Visual Studio Code
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
+tee /etc/yum.repos.d/vscode.repo <<'EOF'
+[code]
+name=Visual Studio Code
+baseurl=https://packages.microsoft.com/yumrepos/vscode
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+EOF
+sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/vscode.repo
+dnf5 install -y --from-repo=code code
 
 # NAPS2
 dnf5 install -y --nogpgcheck "$(curl -s https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"

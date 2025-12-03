@@ -1,0 +1,8 @@
+{
+    "window.titleBarStyle": "custom",
+    "update.mode": "none",
+    "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+    "workbench.localHistory.maxFileEntries": 5000,
+    "editor.renderWhitespace": "all"
+}
