@@ -75,10 +75,7 @@ dnf5 remove -y akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-
 dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
 # Office suites (OnlyOffice)
-# TODO: next package after 2025-12-01 should fix the digest issue...
-echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros
 dnf5 install -y --nogpgcheck https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors.x86_64.rpm
-rm -f /root/.rpmmacros
 
 # Virtualization: https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 # we don't enable libvirtd service by default
