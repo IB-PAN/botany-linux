@@ -46,7 +46,7 @@ sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     gnome-commander doublecmd-qt6 \
-    kcalc gwenview okular kweather krecorder haruna kolourpaint qdirstat kdiskmark filelight cpu-x audacity \
+    kcalc gwenview okular kweather krecorder haruna kolourpaint kcolorchooser qdirstat kdiskmark filelight cpu-x audacity \
     xmlstarlet jq yq bc sbsigntools zram-generator stress stress-ng memtester monitor-edid edid-decode drm_info \
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
@@ -54,7 +54,8 @@ dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance snapper xfsprogs-xfs_scrub duperemove fdupes \
     curl dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose \
     tesseract-langpack-pol tesseract-langpack-eng \
-    hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs libusb-compat-0.1 sane-backends sane-airscan
+    hplip hplip-common hplip-libs hplip-gui libsane-hpaio hpijs libusb-compat-0.1 sane-backends sane-airscan \
+    orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd
 
 dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis fedora-bookmarks dosbox-staging
 
