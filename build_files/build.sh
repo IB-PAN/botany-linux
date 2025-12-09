@@ -155,8 +155,11 @@ ln -sf /usr/share/tesseract/tessdata/pol.traineddata /usr/lib/naps2/components/t
 ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/tesseract4/fast/eng.traineddata
 
 # HPLIP firmware and plugins
-HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip)
+gpg --yes --keyserver keyserver.ubuntu.com --recv 82FFA7C6AA7411D934BDE173AC69536A2CF3A243 # HPLIP (HP Linux Imaging and Printing) <hplip@hp.com>
+HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip-common)
 curl --no-progress-meter -Lo /tmp/hplip-plugin.run https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run
+curl --no-progress-meter -Lo /tmp/hplip-plugin.run.asc https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run.asc
+gpg --yes --verify /tmp/hplip-plugin.run.asc /tmp/hplip-plugin.run
 sh /tmp/hplip-plugin.run --target "/tmp/hplip-plugin-extract" --noexec
 curl --no-progress-meter -Lo /tmp/hplip-plugin-extract/scan-plugin-spec.py 'https://raw.githubusercontent.com/archlinux/aur/1c76c4dd3748486b75a3658ad172eeda88e6de3d/scan-plugin-spec.py'
 pushd /tmp/hplip-plugin-extract
@@ -177,7 +180,7 @@ hplip_install() {
 }
 hplip_install
 popd
-rm -rf /tmp/hplip-plugin{.run,-extract}
+rm -rf /tmp/hplip-plugin{.run,.run.asc,-extract}
 install -Dm644 /dev/stdin "/usr/share/hplip/hplip.state" << EOF
 [plugin]
 installed = 1
