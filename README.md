@@ -34,7 +34,7 @@ Then verify `/usr/lib/ostree/auth.json` exists on the new system and you may `su
 [ -f /usr/lib/ostree/auth.json ] && sudo rm /etc/ostree/auth.json || echo Fail
 ```
 
-Then do:
+~~Then do:~~ (now a service will do it automatically, so don't actually run it)
 
 ```shell
 ujust install-system-flatpaks

@@ -9,7 +9,10 @@ set -ouex pipefail
 
 source /ctx/build_files/copr-helpers.sh
 
-echo "{\"auths\":{\"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64 -w0`\"}}}" | tee /usr/lib/ostree/auth.json
+echo "{\"auths\":{\
+  \"${IMAGE_REGISTRY}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64 -w0`\"},\
+  \"${IMAGE_REGISTRY_ALT}\":{\"auth\":\"`echo -n "${REGISTRY_PULLER_USER}:${REGISTRY_PULLER_PASSWORD}" | base64 -w0`\"}\
+  }}" | jq | tee /usr/lib/ostree/auth.json
 
 # temporary
 mkdir -p /var/roothome/.gpg

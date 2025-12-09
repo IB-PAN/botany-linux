@@ -16,10 +16,10 @@ on:
 env:
   IMAGE_DESC: "Botany Linux"
   IMAGE_KEYWORDS: "bootc,ublue,universal-blue"
-  IMAGE_LOGO_URL: "https://biblioteka.botany.pl/zasoby/Logo-IBPAN.svg"  # Put your own image here for a fancy profile on https://artifacthub.io/!
+  IMAGE_LOGO_URL: "https://botany.pl/images/Layout/logo.svg"  # Put your own image here for a fancy profile on https://artifacthub.io/!
   IMAGE_NAME: "${{ github.event.repository.name }}"  # output image name, usually same as repo name
-  #IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
-  IMAGE_REGISTRY: "${{ secrets.IMAGE_REGISTRY }}"  # do not edit
+  IMAGE_REGISTRY: "${{ secrets.IMAGE_REGISTRY }}"
+  IMAGE_REGISTRY_ALT: "${{ secrets.IMAGE_REGISTRY_ALT }}"  # previous domain name that we used...
   DEFAULT_TAG: "latest"
 
 concurrency:
@@ -41,8 +41,8 @@ jobs:
         run: |
           # Lowercase the image uri
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_REGISTRY_ALT=${IMAGE_REGISTRY_ALT,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
-          echo "${{ secrets.IMAGE_REGISTRY_IP }} ${{ secrets.IMAGE_REGISTRY }}" | sudo tee -a /etc/hosts
 
       - name: Checkout
         uses: actions/checkout@v6
@@ -106,6 +106,7 @@ jobs:
           cat <<EOF > .env
           IMAGE_NAME=${{ env.IMAGE_NAME }}
           IMAGE_REGISTRY=${{ env.IMAGE_REGISTRY }}
+          IMAGE_REGISTRY_ALT=${{ env.IMAGE_REGISTRY_ALT }}
           REGISTRY_USER=${{ secrets.REGISTRY_USER }}
           REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}
           REGISTRY_PULLER_USER=${{ secrets.REGISTRY_PULLER_USER }}
