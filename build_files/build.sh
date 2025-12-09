@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 # import env
 set -a
@@ -397,3 +397,5 @@ rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
 find /var/* -maxdepth 0 -type d \! -name cache \! -name log -exec rm -fr {} \;
 find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 \! -name rpm-ostree -exec rm -fr {} \;
 echo "Build script completed!"
+
+/ctx/build_files/tests.sh

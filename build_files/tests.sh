@@ -1,0 +1,124 @@
+#!/usr/bin/bash
+
+echo "::group:: ===$(basename "$0")==="
+
+set -eoux pipefail
+
+# branding related changes
+test -f /usr/share/icons/ibpan-logo.svg
+test -d /usr/share/plasma/look-and-feel/pl.botany.desktop
+
+xmllint --noout \
+  /usr/share/backgrounds/default.xml \
+  /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
+
+JSON_FILES=(
+    /etc/ublue-os/setup.json
+    /usr/lib/ostree/auth.json
+)
+for file in "${JSON_FILES[@]}"; do
+    test -f "$file" || { echo "Missing JSON file: ${file}... Exiting"; exit 1 ; }
+    ( cat "$file" | jq -j 'empty' ) || { echo "Corrupted JSON file: ${file}... Exiting"; exit 1 ; }
+done
+
+# Make sure this garbage never makes it to an image
+test -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service && false
+
+desktop-file-validate \
+  /usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop
+
+# hplip-plugin tests
+(
+    stat /usr/share/hplip/data/firmware/hp_laserjet_100*.fw.gz >/dev/null
+    stat /usr/share/hplip/data/firmware/hp_laserjet_p100*.fw.gz >/dev/null
+    stat /usr/share/hplip/data/firmware/hp_laserjet_professional_p1*.fw.gz >/dev/null
+    stat /usr/share/hplip/prnt/plugins/*.so >/dev/null
+    stat /usr/share/hplip/prnt/plugins/*-$(uname -m).so >/dev/null
+    stat /usr/share/hplip/scan/plugins/bb_*.so >/dev/null
+    stat /usr/share/hplip/scan/plugins/bb_*-$(uname -m).so >/dev/null
+    stat /usr/share/hplip/fax/plugins/fax_*.so >/dev/null
+    stat /usr/share/hplip/fax/plugins/fax_*-$(uname -m).so >/dev/null
+    test -f /usr/share/hplip/plugin.spec
+    test -f /usr/share/hplip/hplip.state
+    HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip-common)
+    grep -zPq '\[plugin\][^\[\]]*\ninstalled\s*=\s*1(\n|$)' /usr/share/hplip/hplip.state
+    grep -zPq '\[plugin\][^\[\]]*\neula\s*=\s*1(\n|$)' /usr/share/hplip/hplip.state
+    grep -zPq "\[plugin\][^\[\]]*\nversion\s*=\s*${HPLIP_VERSION}(\n|$)" /usr/share/hplip/hplip.state
+    test -f /usr/lib/tmpfiles.d/hplip.conf
+) || { echo "hplip-plugin tests failed!"; exit 1 ; }
+
+# Check for KDE Plasma version mismatch
+# Fedora Repos have gotten the newer one, trying to upgrade
+# everything except a few packages, breaking SDDM and shell
+
+KDE_VER="$(rpm -q --qf '%{VERSION}' plasma-desktop)"
+# package picked by failures in the past
+KSCREEN_VERS="$(rpm -q --qf '%{VERSION}' kscreen)"
+KWIN_VERS="$(rpm -q --qf '%{VERSION}' kwin)"
+
+# Doing QT as well just in case, we have a versionlock in main
+QT_VER="$(rpm -q --qf '%{VERSION}' qt6-qtbase)"
+# Not an important package in itself, just a good indicator
+QTFS_VER="$(rpm -q --qf '%{VERSION}' qt6-filesystem)"
+
+if [[ "$KDE_VER" != "$KSCREEN_VERS" || "$KDE_VER" != "$KWIN_VERS" ]]; then
+    echo "KDE Version mismatch"
+    exit 1
+fi
+
+if [[ "$QT_VER" != "$QTFS_VER" ]]; then
+    echo "QT Version mismatch"
+    exit 1
+fi
+
+IMPORTANT_PACKAGES=(
+    flatpak
+    kwin
+    plasma-desktop
+    podman
+    systemd
+    uld
+    hplip
+)
+
+for package in "${IMPORTANT_PACKAGES[@]}"; do
+    rpm -q "${package}" >/dev/null || { echo "Missing package: ${package}... Exiting"; exit 1 ; }
+done
+
+# these packages are supposed to be removed
+UNWANTED_PACKAGES=(
+    akonadi-server
+    libkdepim
+    fedora-logos
+    firefox
+    kde-connect
+    tailscale
+    ptyxis
+    fedora-bookmarks
+    kcm_ublue
+)
+
+for package in "${UNWANTED_PACKAGES[@]}"; do
+    if rpm -q "${package}" >/dev/null 2>&1; then
+        echo "Unwanted package found: ${package}... Exiting"; exit 1
+    fi
+done
+
+IMPORTANT_UNITS=(
+    swtpm-workaround.service
+    ublue-os-libvirt-workarounds.service
+    swapspace.service
+    scrutiny-collector.timer
+    btrfs-scrub.timer
+    xfs_scrub_all.timer
+    duperemove-weekly@$(systemd-escape /var/home).timer
+)
+
+for unit in "${IMPORTANT_UNITS[@]}"; do
+    if ! systemctl is-enabled "$unit" 2>/dev/null | grep -q "^enabled$"; then
+        echo "${unit} is not enabled"
+        exit 1
+    fi
+done
+
+echo "::endgroup::"
