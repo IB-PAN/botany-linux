@@ -67,6 +67,7 @@ jobs:
           # https://artifacthub.io/docs/topics/repositories/container-images/
           # https://linux.die.net/man/1/date
           echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" >> $GITHUB_OUTPUT
+          echo "date_short=$(date -u +%Y%m%d)" >> $GITHUB_OUTPUT
 
       # Image metadata for https://artifacthub.io/ - This is optional but is highly recommended so we all can get a index of all the custom images
       # The metadata by itself is not going to do anything, you choose if you want your image to be on ArtifactHub or not.
@@ -146,8 +147,9 @@ jobs:
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           podman login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }} ${{ env.IMAGE_REGISTRY }}
-          cat ${XDG_RUNTIME_DIR}/containers/auth.json > ~/.docker/config.json
-          sudo podman login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }} ${{ env.IMAGE_REGISTRY }}
+          install -D ${XDG_RUNTIME_DIR}/containers/auth.json ~/.docker/config.json
+          sudo install -D ${XDG_RUNTIME_DIR}/containers/auth.json /run/user/0/containers/auth.json
+          sudo install -D ${XDG_RUNTIME_DIR}/containers/auth.json /root/.docker/config.json
 
       - name: Run Rechunker
         id: rechunk
@@ -160,16 +162,46 @@ jobs:
           skip_compression: true
           max-layers: 100
           labels: ${{ steps.metadata.outputs.labels }} # Rechunk strips out all the labels during build, this needs to be reapplied here with newline separator
+          version: '${{ steps.date.outputs.date_short }}'
+          revision: ${{ github.sha }}
+          pretty: '(from ${{ steps.date.outputs.date_short }})'
+          git: "${{ github.workspace }}"
+          description: >
+            Botany Linux <pretty>
+            [Kernel: <relver:kernel>,
+            KDE: <version:kwayland>]
+          changelog: |
+            # Botany Linux <pretty>
+            ## Version: <version>
 
-      - name: Rechunk output
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+            Major Components:
+              - Kernel: <relver:kernel>
+              - KDE: <version:kwayland>
+
+            ## Changes since last version (<previous>):
+            ### Commits
+            <commits>
+            ### Package Changes:
+            <pkgupd>
+          formatters: |
+            commits.none=No changes\n
+            commits.commit=- **[<short>](https://github.com/IB-PAN/botany-linux/commit/<hash>)** <subject>\n
+            pkgupd.none=No package updates\n
+            pkgupd.add=- **<package>** Added at <new>\n
+            pkgupd.update=- **<package>** <old> → <new>\n
+            pkgupd.remove=- **<package>** <old> → Removed\n
+          meta: 'rechunker_meta.yml'
+
+      - name: Print rechunk output
+        if: always() && github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           if [[ "${STEPS_RECHUNK_CONCLUSION}" == "success" ]]; then
-            echo "${STEPS_RECHUNK_OUTPUTS_CHANGELOG}"
-            echo "${STEPS_RECHUNK_OUTPUTS_MANIFEST}"
+            echo "::group::${STEPS_RECHUNK_OUTPUTS_CHANGELOG}"
             cat "${STEPS_RECHUNK_OUTPUTS_CHANGELOG}"
+            echo "::endgroup::"
+            echo "::group::${STEPS_RECHUNK_OUTPUTS_MANIFEST}"
             cat "${STEPS_RECHUNK_OUTPUTS_MANIFEST}"
-
+            echo "::endgroup::"
           else
             echo "Rechunk conclusion:"
             echo "${STEPS_RECHUNK_CONCLUSION}"
@@ -178,6 +210,9 @@ jobs:
           STEPS_RECHUNK_CONCLUSION: ${{ steps.rechunk.conclusion }}
           STEPS_RECHUNK_OUTPUTS_CHANGELOG: ${{ steps.rechunk.outputs.changelog }}
           STEPS_RECHUNK_OUTPUTS_MANIFEST: ${{ steps.rechunk.outputs.manifest }}
+
+      - name: Add rechunk changelog to summary
+        run: cat ${{ steps.rechunk.outputs.changelog }} >> $GITHUB_STEP_SUMMARY
 
       - name: Remove Rechunker image
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
@@ -203,8 +238,6 @@ jobs:
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         id: push
         env:
-          #REGISTRY_USER: ${{ github.actor }}
-          #REGISTRY_PASSWORD: ${{ github.token }}
           REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
           REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
         with:
