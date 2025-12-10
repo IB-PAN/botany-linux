@@ -2,7 +2,7 @@
 FROM scratch AS ctx
 COPY build_files /build_files
 COPY just /just
-COPY MOK.der MOK.crt MOK.key /
+COPY MOK.der MOK.crt MOK.key u2f_keys /
 
 # Base Image
 FROM ghcr.io/ublue-os/aurora:stable

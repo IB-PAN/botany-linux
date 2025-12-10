@@ -48,6 +48,7 @@ sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /
 # this installs a package from fedora repos
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
+    pam-u2f pamu2fcfg fido2-tools yubikey-manager \
     gnome-commander doublecmd-qt6 \
     kcalc gwenview okular kweather krecorder haruna kolourpaint kcolorchooser qdirstat kdiskmark filelight cpu-x audacity \
     xmlstarlet jq yq bc sbsigntools zram-generator stress stress-ng memtester monitor-edid edid-decode drm_info \
@@ -127,7 +128,7 @@ sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/vscode.repo
 dnf5 install -y --from-repo=code code
 
 # NAPS2
-dnf5 install -y --nogpgcheck "$(curl -s https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
+dnf5 install -y --nogpgcheck "$(curl --retry 3 -s https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
 xmlstarlet edit --inplace --update "/AppConfig/HideDonateButton" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/NoUpdatePrompt" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 #xmlstarlet edit --inplace --update "/AppConfig/ShowPageNumbers[@mode='default']" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
@@ -234,6 +235,12 @@ firewall-offline-cmd --service=ipp
 
 # Allow sharing NAPS2 scanners via ESCL/AirScan (https://www.naps2.com/doc/scanner-sharing)
 firewall-offline-cmd --port=9801-9850:tcp --port=9901-9950:tcp
+
+# U2F PAM auth (module config is in /etc/security/pam_u2f.conf)
+authselect enable-feature with-pam-u2f
+cp /ctx/u2f_keys /usr/share/botany/u2f_keys
+chown root:root /usr/share/botany/u2f_keys
+chmod a=,u=r /usr/share/botany/u2f_keys
 
 # bun
 wget --no-local-db -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
@@ -396,6 +403,7 @@ rm -rf /tmp/* || true
 rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
 find /var/* -maxdepth 0 -type d \! -name cache \! -name log -exec rm -fr {} \;
 find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 \! -name rpm-ostree -exec rm -fr {} \;
+find /boot -mindepth 1 -delete
 echo "Build script completed!"
 
 /ctx/build_files/tests.sh

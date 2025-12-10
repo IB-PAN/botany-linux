@@ -114,6 +114,7 @@ jobs:
           SCRUTINY_COLLECTOR_API_ENDPOINT=${{ secrets.SCRUTINY_COLLECTOR_API_ENDPOINT }}
           EOF
           echo "${{ secrets.MOK_PRIVATE_KEY }}" > MOK.key
+          echo "${{ secrets.U2F_KEYS }}" > u2f_keys
         
       - name: Build image (rootful)
         id: build_image
