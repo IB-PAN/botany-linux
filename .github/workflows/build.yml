@@ -227,9 +227,10 @@ jobs:
       - name: Push to registry
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
-          skopeo copy --format oci --dest-compress-format zstd --digestfile /tmp/digest.txt \
+          sudo skopeo copy --format oci --dest-compress-format zstd --digestfile /tmp/digest.txt \
             ${{ steps.rechunk.outputs.ref }} \
             docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
+          sudo rm -rf ${{ steps.rechunk.outputs.location }}
 
           for tag in ${{ steps.metadata.outputs.tags }}; do
             if [[ "$tag" != "${{ env.DEFAULT_TAG }}" ]]; then
@@ -238,8 +239,6 @@ jobs:
                 docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:$tag
             fi
           done
-
-          sudo rm -rf ${{ steps.rechunk.outputs.location }}
 
       # This section is optional and only needs to be enabled if you plan on distributing
       # your project for others to consume. You will need to create a public and private key
