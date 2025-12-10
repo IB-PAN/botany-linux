@@ -47,6 +47,11 @@ desktop-file-validate \
     test -f /usr/lib/tmpfiles.d/hplip.conf
 ) || { echo "hplip-plugin tests failed!"; exit 1 ; }
 
+# Make sure pam_u2f is enabled
+grep -F 'with-pam-u2f' /etc/authselect/authselect.conf
+grep -F 'pam_u2f.so cue' /etc/pam.d/system-auth
+grep -F 'pam_u2f.so cue' /etc/pam.d/password-auth
+
 # Check for KDE Plasma version mismatch
 # Fedora Repos have gotten the newer one, trying to upgrade
 # everything except a few packages, breaking SDDM and shell

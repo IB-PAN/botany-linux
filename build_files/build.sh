@@ -48,7 +48,7 @@ sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /
 # this installs a package from fedora repos
 dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
-    pam-u2f pamu2fcfg fido2-tools yubikey-manager \
+    pam-u2f pamu2fcfg fido2-tools yubikey-manager fprintd fprintd-pam \
     gnome-commander doublecmd-qt6 \
     kcalc gwenview okular kweather krecorder haruna kolourpaint kcolorchooser qdirstat kdiskmark filelight cpu-x audacity \
     xmlstarlet jq yq bc sbsigntools zram-generator stress stress-ng memtester monitor-edid edid-decode drm_info \
@@ -237,10 +237,14 @@ firewall-offline-cmd --service=ipp
 firewall-offline-cmd --port=9801-9850:tcp --port=9901-9950:tcp
 
 # U2F PAM auth (module config is in /etc/security/pam_u2f.conf)
-authselect enable-feature with-pam-u2f
-cp /ctx/u2f_keys /usr/share/botany/u2f_keys
-chown root:root /usr/share/botany/u2f_keys
-chmod a=,u=r /usr/share/botany/u2f_keys
+install --owner=root --group=root --mode=400 /ctx/u2f_keys /usr/share/botany/u2f_keys
+#authselect enable-feature with-pam-u2f
+authselect select --force --nobackup local \
+    with-silent-lastlog \
+    with-mdns4 \
+    with-fingerprint \
+    with-pam-u2f
+authselect apply-changes
 
 # bun
 wget --no-local-db -nc -nv -O /tmp/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
