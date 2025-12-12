@@ -18,6 +18,3 @@ install -Dm644 completions/bun.bash "/usr/share/bash-completion/completions/bun"
 install -Dm644 completions/bun.fish "/usr/share/fish/vendor_completions.d/bun.fish"
 popd
 rm -rf /tmp/bun-linux-*
-
-# Branding
-bun /ctx/build_files/branding.js
