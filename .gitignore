@@ -1,5 +1,6 @@
-cosign.key
-MOK.key
+/cosign.key
+/MOK.key
+/u2f_keys
 _build_*
 output
 _build-*/**
