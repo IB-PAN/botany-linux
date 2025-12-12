@@ -2,8 +2,11 @@
 
 set -ouex pipefail
 
+source /ctx/build_files/build-helpers.sh
+
 # NAPS2
-dnf5 install -y --nogpgcheck "$(curl --no-progress-meter --retry 3 https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
+NAPS2_RPM_URL="$(curl --no-progress-meter --retry 3 https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
+pdnf_install_rpm "$NAPS2_RPM_URL"
 xmlstarlet edit --inplace --update "/AppConfig/HideDonateButton" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/NoUpdatePrompt" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 #xmlstarlet edit --inplace --update "/AppConfig/ShowPageNumbers[@mode='default']" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null

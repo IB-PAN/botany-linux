@@ -1,6 +1,10 @@
 #!/usr/bin/bash
 set -euo pipefail
 
+pdnf() {
+    flock /tmp/dnf5.lock dnf5 -y "$@"
+}
+
 copr_install_isolated() {
     local copr_name="$1"
     shift
@@ -15,9 +19,9 @@ copr_install_isolated() {
 
     echo "Installing ${packages[*]} from COPR $copr_name (isolated)"
 
-    dnf5 -y copr enable "$copr_name"
-    dnf5 -y copr disable "$copr_name"
-    dnf5 -y install --from-repo="$repo_id" "${packages[@]}"
+    pdnf copr enable "$copr_name"
+    pdnf copr disable "$copr_name"
+    pdnf install --from-repo="$repo_id" "${packages[@]}"
 
     echo "Installed ${packages[*]} from $copr_name"
 }
@@ -33,15 +37,15 @@ thirdparty_repo_install() {
 
     # Install the release package using temporary repo
     # shellcheck disable=SC2016
-    dnf5 -y install --nogpgcheck --repofrompath "$repo_frompath" "$release_package"
+    pdnf install --nogpgcheck --repofrompath "$repo_frompath" "$release_package"
 
     # Install extras package if specified (may not exist in all versions)
     if [[ -n "$extras_package" ]]; then
-        dnf5 -y install "$extras_package" || true
+        pdnf install "$extras_package" || true
     fi
 
     # Disable the repo(s) immediately
-    dnf5 config-manager setopt "${disable_pattern}".enabled=0
+    pdnf config-manager setopt "${disable_pattern}".enabled=0
 
     echo "$repo_name repo installed and disabled (ready for isolated usage)"
 }
@@ -50,4 +54,18 @@ run_parallel() {
     # https://stackoverflow.com/questions/66119741/time-stamping-every-line-of-stdout
     # needs packages: moreutils, parallel
     parallel --no-notice --jobs 0 --halt-on-error now,fail=1 "set -o pipefail ; echo '::group::==={}===' && stdbuf -oL bash -c {} 2>&1 | ts -s -m '%.s' && echo -e '===END===\n::endgroup::'" ::: "$@"
+}
+
+pdnf_install_rpm() {
+    URL="$1"
+    #shift
+    #OPTIONS=("$@")
+    pushd /tmp
+    echo "[pdnf_install_rpm] Downloading ${URL}..."
+    RPM_FILENAME=$(curl --no-progress-meter --retry 3 -OJL "$URL" -w "%{filename_effective}")
+    echo "[pdnf_install_rpm] Installing ${RPM_FILENAME}..."
+    pdnf install --nogpgcheck "$RPM_FILENAME"
+    echo "[pdnf_install_rpm] Done."
+    rm -f "$RPM_FILENAME"
+    popd
 }

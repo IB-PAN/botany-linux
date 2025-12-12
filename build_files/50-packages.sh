@@ -4,7 +4,7 @@ set -ouex pipefail
 
 source /ctx/build_files/build-helpers.sh
 
-dnf5 install -y screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils xlsclients nodejs \
+pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils xlsclients nodejs \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     pam-u2f pamu2fcfg fido2-tools yubikey-manager fprintd fprintd-pam \
     gnome-commander doublecmd-qt6 \
@@ -19,28 +19,28 @@ dnf5 install -y screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-util
     sane-backends sane-airscan \
     orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd
 
-dnf5 remove -y kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis dosbox-staging \
+pdnf remove kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis dosbox-staging \
     fedora-bookmarks kcm_ublue
 
 # remove KDE Akonadi/PIM backend/apps, since they take a lot of resources, are finnicky and we don't currently directly need them
-dnf5 remove -y akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-search kdepimlibs-akonadi kdepimlibs libkdepim kdepim kdepim-runtime kontact
+pdnf remove akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-search kdepimlibs-akonadi kdepimlibs libkdepim kdepim kdepim-runtime kontact
 
 # Office suites (LibreOffice)
-dnf5 install -y libreoffice libreoffice-help-pl libreoffice-langpack-pl
+pdnf install libreoffice libreoffice-help-pl libreoffice-langpack-pl
 
 # Virtualization: https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 # we don't enable libvirtd service by default
-dnf5 group install -y --with-optional virtualization
-dnf5 install -y libvirt-nss
+pdnf group install --with-optional virtualization
+pdnf install libvirt-nss
 copr_install_isolated "ublue-os/packages" "ublue-os-libvirt-workarounds"
 systemctl enable swtpm-workaround.service
 systemctl enable ublue-os-libvirt-workarounds.service
 
 # swapspace daemon (dynamic swap files creation)
 rpm --import https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/repodata/repomd.xml.key
-dnf5 config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/filesystems.repo --save-filename=openSUSE_Tumbleweed_filesystems
+pdnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/filesystems.repo --save-filename=openSUSE_Tumbleweed_filesystems
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/openSUSE_Tumbleweed_filesystems.repo
-dnf5 install -y --from-repo=filesystems swapspace
+pdnf install --from-repo=filesystems swapspace
 sed -i 's!/usr/local/sbin/swapspace!/usr/sbin/swapspace!' /usr/lib/systemd/system/swapspace.service
 systemctl enable swapspace.service
 
@@ -55,7 +55,7 @@ enabled=1
 gpgkey=https://kopia.io/signing-key
 EOF
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/kopia.repo
-dnf5 install -y --from-repo=Kopia kopia-ui
+pdnf install --from-repo=Kopia kopia-ui
 ln -s /opt/KopiaUI/resources/server/kopia /usr/bin/kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
@@ -72,7 +72,7 @@ gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc
 EOF
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/vscode.repo
-dnf5 install -y --from-repo=code code
+pdnf install --from-repo=code code
 
 # QDiskInfo
 copr_install_isolated "birkch/QDiskInfo" "QDiskInfo"
@@ -82,8 +82,8 @@ copr_install_isolated "bernardogn/kio-onedrive" "kio-onedrive"
 
 # Ookla Speedtest
 rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
-dnf5 config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
+pdnf config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/ookla_speedtest_cli.repo
 echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros
-dnf5 install -y --nogpgcheck --from-repo=ookla_speedtest-cli speedtest
+pdnf install --nogpgcheck --from-repo=ookla_speedtest-cli speedtest
 rm -f /root/.rpmmacros
