@@ -7,6 +7,11 @@ set -eoux pipefail
 # branding related changes
 test -f /usr/share/icons/ibpan-logo.svg
 test -d /usr/share/plasma/look-and-feel/pl.botany.desktop
+cmp --silent /usr/share/icons/ibpan-logo.svg /usr/share/icons/hicolor/scalable/distributor-logo.svg
+
+# Secure Boot and kernel
+test -f /etc/pki/akmods/certs/botany.der
+sbverify --list /usr/lib/modules/*/vmlinuz | grep -qF '/C=PL/L=Krakow/O=Instytut Botaniki PAN/OU=Botany Secure Boot/CN=botany'
 
 xmllint --noout \
   /usr/share/backgrounds/default.xml \

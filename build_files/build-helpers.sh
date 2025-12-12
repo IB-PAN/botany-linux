@@ -45,3 +45,9 @@ thirdparty_repo_install() {
 
     echo "$repo_name repo installed and disabled (ready for isolated usage)"
 }
+
+run_parallel() {
+    # https://stackoverflow.com/questions/66119741/time-stamping-every-line-of-stdout
+    # needs packages: moreutils, parallel
+    parallel --no-notice --halt-on-error now,fail=1 "set -o pipefail ; echo '::group::==={}===' && stdbuf -oL bash -c {} 2>&1 | ts -s -m '%.s' && echo '::endgroup::'" ::: "$@"
+}

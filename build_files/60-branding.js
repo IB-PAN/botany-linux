@@ -1,3 +1,5 @@
+#!/usr/bin/bun
+
 import { $ } from "bun";
 import imageInfo from "/usr/share/ublue-os/image-info.json" with { type: "json" };
 

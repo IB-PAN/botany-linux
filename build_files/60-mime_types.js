@@ -1,3 +1,5 @@
+#!/usr/bin/deno --allow-read --allow-write --allow-env
+
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as util from "node:util";

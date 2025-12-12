@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ouex pipefail
+
 echo "Fixing LibreOffice localized icons..."
 
 FILES="/usr/lib64/libreoffice/share/config/images_*.zip"
