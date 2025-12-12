@@ -15,7 +15,9 @@ do
     #echo $LIBREOFFICE_IMAGES_LINK_TXT_CONTENTS
     #7z u "$f" -silinks.txt <<< "$LIBREOFFICE_IMAGES_LINK_TXT_CONTENTS"
 
-    7z x -so "$f" links.txt | grep -Fv 'cmd/32/pl/' | grep -Fv 'cmd/pl/' > /tmp/links.txt
-    7z u "$f" /tmp/links.txt >/dev/null
-    rm /tmp/links.txt
+    if grep -qE '\slinks\.txt$' <<< "$(7z l "$f")"; then
+        7z x -so "$f" links.txt | grep -Ev 'cmd(/[0-9]+)?/pl/' > /tmp/links.txt
+        7z u "$f" /tmp/links.txt >/dev/null
+        rm /tmp/links.txt
+    fi
 done
