@@ -53,7 +53,7 @@ thirdparty_repo_install() {
 run_parallel() {
     # https://stackoverflow.com/questions/66119741/time-stamping-every-line-of-stdout
     # needs packages: moreutils, parallel
-    parallel --no-notice --jobs 0 --halt-on-error now,fail=1 "set -o pipefail ; echo '::group::==={}===' && stdbuf -oL bash -c {} 2>&1 | ts -s -m '%.s' && echo -e '===END===\n::endgroup::'" ::: "$@"
+    parallel --no-notice --jobs 0 --halt-on-error now,fail=1 --color-failed "set -o pipefail ; echo '::group::==={}===' && stdbuf -oL bash -c {} 2>&1 | ts -s -m '%.s' && echo -e '===END===\n::endgroup::'" ::: "$@"
 }
 
 pdnf_install_rpm() {

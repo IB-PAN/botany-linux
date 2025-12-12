@@ -5,8 +5,9 @@ set -ouex pipefail
 # Sigillum
 SIGILLUM_SIGN_VERSION="1.11.31"
 SIGILLUM_MANAGER_VERSION="1.0.12"
-curl --no-progress-meter --retry 3 -Lo /tmp/Sigillum.run https://sigillum.pl/binaries/content/assets/Pliki/Sigillum_sign_od_2022/Linux/Sigillum_${SIGILLUM_SIGN_VERSION}.run
-curl --no-progress-meter --retry 3 -Lo /tmp/Sigman.run https://sigillum.pl/binaries/content/assets/Pliki/Sigman/Linux/Sigman_${SIGILLUM_MANAGER_VERSION}.run
+curl --no-progress-meter --retry 5 -Lo /tmp/Sigillum.run https://sigillum.pl/binaries/content/assets/Pliki/Sigillum_sign_od_2022/Linux/Sigillum_${SIGILLUM_SIGN_VERSION}.run &
+curl --no-progress-meter --retry 5 -Lo /tmp/Sigman.run https://sigillum.pl/binaries/content/assets/Pliki/Sigman/Linux/Sigman_${SIGILLUM_MANAGER_VERSION}.run &
+wait
 chmod +x /tmp/{Sigillum,Sigman}.run
 /tmp/Sigillum.run --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
 /tmp/Sigman.run --root "/opt/sigman" --confirm-command --accept-licenses --default-answer --auto-answer OverwriteTargetDirectory=Yes,installationErrorWithCancel=Ignore install
