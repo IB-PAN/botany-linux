@@ -7,6 +7,9 @@ pref("browser.newtabpage.activity-stream.default.sites", "https://botany.pl/,htt
 pref("browser.newtabpage.activity-stream.feeds.section.highlights", true); // Recent activity section
 
 pref("browser.newtabpage.activity-stream.system.showWeather", true);
+pref("browser.newtabpage.activity-stream.showWeather", true);
+pref("browser.newtabpage.activity-stream.weather.optInAccepted", true);
+pref("browser.newtabpage.activity-stream.weather.optInDisplayed", false);
 pref("browser.newtabpage.activity-stream.discoverystream.locale-weather-config", "pl-PL,en-US,en-GB,en-CA"); // doesn't seem to change anything
 pref("browser.newtabpage.activity-stream.discoverystream.region-weather-config", "PL,US,CA"); // doesn't seem to change anything
 //pref("browser.newtabpage.activity-stream.weather.query", 274455); // would change "Krakow" to "Kraków" visually, but I don't want to hardcode the location since it's auto-detected properly

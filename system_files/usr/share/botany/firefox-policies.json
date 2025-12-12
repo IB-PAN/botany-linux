@@ -5,12 +5,20 @@
         "toplevel_name": "Instytut Botaniki"
       },
       {
+        "name": "Poczta Google",
+        "url": "https://mail.google.com"
+      },
+      {
         "name": "Strona Instytutu Botaniki",
         "url": "https://botany.pl"
       },
       {
-        "name": "Poczta Google",
-        "url": "https://mail.google.com"
+        "name": "Biuletyn Informacji Publicznej",
+        "url": "https://ibpan_krakow.bip.gov.pl/"
+      },
+      {
+        "name": "Katalog biblioteki IB PAN",
+        "url": "https://biblioteka.botany.pl/"
       },
       {
         "name": "Różne",
@@ -18,10 +26,6 @@
           {
             "name": "Repozytorium Cyfrowe Instytutów Naukowych — IB PAN",
             "url": "https://rcin.org.pl/dlibra/collectiondescription/428"
-          },
-          {
-            "name": "Katalog biblioteki",
-            "url": "https://biblioteka.botany.pl/"
           }
         ]
       }
@@ -34,6 +38,22 @@
     "NoDefaultBookmarks": true,
     "SearchEngines": {
       "Add": [
+        {
+          "Name": "Strona IB PAN",
+          "URLTemplate": "https://botany.pl/pl/search-results-pl?q={searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://botany.pl/favicon.ico",
+          "Alias": "@ibpan",
+          "Description": "Przeszukaj stronę Instytutu Botaniki PAN"
+        },
+        {
+          "Name": "BIP IB PAN",
+          "URLTemplate": "https://ibpan_krakow.bip.gov.pl/artykuly/wyszukaj/name:{searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://ibpan_krakow.bip.gov.pl/favicon.png",
+          "Alias": "@bip",
+          "Description": "Przeszukaj Biuletyn Informacji Publicznej IB PAN"
+        },
         {
           "Name": "Biblioteka IB PAN",
           "URLTemplate": "https://biblioteka.botany.pl/search?q={searchTerms}",
