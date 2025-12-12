@@ -46,7 +46,7 @@ sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients \
+dnf5 install -y screen zstd signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils moreutils xlsclients nodejs \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     pam-u2f pamu2fcfg fido2-tools yubikey-manager fprintd fprintd-pam \
     gnome-commander doublecmd-qt6 \
@@ -159,8 +159,8 @@ ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/t
 # HPLIP firmware and plugins
 gpg --yes --keyserver keyserver.ubuntu.com --recv 82FFA7C6AA7411D934BDE173AC69536A2CF3A243 # HPLIP (HP Linux Imaging and Printing) <hplip@hp.com>
 HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip-common)
-curl --no-progress-meter -Lo /tmp/hplip-plugin.run https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run
-curl --no-progress-meter -Lo /tmp/hplip-plugin.run.asc https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run.asc
+curl --no-progress-meter --retry 3 -Lo /tmp/hplip-plugin.run https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run
+curl --no-progress-meter --retry 3 -Lo /tmp/hplip-plugin.run.asc https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run.asc
 gpg --yes --verify /tmp/hplip-plugin.run.asc /tmp/hplip-plugin.run
 sh /tmp/hplip-plugin.run --target "/tmp/hplip-plugin-extract" --noexec
 curl --no-progress-meter -Lo /tmp/hplip-plugin-extract/scan-plugin-spec.py 'https://raw.githubusercontent.com/archlinux/aur/1c76c4dd3748486b75a3658ad172eeda88e6de3d/scan-plugin-spec.py'

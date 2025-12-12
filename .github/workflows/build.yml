@@ -176,7 +176,12 @@ jobs:
 
             Major Components:
               - Kernel: <relver:kernel>
+              - Firmware: <relver:linux-firmware>
+              - Mesa: <relver:mesa-filesystem>
               - KDE: <version:kwayland>
+              - OnlyOffice: <version:onlyoffice-desktopeditors>
+              - LibreOffice: <version:libreoffice>
+              - WINE: <version:wine>
 
             ## Changes since last version (<previous>):
             ### Commits
@@ -227,13 +232,16 @@ jobs:
       - name: Push to registry
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
-          sudo skopeo copy --format oci --dest-compress-format zstd --digestfile /tmp/digest.txt \
+          echo "::group::Pushing primary tag"
+          sudo skopeo copy --format oci --dest-compress-format zstd:chunked --digestfile /tmp/digest.txt \
             ${{ steps.rechunk.outputs.ref }} \
             docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           sudo rm -rf ${{ steps.rechunk.outputs.location }}
+          echo "::endgroup::"
 
           for tag in ${{ steps.metadata.outputs.tags }}; do
             if [[ "$tag" != "${{ env.DEFAULT_TAG }}" ]]; then
+              echo "Pushing tag \"$tag\"..."
               skopeo copy --preserve-digests \
                 docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }} \
                 docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:$tag
@@ -245,15 +253,17 @@ jobs:
       # using Cosign and save the private key as a repository secret in Github for this workflow
       # to consume. For more details, review the image signing section of the README.
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v3.10.1
+        uses: sigstore/cosign-installer@v4.0.0
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        with:
+          cosign-release: 'v2.6.1'
 
       - name: Sign container image
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           IMAGE_FULL="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}"
           DIGEST=$(cat /tmp/digest.txt)
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY "$IMAGE_FULL@$DIGEST"
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY --new-bundle-format=false "$IMAGE_FULL@$DIGEST"
         env:
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}

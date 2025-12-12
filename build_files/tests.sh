@@ -14,7 +14,11 @@ xmllint --noout \
 
 JSON_FILES=(
     /etc/ublue-os/setup.json
+    /etc/ublue-os/motd.json
     /usr/lib/ostree/auth.json
+    /usr/share/wallpapers/ibpan_logo/metadata.json
+    /usr/share/plasma/look-and-feel/pl.botany.desktop/metadata.json
+    /usr/share/botany/firefox-policies.json
 )
 for file in "${JSON_FILES[@]}"; do
     test -f "$file" || { echo "Missing JSON file: ${file}... Exiting"; exit 1 ; }
@@ -48,6 +52,9 @@ desktop-file-validate \
 ) || { echo "hplip-plugin tests failed!"; exit 1 ; }
 
 # Make sure pam_u2f is enabled
+grep -qF 'with-pam-u2f' /etc/authselect/authselect.conf
+grep -qF 'pam_u2f.so cue' /etc/pam.d/system-auth
+grep -qF 'pam_u2f.so cue' /etc/pam.d/password-auth
 
 # Kopia.io
 test -f /opt/KopiaUI/resources/server/kopia
