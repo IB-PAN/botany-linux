@@ -109,7 +109,8 @@ enabled=1
 gpgkey=https://kopia.io/signing-key
 EOF
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/kopia.repo
-dnf5 install -y --from-repo=Kopia kopia kopia-ui
+dnf5 install -y --from-repo=Kopia kopia-ui
+ln -sf /usr/bin/kopia /opt/KopiaUI/resources/server/kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-zsh)"') /usr/share/zsh/site-functions/_kopia
 install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bash-completion/completions/kopia
 rm -f /opt/KopiaUI/resources/app-update.yml

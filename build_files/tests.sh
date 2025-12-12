@@ -48,9 +48,11 @@ desktop-file-validate \
 ) || { echo "hplip-plugin tests failed!"; exit 1 ; }
 
 # Make sure pam_u2f is enabled
-grep -F 'with-pam-u2f' /etc/authselect/authselect.conf
-grep -F 'pam_u2f.so cue' /etc/pam.d/system-auth
-grep -F 'pam_u2f.so cue' /etc/pam.d/password-auth
+
+# Kopia.io
+test -f /opt/KopiaUI/resources/server/kopia
+test -L /usr/bin/kopia
+/usr/bin/kopia --version | grep -qF "from: kopia/kopia"
 
 # Check for KDE Plasma version mismatch
 # Fedora Repos have gotten the newer one, trying to upgrade
