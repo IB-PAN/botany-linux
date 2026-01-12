@@ -20,9 +20,9 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd
 
 pdnf remove kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis dosbox-staging \
-    fedora-bookmarks kcm_ublue ublue-brew
+    fedora-bookmarks kcm_ublue
 
-# Make sure to remove these Homebrew files afterwards (they should be a part of ublue-brew packages, but I also see Aurora copies them as layer too...?)
+# Remove Homebrew
 rm -f /etc/profile.d/brew-bash-completion.sh \
     /etc/profile.d/brew.sh \
     /etc/security/limits.d/30-brew-limits.conf \

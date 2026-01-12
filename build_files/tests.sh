@@ -32,22 +32,22 @@ desktop-file-validate \
   /usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop
 
 # Make sure this garbage never makes it to an image
-test -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service && false
+if [ -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service ]; then exit 1; fi
 
-# Make sure Homebrew was removed (rpm -ql ublue-brew + https://github.com/ublue-os/brew)
+# Make sure Homebrew was removed (https://github.com/ublue-os/brew)
 (
-    test -f /etc/profile.d/brew-bash-completion.sh && false
-    test -f /etc/profile.d/brew.sh && false
-    test -f /etc/security/limits.d/30-brew-limits.conf && false
-    test -f /usr/lib/systemd/system-preset/01-homebrew.preset && false
-    test -f /usr/lib/systemd/system/brew-setup.service && false
-    test -f /usr/lib/systemd/system/brew-update.service && false
-    test -f /usr/lib/systemd/system/brew-update.timer && false
-    test -f /usr/lib/systemd/system/brew-upgrade.service && false
-    test -f /usr/lib/systemd/system/brew-upgrade.timer && false
-    test -f /usr/lib/tmpfiles.d/homebrew.conf && false
-    test -f /usr/share/fish/vendor_conf.d/ublue-brew.fish && false
-    test -f /usr/share/homebrew.tar.zst && false
+    if [ -f /etc/profile.d/brew-bash-completion.sh ]; then exit 1; fi
+    if [ -f /etc/profile.d/brew.sh ]; then exit 1; fi
+    if [ -f /etc/security/limits.d/30-brew-limits.conf ]; then exit 1; fi
+    if [ -f /usr/lib/systemd/system-preset/01-homebrew.preset ]; then exit 1; fi
+    if [ -f /usr/lib/systemd/system/brew-setup.service ]; then exit 1; fi
+    if [ -f /usr/lib/systemd/system/brew-update.service ]; then exit 1; fi
+    if [ -f /usr/lib/systemd/system/brew-update.timer ]; then exit 1; fi
+    if [ -f /usr/lib/systemd/system/brew-upgrade.service ]; then exit 1; fi
+    if [ -f /usr/lib/systemd/system/brew-upgrade.timer ]; then exit 1; fi
+    if [ -f /usr/lib/tmpfiles.d/homebrew.conf ]; then exit 1; fi
+    if [ -f /usr/share/fish/vendor_conf.d/ublue-brew.fish ]; then exit 1; fi
+    if [ -f /usr/share/homebrew.tar.zst ]; then exit 1; fi
 ) || { echo "Homebrew uninstallation tests failed!"; exit 1 ; }
 
 # hplip-plugin tests
@@ -112,6 +112,7 @@ IMPORTANT_PACKAGES=(
     systemd
     uld
     hplip
+    distrobox
 )
 
 for package in "${IMPORTANT_PACKAGES[@]}"; do
