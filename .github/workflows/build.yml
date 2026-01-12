@@ -44,8 +44,11 @@ jobs:
           echo "IMAGE_REGISTRY_ALT=${IMAGE_REGISTRY_ALT,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
 
+      # Checkout last 300 commits (for <commits> to work)
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 300
 
       # This is optional, but if you see that your builds are way too big for the runners, you can enable this by uncommenting the following lines:
       - name: Maximize build space
@@ -91,11 +94,10 @@ jobs:
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
+            org.opencontainers.image.version={{date 'YYYYMMDD'}}
             org.opencontainers.image.revision=${{ github.sha }}
             io.artifacthub.package.deprecated=false
             io.artifacthub.package.keywords=${{ env.IMAGE_KEYWORDS }}
-            io.artifacthub.package.license=Apache-2.0
             io.artifacthub.package.logo-url=${{ env.IMAGE_LOGO_URL }}
             io.artifacthub.package.prerelease=false
             containers.bootc=1
@@ -163,7 +165,7 @@ jobs:
           labels: ${{ steps.metadata.outputs.labels }} # Rechunk strips out all the labels during build, this needs to be reapplied here with newline separator
           version: '${{ steps.date.outputs.date_short }}'
           revision: ${{ github.sha }}
-          pretty: '(from ${{ steps.date.outputs.date_short }})'
+          pretty: '(from ${{ github.ref }})'
           git: "${{ github.workspace }}"
           description: >
             Botany Linux <pretty>
