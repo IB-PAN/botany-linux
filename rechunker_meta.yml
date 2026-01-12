@@ -811,6 +811,7 @@ meta:
       - hplip*
     files:
       - /usr/share/hplip/*
+      - /usr/lib/tmpfiles.d/hplip.conf
   sigillum:
     files:
       - /opt/sigillum-sign/*
@@ -843,9 +844,17 @@ meta:
     files:
       - /usr/bin/scrutiny-collector-metrics
       - /usr/lib/systemd/system/scrutiny-*
+      - /usr/share/botany/scrutiny-collector.env
+    dedicated: False
+  beszel:
+    files:
+      - /usr/bin/beszel-agent
+      - /usr/lib/systemd/system/beszel-agent.service
+      - /usr/share/botany/beszel-agent.env
+      - /usr/lib/credstore/beszel_token
+      - /usr/lib/credstore/beszel_key
     dedicated: False
   ookla_speedtest:
     packages:
       - speedtest
     dedicated: False
-
