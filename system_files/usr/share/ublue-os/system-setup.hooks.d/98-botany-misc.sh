@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script botany-misc system 2 || exit 0
+version-script botany-misc system 3 || exit 0
 
 set -x
 
@@ -17,3 +17,9 @@ append_group() {
 
 append_group usershares
 append_group libvirt
+
+# Remove Homebrew remnants
+rm -rf /var/home/linuxbrew /var/lib/homebrew /var/cache/homebrew \
+	/etc/.linuxbrew /etc/profile.d/brew{,-bash-completion}.sh /etc/security/limits.d/30-brew-limits.conf \
+	/etc/systemd/system/{default,multi-user}.target.wants/brew-setup.service \
+    /etc/systemd/system/timers.target.wants/brew-{update,upgrade}.timer

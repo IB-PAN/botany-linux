@@ -30,11 +30,27 @@ for file in "${JSON_FILES[@]}"; do
     ( cat "$file" | jq -j 'empty' ) || { echo "Corrupted JSON file: ${file}... Exiting"; exit 1 ; }
 done
 
+desktop-file-validate \
+  /usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop
+
 # Make sure this garbage never makes it to an image
 test -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service && false
 
-desktop-file-validate \
-  /usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop
+# Make sure Homebrew was removed (rpm -ql ublue-brew + https://github.com/ublue-os/brew)
+(
+    test -f /etc/profile.d/brew-bash-completion.sh && false
+    test -f /etc/profile.d/brew.sh && false
+    test -f /etc/security/limits.d/30-brew-limits.conf && false
+    test -f /usr/lib/systemd/system-preset/01-homebrew.preset && false
+    test -f /usr/lib/systemd/system/brew-setup.service && false
+    test -f /usr/lib/systemd/system/brew-update.service && false
+    test -f /usr/lib/systemd/system/brew-update.timer && false
+    test -f /usr/lib/systemd/system/brew-upgrade.service && false
+    test -f /usr/lib/systemd/system/brew-upgrade.timer && false
+    test -f /usr/lib/tmpfiles.d/homebrew.conf && false
+    test -f /usr/share/fish/vendor_conf.d/ublue-brew.fish && false
+    test -f /usr/share/homebrew.tar.zst && false
+) || { echo "Homebrew uninstallation tests failed!"; exit 1 ; }
 
 # hplip-plugin tests
 (

@@ -22,9 +22,9 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 systemctl disable rpm-ostree-countme.service
 systemctl disable tailscaled.service
 systemctl disable bootloader-update.service
-systemctl disable brew-upgrade.timer
-systemctl disable brew-update.timer
-systemctl disable brew-setup.service
+if [ -e "/usr/lib/systemd/system/brew-upgrade.timer" ]; then systemctl disable brew-upgrade.timer; fi
+if [ -e "/usr/lib/systemd/system/brew-update.timer" ]; then systemctl disable brew-update.timer; fi
+if [ -e "/usr/lib/systemd/system/brew-setup.timer" ]; then systemctl disable brew-setup.service; fi
 systemctl disable rpm-ostreed-automatic.timer
 systemctl disable uupd.timer
 systemctl disable ublue-system-setup.service

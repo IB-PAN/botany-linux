@@ -20,10 +20,26 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd
 
 pdnf remove kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis dosbox-staging \
-    fedora-bookmarks kcm_ublue
+    fedora-bookmarks kcm_ublue ublue-brew
+
+# Make sure to remove these Homebrew files afterwards (they should be a part of ublue-brew packages, but I also see Aurora copies them as layer too...?)
+rm -f /etc/profile.d/brew-bash-completion.sh \
+    /etc/profile.d/brew.sh \
+    /etc/security/limits.d/30-brew-limits.conf \
+    /usr/lib/systemd/system-preset/01-homebrew.preset \
+    /usr/lib/systemd/system/brew-setup.service \
+    /usr/lib/systemd/system/brew-update.service \
+    /usr/lib/systemd/system/brew-update.timer \
+    /usr/lib/systemd/system/brew-upgrade.service \
+    /usr/lib/systemd/system/brew-upgrade.timer \
+    /usr/lib/tmpfiles.d/homebrew.conf \
+    /usr/share/fish/vendor_conf.d/ublue-brew.fish \
+    /usr/share/homebrew.tar.zst
+rm -f /etc/systemd/system/{default,multi-user}.target.wants/brew-setup.service \
+    /etc/systemd/system/timers.target.wants/brew-{update,upgrade}.timer
 
 # remove KDE Akonadi/PIM backend/apps, since they take a lot of resources, are finnicky and we don't currently directly need them
-pdnf remove akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-search kdepimlibs-akonadi kdepimlibs libkdepim kdepim kdepim-runtime kontact
+pdnf remove akonadi akonadi-server akonadi-calendar akonadi-contacts akonadi-search kdepimlibs-akonadi kdepimlibs libkdepim kdepim kdepim-runtime kdepim-addons kontact
 
 # Office suites (LibreOffice)
 pdnf install libreoffice libreoffice-help-pl libreoffice-langpack-pl
