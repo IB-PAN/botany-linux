@@ -102,7 +102,8 @@ sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]
 
 # Starship prompt
 rm -f /etc/skel/.config/starship.toml
-sed -i '/^eval "$(starship init bash)"$/d' /etc/bashrc
+sed -i '/^eval "$(starship init bash)"$/d' /etc/bashrc # they might remove this soon
+if [ -f /etc/profile.d/90-aurora-starship.sh ]; then rm -f /etc/profile.d/90-aurora-starship.sh; fi # they might have this instead of the above
 echo 'export STARSHIP_CONFIG=/usr/share/botany/starship.toml' >> /etc/bashrc
 echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/botany/starship_root.toml; fi' >> /etc/bashrc
 echo 'eval "$(starship init bash)"' >> /etc/bashrc
