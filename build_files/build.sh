@@ -127,7 +127,7 @@ systemctl enable xfs_scrub_all.timer
 
 # Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
-hardlink --ignore-time --method sha1 --respect-xattrs /usr
+hardlink --ignore-time --method sha1 --respect-xattrs /usr /opt
 
 # Cleanup
 rm -rf /tmp/* || true
