@@ -8,6 +8,8 @@ curl --retry 3 -sSL \
 chmod +x /usr/bin/beszel-agent
 touch /usr/share/botany/beszel-agent.env
 echo "HUB_URL=${BESZEL_HUB_URL}" >> /usr/share/botany/beszel-agent.env
-echo "TOKEN=${BESZEL_TOKEN}" >> /usr/share/botany/beszel-agent.env
-echo "KEY=${BESZEL_KEY}" >> /usr/share/botany/beszel-agent.env
+echo "${BESZEL_TOKEN}" > /usr/lib/credstore/beszel_token
+echo "${BESZEL_KEY}" > /usr/lib/credstore/beszel_key
+chown root:root /usr/lib/credstore/beszel_{token,key}
+chmod 600 /usr/lib/credstore/beszel_{token,key}
 systemctl enable beszel-agent.service

@@ -6,6 +6,10 @@ ConditionFirstBoot=no
 
 [Service]
 ExecStart=/usr/bin/beszel-agent
+LoadCredential=beszel_token
+LoadCredential=beszel_key
+Environment=TOKEN_FILE=%d/beszel_token
+Environment=KEY_FILE=%d/beszel_key
 Environment="LISTEN=45876"
 EnvironmentFile=/usr/share/botany/beszel-agent.env
 Restart=on-failure
