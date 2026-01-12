@@ -114,6 +114,9 @@ jobs:
           REGISTRY_PULLER_USER=${{ secrets.REGISTRY_PULLER_USER }}
           REGISTRY_PULLER_PASSWORD=${{ secrets.REGISTRY_PULLER_PASSWORD }}
           SCRUTINY_COLLECTOR_API_ENDPOINT=${{ secrets.SCRUTINY_COLLECTOR_API_ENDPOINT }}
+          BESZEL_HUB_URL=${{ secrets.BESZEL_HUB_URL }}
+          BESZEL_TOKEN=${{ secrets.BESZEL_TOKEN }}
+          BESZEL_KEY=${{ secrets.BESZEL_KEY }}
           EOF
           echo "${{ secrets.MOK_PRIVATE_KEY }}" > MOK.key
           echo "${{ secrets.U2F_KEYS }}" > u2f_keys
