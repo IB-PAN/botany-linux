@@ -23,7 +23,7 @@ env:
   DEFAULT_TAG: "latest"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -129,11 +129,6 @@ jobs:
             --format docker \
             --tag "localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}" \
             --file Containerfile
-        #with:
-          #image: ${{ env.IMAGE_NAME }}
-          #tags: ${{ steps.metadata.outputs.tags }}
-          #labels: ${{ steps.metadata.outputs.labels }}
-          #oci: false
 
       - name: Remove source images
         run: |

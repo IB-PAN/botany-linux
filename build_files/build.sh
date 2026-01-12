@@ -27,7 +27,7 @@ rm -f /etc/ublue-os/system-flatpaks*.list
 
 # Consolidate Just Files
 find /ctx/just -iname '*.just' -exec printf "\n\n" \; -exec cat {} \; >>/usr/share/ublue-os/just/61-botany.just
-echo 'import? "/usr/share/ublue-os/just/61-botany.just"' >>/usr/share/ublue-os/justfile
+echo 'import? "/usr/share/ublue-os/just/61-botany.just"' >>/usr/share/ublue-os/just/00-entry.just
 
 # Restore Discover over Bazaar
 discover_apps=(org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop)

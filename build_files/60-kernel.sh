@@ -11,7 +11,9 @@ fi
 ln -s "$DER_PATH" /etc/pki/akmods/certs/akmods-ublue.der
 mkdir -p /usr/share/ublue-os/etc/pki/akmods/certs/
 ln -sf "$DER_PATH" /usr/share/ublue-os/etc/pki/akmods/certs/akmods-ublue.der
-jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /etc/ublue-os/setup.json | sponge /etc/ublue-os/setup.json
+#jq --arg derpath "$DER_PATH" '.["der-path"] = ($derpath)' /etc/ublue-os/setup.json | sponge /etc/ublue-os/setup.json
+#jq '.["check-secureboot"] = true' /etc/ublue-os/setup.json | sponge /etc/ublue-os/setup.json
+#systemctl enable check-sb-key.service
 
 # Sign kernel
 PUBLIC_KEY_PATH="/ctx/MOK.crt"

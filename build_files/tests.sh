@@ -18,8 +18,6 @@ xmllint --noout \
   /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
 
 JSON_FILES=(
-    /etc/ublue-os/setup.json
-    /etc/ublue-os/motd.json
     /usr/lib/ostree/auth.json
     /usr/share/wallpapers/ibpan_logo/metadata.json
     /usr/share/plasma/look-and-feel/pl.botany.desktop/metadata.json
