@@ -152,8 +152,8 @@ jobs:
           sudo install -D ${XDG_RUNTIME_DIR}/containers/auth.json /run/user/0/containers/auth.json
           sudo install -D ${XDG_RUNTIME_DIR}/containers/auth.json /root/.docker/config.json
 
-          # Try working around Rechunker deficiency of not being able to use private registry auth details
-          skopeo inspect "docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}" > previous.manifest.json
+          # Work around Rechunker not being able to use private registry auth details
+          skopeo inspect "docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}" | tee previous.manifest.json
 
       - name: Run Rechunker
         id: rechunk
@@ -162,7 +162,7 @@ jobs:
         with:
           rechunk: 'ghcr.io/hhd-dev/rechunk:v1.2.4'
           ref: "containers-storage:localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
-          prev-ref: "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+          #prev-ref: "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
           skip_compression: true
           max-layers: 100
           labels: ${{ steps.metadata.outputs.labels }} # Rechunk strips out all the labels during build, this needs to be reapplied here with newline separator
