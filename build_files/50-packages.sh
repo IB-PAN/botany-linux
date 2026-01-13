@@ -13,7 +13,7 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
-    gparted gsmartcontrol btrfs-assistant btrfsmaintenance snapper xfsprogs-xfs_scrub duperemove fdupes \
+    gparted gsmartcontrol btrfs-assistant btrfsmaintenance snapper xfsprogs-xfs_scrub duperemove fdupes ncdu \
     dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose \
     tesseract-langpack-pol tesseract-langpack-eng \
     sane-backends sane-airscan \
