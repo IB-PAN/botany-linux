@@ -4,7 +4,7 @@ checksum=$(sha256sum /usr/share/ublue-os/system-flatpaks*.list | md5sum | awk '{
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany system 8-$checksum || exit 0
+version-script flatpaks-botany system 9-$checksum || exit 0
 
 set -x
 
@@ -41,3 +41,6 @@ flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/fla
 
 # --reinstall --or-update
 xargs -n 5 flatpak --system -y install < /usr/share/ublue-os/system-flatpaks.list
+
+# allow DistroShelf to pull from our container registry
+flatpak override --filesystem=~/.docker/config.json:ro com.ranfdev.DistroShelf
