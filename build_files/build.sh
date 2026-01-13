@@ -109,12 +109,6 @@ echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/bot
 echo 'eval "$(starship init bash)"' >> /etc/bashrc
 sed -r "/(success|error)_symbol/s|=.*|= '[#](bold bright-red)'|" /usr/share/botany/starship.toml > /usr/share/botany/starship_root.toml
 
-# Distrobox config
-mkdir -p /usr/share/distrobox
-echo 'container_manager="podman"' >> /usr/share/distrobox/distrobox.conf
-echo "container_image_default=\"${IMAGE_REGISTRY}/arch-linux-distrobox:latest\"" >> /usr/share/distrobox/distrobox.conf
-echo 'container_name_default="arch"' >> /usr/share/distrobox/distrobox.conf
-
 # Sudo helpers
 chown root:root /etc/sudoers.d/botany
 chmod 440 /etc/sudoers.d/botany
