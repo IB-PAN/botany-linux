@@ -152,6 +152,9 @@ jobs:
           sudo install -D ${XDG_RUNTIME_DIR}/containers/auth.json /run/user/0/containers/auth.json
           sudo install -D ${XDG_RUNTIME_DIR}/containers/auth.json /root/.docker/config.json
 
+          # Try working around Rechunker deficiency of not being able to use private registry auth details
+          skopeo inspect "docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}" > previous.manifest.json
+
       - name: Run Rechunker
         id: rechunk
         uses: hhd-dev/rechunk@v1.2.4
