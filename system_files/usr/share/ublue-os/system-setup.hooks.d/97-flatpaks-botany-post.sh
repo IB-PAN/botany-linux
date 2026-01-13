@@ -4,7 +4,7 @@ checksum=$(sha256sum /usr/share/botany/firefox-* /usr/share/ublue-os/firefox-con
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script flatpaks-botany privileged 5-$checksum || exit 0
+version-script flatpaks-botany-post system 1-$checksum || exit 0
 
 set -x
 
