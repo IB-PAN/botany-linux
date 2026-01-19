@@ -18,7 +18,8 @@ Nice=18
 IOSchedulingClass=idle
 CPUSchedulingPolicy=idle
 CPUQuota=30%
+WorkingDirectory=%I
 ExecStartPre=/bin/mkdir -p ${HashDir}
 ExecStartPre=-/bin/df -h %I
-ExecStart=/usr/bin/duperemove --hashfile=${HashDir}/%i.hashfile -r -d -h $OPTIONS %I
+ExecStart=/usr/bin/duperemove --hashfile=${HashDir}/%i.hashfile -r -d -h -q $OPTIONS %I
 ExecStopPost=-/bin/df -h %I
