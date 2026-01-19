@@ -15,7 +15,8 @@ sbverify --list /usr/lib/modules/*/vmlinuz | grep -qF '/C=PL/L=Krakow/O=Instytut
 
 xmllint --noout \
   /usr/share/backgrounds/default.xml \
-  /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
+  /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml \
+  /usr/lib/naps2/appsettings.xml
 
 JSON_FILES=(
     /usr/lib/ostree/auth.json
