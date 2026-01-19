@@ -14,11 +14,11 @@ if [ "$ARCH" != "aarch64" ] ; then
 	mkdir -p "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/policies"
 	/usr/bin/cp -f /usr/share/botany/firefox-policies.json "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/policies/policies.json"
 
-    mkdir -p "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref"
+	mkdir -p "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref"
 	rm -f "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/*aurora*.js"
 	rm -f "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/*botany*.js"
 	/usr/bin/cp -rf /usr/share/ublue-os/firefox-config/* "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/defaults/pref/"
 
-    # https://github.com/IB-PAN/botany-browser-extension-linux
+	# https://github.com/IB-PAN/botany-browser-extension-linux
 	/usr/bin/cp -f /usr/share/botany/firefox-extension.xpi "/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/${ARCH}/stable/firefox-extension.xpi"
 fi
