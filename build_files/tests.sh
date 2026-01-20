@@ -146,7 +146,7 @@ IMPORTANT_UNITS=(
     scrutiny-collector.timer
     btrfs-scrub.timer
     xfs_scrub_all.timer
-    duperemove-weekly@$(systemd-escape /var/home).timer
+    #duperemove-weekly@$(systemd-escape /var/home).timer
 )
 
 for unit in "${IMPORTANT_UNITS[@]}"; do

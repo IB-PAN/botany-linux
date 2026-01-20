@@ -110,7 +110,7 @@ for line in "${raw_btrfs_output[@]}"; do
 			# https://github.com/Zygo/bees/blob/master/docs/options.md#load-management-options
 			sed -i "s/^UUID=.*/UUID=${uuid}/" "/etc/bees/${uuid}.conf"
 			sed -i "s/# DB_SIZE=.*/DB_SIZE=${db_size}/" "/etc/bees/${uuid}.conf"
-			echo "Created /etc/bees/${uuid}.conf with DB_SIZE=${db_size} bytes"
+			echo "Created /etc/bees/${uuid}.conf with DB_SIZE=$((db_size / 1024**2)) MB"
 
 			# Only start the service if enough memory is free
 			# Per service as hash table size may differ in each configuration
