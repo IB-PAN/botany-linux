@@ -22,7 +22,7 @@ append_group libvirt
 rm -rf /var/home/linuxbrew /var/lib/homebrew /var/cache/homebrew \
 	/etc/.linuxbrew /etc/profile.d/brew{,-bash-completion}.sh /etc/security/limits.d/30-brew-limits.conf \
 	/etc/systemd/system/{default,multi-user}.target.wants/brew-setup.service \
-    /etc/systemd/system/timers.target.wants/brew-{update,upgrade}.timer
+	/etc/systemd/system/timers.target.wants/brew-{update,upgrade}.timer
 
 # Remove duperemove database if it was made before the period where it was overly inflated
 if [ -d /var/lib/duperemove ]; then

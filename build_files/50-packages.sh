@@ -96,6 +96,9 @@ copr_install_isolated "birkch/QDiskInfo" "QDiskInfo"
 # kio-onedrive
 copr_install_isolated "bernardogn/kio-onedrive" "kio-onedrive"
 
+# bees
+copr_install_isolated "ublue-os/bazzite" "bees"
+
 # Ookla Speedtest
 rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
 pdnf config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli

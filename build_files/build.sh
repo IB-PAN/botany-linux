@@ -114,7 +114,7 @@ chown root:root /etc/sudoers.d/botany
 chmod 440 /etc/sudoers.d/botany
 
 # Deduplication service
-systemctl enable duperemove-weekly@$(systemd-escape /var/home).timer
+systemctl disable duperemove-weekly@$(systemd-escape /var/home).timer # this is what we used before, now disabled
 
 # Filesystem scrubbing
 sed -i \
