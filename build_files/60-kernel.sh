@@ -2,10 +2,6 @@
 
 set -ouex pipefail
 
-# Try fixing lack of zstd compression on btrfs
-#sed '/if \[\[ $use_fstab != yes \]\] && \[\[ $_fstype == btrfs \]\]; then/a Test' 
-sed -i '/printf " rootflags=%s" "$_flags"/i if [[ $_fstype == btrfs ]]; then _flags="$_flags,compress-force=zstd:1"; fi' /usr/lib/dracut/modules.d/95rootfs-block/module-setup.sh
-
 # Deploy Secure Boot MOK keys
 DER_PATH=/etc/pki/akmods/certs/botany.der
 cp /ctx/MOK.der "$DER_PATH"

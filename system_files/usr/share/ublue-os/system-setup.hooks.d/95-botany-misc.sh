@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script botany-misc system 4 || exit 0
+version-script botany-misc system 5 || exit 0
 
 set -x
 
@@ -27,4 +27,9 @@ rm -rf /var/home/linuxbrew /var/lib/homebrew /var/cache/homebrew \
 # Remove duperemove database if it was made before the period where it was overly inflated
 if [ -d /var/lib/duperemove ]; then
 	find /var/lib/duperemove -name '-var-home.hashfile*' -exec bash -c 'LC_ALL=C stat "$0" | grep -qF "Birth: 2025-" && rm -f "$0"' {} \;
+fi
+
+# Do ZSTD compression for BTRFS (append compress-force=zstd:1 to rootflags=subvol=root)
+if [[ -d /boot/loader/entries && -w /boot/loader/entries ]]; then # directory and writable
+	find /boot/loader/entries -name 'ostree-*.conf' | xargs sed -ie 's!\(rootflags=subvol=root\)\( \|$\)!\1,compress-force=zstd:1\2!g' >/dev/null
 fi
