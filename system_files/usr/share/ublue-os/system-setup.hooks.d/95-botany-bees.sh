@@ -12,7 +12,7 @@ set -x
 # Constants for bees hash table sizing
 readonly MIN_FS_TB=1
 readonly MAX_FS_TB=4
-readonly HASH_SIZE_MB_PER_TB=512
+readonly HASH_SIZE_MB_PER_TB=256
 
 remove_beesd_config() {
 	local uuid="$1"
