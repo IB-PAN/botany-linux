@@ -1,3 +1,3 @@
 [General]
-Prepend=preferred://browser;systemsettings.desktop;org.kde.dolphin.desktop;org.kde.krusader.desktop;org.kde.kate.desktop;org.kde.discover.desktop;onlyoffice-desktopeditors.desktop;libreoffice-startcenter.desktop;com.github.IsmaelMartinez.teams_for_linux.desktop;org.kde.plasma-systemmonitor.desktop
+Prepend=preferred://browser;systemsettings.desktop;org.kde.dolphin.desktop;org.kde.krusader.desktop;org.kde.kate.desktop;io.github.kolunmi.Bazaar.desktop;onlyoffice-desktopeditors.desktop;libreoffice-startcenter.desktop;com.github.IsmaelMartinez.teams_for_linux.desktop;org.kde.plasma-systemmonitor.desktop
 IgnoreDefaults=true

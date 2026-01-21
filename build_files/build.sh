@@ -30,13 +30,13 @@ find /ctx/just -iname '*.just' -exec printf "\n\n" \; -exec cat {} \; >>/usr/sha
 echo 'import? "/usr/share/ublue-os/just/61-botany.just"' >>/usr/share/ublue-os/just/00-entry.just
 
 # Restore Discover over Bazaar
-discover_apps=(org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop)
-for app in "${discover_apps[@]}"; do
-    if [ -f "/usr/share/applications/${app}.disabled" ]; then
-        mv "/usr/share/applications/${app}.disabled" "/usr/share/applications/${app}"
-    fi
-done
-sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /usr/share/applications/mimeapps.list
+#discover_apps=(org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop)
+#for app in "${discover_apps[@]}"; do
+#    if [ -f "/usr/share/applications/${app}.disabled" ]; then
+#        mv "/usr/share/applications/${app}.disabled" "/usr/share/applications/${app}"
+#    fi
+#done
+#sed -i 's!^application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop;*$!!g' /usr/share/applications/mimeapps.list
 
 rm -f /usr/share/applications/{documentation,Discourse,dev.getaurora.aurora-docs}.desktop
 rm -f /usr/share/kglobalaccel/dev.getaurora.aurora-docs.desktop
