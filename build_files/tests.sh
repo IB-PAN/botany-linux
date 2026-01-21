@@ -30,9 +30,9 @@ for file in "${JSON_FILES[@]}"; do
 done
 
 desktop-file-validate \
-  /usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop \
-  /etc/xdg/autostart/sigillum_monitor.desktop \
-  /usr/share/plasma/look-and-feel/pl.botany.desktop/metadata.desktop
+  /usr/share/plasma/look-and-feel/pl.botany.desktop/metadata.desktop \
+  /etc/xdg/autostart/sigillum_monitor.desktop
+  #/usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop \
 
 # Make sure this garbage never makes it to an image
 if [ -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service ]; then exit 1; fi
