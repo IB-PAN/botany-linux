@@ -6,4 +6,4 @@ alias bsudo=botany_sudo
 alias bsu=botany_su
 alias badm=botany_adm
 
-alias msedit='/usr/bin/msedit'
+alias edit='/usr/bin/msedit'
