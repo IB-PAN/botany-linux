@@ -97,9 +97,6 @@ run_parallel \
     /ctx/build_files/60-teamviewer.sh \
     /ctx/build_files/60-kernel.sh
 
-# Favorites in Kickoff
-sed -i '/<entry name="launchers" type="StringList">/,/<\/entry>/ s/<default>[^<]*<\/default>/<default>preferred:\/\/browser,preferred:\/\/filemanager<\/default>/' /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
-
 # Starship prompt
 rm -f /etc/skel/.config/starship.toml
 sed -i '/^eval "$(starship init bash)"$/d' /etc/bashrc # they might remove this soon

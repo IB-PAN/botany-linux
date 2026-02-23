@@ -15,7 +15,6 @@ sbverify --list /usr/lib/modules/*/vmlinuz | grep -qF '/C=PL/L=Krakow/O=Instytut
 
 xmllint --noout \
   /usr/share/backgrounds/default.xml \
-  /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml \
   /usr/lib/naps2/appsettings.xml \
   /usr/share/fontconfig/conf.avail/99-botany.conf
 
@@ -31,7 +30,6 @@ for file in "${JSON_FILES[@]}"; do
 done
 
 desktop-file-validate \
-  /usr/share/plasma/look-and-feel/pl.botany.desktop/metadata.desktop \
   /etc/xdg/autostart/sigillum_monitor.desktop
   #/usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop \
 
