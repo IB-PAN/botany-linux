@@ -106,6 +106,9 @@ echo 'if [[ "$(whoami)" == "root" ]]; then export STARSHIP_CONFIG=/usr/share/bot
 echo 'eval "$(starship init bash)"' >> /etc/bashrc
 sed -r "/(success|error)_symbol/s|=.*|= '[#](bold bright-red)'|" /usr/share/botany/starship.toml > /usr/share/botany/starship_root.toml
 
+# Disable uupd from updating brew (since we removed Homebrew)
+sed -i 's|uupd|& --disable-module-brew|' /usr/lib/systemd/system/uupd.service
+
 # Sudo helpers
 chown root:root /etc/sudoers.d/botany
 chmod 440 /etc/sudoers.d/botany
