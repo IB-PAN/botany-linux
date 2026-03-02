@@ -12,11 +12,13 @@ jq --arg desktopName "rstudio.desktop" '.["desktopName"] = ($desktopName)' /usr/
 
 # Extra CRAN packages using cran2copr repo
 # - languageserver is needed for VS Code extension
-#copr_install_isolated "iucar/cran" "R-CRAN-languageserver" \
-#    "R-CRAN-rmarkdown" "R-CRAN-rgbif" "R-CRAN-spocc" "R-CRAN-maps" "R-CRAN-mapproj" "R-CRAN-mapdata" "R-CRAN-dismo" "R-CRAN-raster" "R-CRAN-plotly" \
-#    "R-CRAN-RColorBrewer" "R-CRAN-tidyverse" "R-CRAN-readxl"
+mkdir -p /usr/local/lib/R/library/
+copr_install_isolated "iucar/cran" "R-CRAN-languageserver" \
+    "R-CRAN-rmarkdown" "R-CRAN-rgbif" "R-CRAN-spocc" "R-CRAN-maps" "R-CRAN-mapproj" "R-CRAN-mapdata" "R-CRAN-dismo" "R-CRAN-raster" "R-CRAN-plotly" \
+    "R-CRAN-RColorBrewer" "R-CRAN-tidyverse" "R-CRAN-readxl"
 
 # R-CRAN packages install to wrong dir...
-#rsync -avh --remove-source-files /usr/local/lib/R/library/ /usr/lib64/R/library/
+rsync -avh --remove-source-files /usr/local/lib/R/library/ /usr/lib64/R/library/
+rm -rf /usr/local/lib/R/library/
 
 #copr_install_isolated "@copr/PyPI" "python-radian"
