@@ -30,7 +30,8 @@ for file in "${JSON_FILES[@]}"; do
 done
 
 desktop-file-validate \
-  /etc/xdg/autostart/sigillum_monitor.desktop
+  /etc/xdg/autostart/sigillum_monitor.desktop \
+  /usr/share/applications/openrefine.desktop
   #/usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop \
 
 # Make sure this garbage never makes it to an image

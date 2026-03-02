@@ -850,3 +850,9 @@ meta:
       - rstudio
     files:
       - /usr/lib/rstudio/*
+  openrefine:
+    files:
+      - /opt/openrefine/*
+      - /usr/share/licenses/openrefine/*
+      - /usr/share/applications/openrefine.desktop
+      - /usr/share/icons/hicolor/scalable/apps/openrefine.svg
