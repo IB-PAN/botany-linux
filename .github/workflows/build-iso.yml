@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload to Job Artifacts
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.image_ref.outputs.artifact_format }}
           if-no-files-found: error
