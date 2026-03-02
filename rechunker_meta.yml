@@ -846,8 +846,12 @@ meta:
     packages:
       - R
       - R-*
+      - R-CRAN-*
       - libR*
+  rstudio:
+    packages:
       - rstudio
+      - rstudio-*
     files:
       - /usr/lib/rstudio/*
   openrefine:

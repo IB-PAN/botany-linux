@@ -15,7 +15,9 @@ copr_install_isolated() {
         return 1
     fi
 
-    repo_id="copr:copr.fedorainfracloud.org:${copr_name//\//:}"
+    repo_id_fragment="${copr_name//\//:}"
+    repo_id_fragment="${repo_id_fragment//@/group_}"
+    repo_id="copr:copr.fedorainfracloud.org:${repo_id_fragment}"
 
     echo "Installing ${packages[*]} from COPR $copr_name (isolated)"
 

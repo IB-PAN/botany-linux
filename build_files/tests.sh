@@ -23,16 +23,23 @@ JSON_FILES=(
     /usr/share/wallpapers/ibpan_logo/metadata.json
     /usr/share/plasma/look-and-feel/pl.botany.desktop/metadata.json
     /usr/share/botany/firefox-policies.json
+    /usr/libexec/rstudio/package.json
 )
 for file in "${JSON_FILES[@]}"; do
     test -f "$file" || { echo "Missing JSON file: ${file}... Exiting"; exit 1 ; }
     ( cat "$file" | jq -j 'empty' ) || { echo "Corrupted JSON file: ${file}... Exiting"; exit 1 ; }
 done
 
-desktop-file-validate \
-  /etc/xdg/autostart/sigillum_monitor.desktop \
-  /usr/share/applications/openrefine.desktop
-  #/usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop \
+DESKTOP_FILES=(
+    /etc/xdg/autostart/sigillum_monitor.desktop
+    /usr/share/applications/openrefine.desktop
+    /usr/share/applications/rstudio.desktop
+)
+#/usr/share/applications/org.kde.discover{,.flatpak,.notifier,.urlhandler}.desktop
+for file in "${DESKTOP_FILES[@]}"; do
+    test -f "$file" || { echo "Missing desktop file: ${file}... Exiting"; exit 1 ; }
+    ( desktop-file-validate "$file" ) || { echo "Corrupted desktop file: ${file}... Exiting"; exit 1 ; }
+done
 
 # Make sure this garbage never makes it to an image
 if [ -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service ]; then exit 1; fi
