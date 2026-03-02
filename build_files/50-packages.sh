@@ -54,7 +54,7 @@ systemctl enable swtpm-workaround.service
 systemctl enable ublue-os-libvirt-workarounds.service
 
 # swapspace daemon (dynamic swap files creation)
-rpm --import https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/repodata/repomd.xml.key
+prpm --import https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/repodata/repomd.xml.key
 pdnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/filesystems/openSUSE_Tumbleweed/filesystems.repo --save-filename=openSUSE_Tumbleweed_filesystems
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/openSUSE_Tumbleweed_filesystems.repo
 pdnf install --from-repo=filesystems swapspace
@@ -62,7 +62,7 @@ sed -i 's!/usr/local/sbin/swapspace!/usr/sbin/swapspace!' /usr/lib/systemd/syste
 systemctl enable swapspace.service
 
 # kopia.io
-rpm --import https://kopia.io/signing-key
+prpm --import https://kopia.io/signing-key
 tee /etc/yum.repos.d/kopia.repo <<EOF
 [Kopia]
 name=Kopia
@@ -79,7 +79,7 @@ install -Dm644 <(echo 'eval "$(kopia --completion-script-bash)"') /usr/share/bas
 rm -f /opt/KopiaUI/resources/app-update.yml
 
 # Visual Studio Code
-rpm --import https://packages.microsoft.com/keys/microsoft.asc
+prpm --import https://packages.microsoft.com/keys/microsoft.asc
 tee /etc/yum.repos.d/vscode.repo <<'EOF'
 [code]
 name=Visual Studio Code
@@ -101,7 +101,7 @@ copr_install_isolated "bernardogn/kio-onedrive" "kio-onedrive"
 copr_install_isolated "ublue-os/bazzite" "bees"
 
 # Ookla Speedtest
-rpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
+prpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
 pdnf config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/ookla_speedtest_cli.repo
 echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros

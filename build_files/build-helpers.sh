@@ -5,6 +5,10 @@ pdnf() {
     flock /tmp/dnf5.lock dnf5 -y "$@"
 }
 
+prpm() {
+    flock /tmp/dnf5.lock rpm "$@"
+}
+
 copr_install_isolated() {
     local copr_name="$1"
     shift
@@ -78,7 +82,7 @@ pdnf_install_rpm_checksig() {
     echo "[pdnf_install_rpm_checksig] Downloading ${URL}..."
     RPM_FILENAME=$(curl --no-progress-meter --retry 3 -OJL "$URL" -w "%{filename_effective}")
     echo "[pdnf_install_rpm_checksig] Checking signature of ${RPM_FILENAME}..."
-    rpm --checksig "$RPM_FILENAME"
+    prpm --checksig "$RPM_FILENAME"
     echo "[pdnf_install_rpm_checksig] Installing ${RPM_FILENAME}..."
     pdnf install "$RPM_FILENAME"
     echo "[pdnf_install_rpm_checksig] Done."

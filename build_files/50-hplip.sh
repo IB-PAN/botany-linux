@@ -6,7 +6,7 @@ source /ctx/build_files/build-helpers.sh
 
 # HPLIP firmware and plugins
 gpg --yes --keyserver keyserver.ubuntu.com --recv 82FFA7C6AA7411D934BDE173AC69536A2CF3A243 # HPLIP (HP Linux Imaging and Printing) <hplip@hp.com>
-HPLIP_VERSION=$(rpm -q --queryformat '%{VERSION}' hplip-common)
+HPLIP_VERSION=$(prpm -q --queryformat '%{VERSION}' hplip-common)
 curl --no-progress-meter --retry 3 -Lo /tmp/hplip-plugin.run https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run
 curl --no-progress-meter --retry 3 -Lo /tmp/hplip-plugin.run.asc https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-${HPLIP_VERSION}-plugin.run.asc
 gpg --yes --verify /tmp/hplip-plugin.run.asc /tmp/hplip-plugin.run
