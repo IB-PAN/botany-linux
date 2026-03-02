@@ -69,3 +69,17 @@ pdnf_install_rpm() {
     rm -f "$RPM_FILENAME"
     popd
 }
+
+pdnf_install_rpm_checksig() {
+    URL="$1"
+    pushd /tmp
+    echo "[pdnf_install_rpm_checksig] Downloading ${URL}..."
+    RPM_FILENAME=$(curl --no-progress-meter --retry 3 -OJL "$URL" -w "%{filename_effective}")
+    echo "[pdnf_install_rpm_checksig] Checking signature of ${RPM_FILENAME}..."
+    rpm --checksig "$RPM_FILENAME"
+    echo "[pdnf_install_rpm_checksig] Installing ${RPM_FILENAME}..."
+    pdnf install "$RPM_FILENAME"
+    echo "[pdnf_install_rpm_checksig] Done."
+    rm -f "$RPM_FILENAME"
+    popd
+}

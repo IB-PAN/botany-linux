@@ -63,7 +63,8 @@ run_parallel \
     /ctx/build_files/50-fonts.sh \
     /ctx/build_files/50-dlibra.sh \
     /ctx/build_files/50-scrutiny.sh \
-    /ctx/build_files/50-beszel.sh
+    /ctx/build_files/50-beszel.sh \
+    /ctx/build_files/50-rstudio.sh
 
 #### Enabling a System Unit File
 

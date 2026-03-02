@@ -17,7 +17,8 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose \
     tesseract-langpack-pol tesseract-langpack-eng \
     sane-backends sane-airscan \
-    orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd
+    orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd \
+    R
 
 pdnf remove kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis dosbox-staging \
     fedora-bookmarks kcm_ublue
