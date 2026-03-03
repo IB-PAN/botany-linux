@@ -90,6 +90,14 @@ test -f /opt/KopiaUI/resources/server/kopia
 test -L /usr/bin/kopia
 /usr/bin/kopia --version | grep -qF "from: kopia/kopia"
 
+# Make sure there's no artifacts from Arch's packages being improperly unpacked
+if [[ -e /.BUILDINFO || -e /.MTREE || -e /.PKGINFO ]]; then exit 1; fi
+
+# pdf-xchange
+test -e /usr/bin/pdf-xchange
+test -d /usr/lib/pdf-xchange
+test -f /usr/share/applications/pdf-xchange.desktop
+
 # Check for KDE Plasma version mismatch
 # Fedora Repos have gotten the newer one, trying to upgrade
 # everything except a few packages, breaking SDDM and shell
