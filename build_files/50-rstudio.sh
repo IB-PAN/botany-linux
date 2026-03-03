@@ -4,6 +4,8 @@ set -ouex pipefail
 
 source /ctx/build_files/build-helpers.sh
 
+pdnf install R
+
 # RStudio Desktop
 copr_install_isolated "iucar/rstudio" "rstudio-desktop" "rstudio-server"
 

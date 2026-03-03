@@ -8,7 +8,7 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
     pam-u2f pamu2fcfg fido2-tools yubikey-manager fprintd fprintd-pam \
     gnome-commander doublecmd-qt6 \
-    kcalc gwenview okular kweather krecorder haruna kolourpaint kcolorchooser qdirstat kdiskmark filelight cpu-x audacity \
+    kcalc gwenview okular kweather krecorder haruna kolourpaint kcolorchooser qdirstat kdiskmark filelight cpu-x audacity diffpdf \
     sbsigntools zram-generator stress stress-ng memtester monitor-edid edid-decode drm_info rocm-smi igt-gpu-tools \
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
@@ -17,8 +17,7 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose \
     tesseract-langpack-pol tesseract-langpack-eng \
     sane-backends sane-airscan \
-    orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd \
-    R
+    orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd
 
 pdnf remove kde-connect kde-connect-libs kde-connect-nautilus fcitx fcitx5 input-remapper tailscale ptyxis dosbox-staging \
     fedora-bookmarks kcm_ublue
