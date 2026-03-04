@@ -164,6 +164,7 @@ IMPORTANT_UNITS=(
     btrfs-scrub.timer
     xfs_scrub_all.timer
     #duperemove-weekly@$(systemd-escape /var/home).timer
+    ananicy-cpp.service
 )
 
 for unit in "${IMPORTANT_UNITS[@]}"; do
