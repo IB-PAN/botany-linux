@@ -6,7 +6,7 @@ source /ctx/build_files/build-helpers.sh
 
 pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils xlsclients nodejs \
     krusader krename kompare md5sum lhasa unrar xz-lzma-compat \
-    pam-u2f pamu2fcfg fido2-tools yubikey-manager fprintd fprintd-pam \
+    pam-u2f pamu2fcfg fido2-tools yubikey-manager fprintd fprintd-pam cups-pk-helper \
     gnome-commander doublecmd-qt6 \
     kcalc gwenview okular kweather krecorder haruna kolourpaint kcolorchooser qdirstat kdiskmark filelight cpu-x audacity diffpdf \
     sbsigntools zram-generator stress stress-ng memtester monitor-edid edid-decode drm_info rocm-smi igt-gpu-tools \
