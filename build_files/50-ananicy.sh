@@ -19,7 +19,7 @@ git clone --recursive --depth 1 https://gitlab.com/ananicy-cpp/ananicy-cpp.git /
 
 pushd /tmp/ananicy-cpp
 
-cmake -S . -Bbuild \
+CXXFLAGS="-include unistd.h" cmake -S . -Bbuild \
     -GNinja \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
