@@ -814,12 +814,9 @@ meta:
   nodejs:
     packages:
       - nodejs*
-  java-21:
+  java:
     packages:
-      - java-21-*
-  java-25:
-    packages:
-      - java-25-*
+      - java-*
   ms-fonts:
     files:
       - /usr/share/fonts/Microsoft-365-Fonts/*
