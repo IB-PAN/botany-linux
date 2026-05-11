@@ -97,7 +97,7 @@ copr_install_isolated "birkch/QDiskInfo" "QDiskInfo"
 copr_install_isolated "bernardogn/kio-onedrive" "kio-onedrive"
 
 # bees
-copr_install_isolated "ublue-os/bazzite" "bees"
+copr_install_isolated "ririko66z/Packages" "bees"
 
 # Ookla Speedtest
 prpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
