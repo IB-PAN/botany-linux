@@ -14,4 +14,13 @@ pdnf config-manager setopt adoptium-temurin-java-repository.enabled=1
 
 # dLibra
 curl --no-progress-meter --retry 3 -Lo /usr/share/icons/dlibra-soft-icon.png https://rcin.org.pl/jnlp2/softIcon.png
-pdnf install icedtea-web
+pdnf install icedtea-web temurin-21-jdk
+
+rm -rf /usr/lib/jvm/{java-21-openjdk,jre-21}
+rm -rf /etc/alternatives/jre_21
+
+ln -sf /usr/lib/jvm/java-21-temurin-jdk /usr/lib/jvm/java-21-openjdk
+ln -sf /usr/lib/jvm/java-21-temurin-jdk /etc/alternatives/jre_21
+ln -sf /usr/lib/jvm/java-21-temurin-jdk /etc/alternatives/jre_21_openjdk
+ln -sf /etc/alternatives/jre_21 /usr/lib/jvm/jre-21
+ln -sf /etc/alternatives/jre_21 /usr/lib/jvm/jre-21-openjdk

@@ -817,6 +817,8 @@ meta:
   java:
     packages:
       - java-*
+      - temurin-*
+      - adoptium-temurin-java-*
   ms-fonts:
     files:
       - /usr/share/fonts/Microsoft-365-Fonts/*
