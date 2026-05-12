@@ -99,10 +99,5 @@ copr_install_isolated "bernardogn/kio-onedrive" "kio-onedrive"
 # bees
 copr_install_isolated "ririko66z/Packages" "bees"
 
-# Ookla Speedtest
-#prpm --import https://packagecloud.io/ookla/speedtest-cli/gpgkey
-#pdnf config-manager addrepo --from-repofile="https://packagecloud.io/install/repositories/ookla/speedtest-cli/config_file.repo?os=fedora&dist=36" --save-filename=ookla_speedtest_cli
-#sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/ookla_speedtest_cli.repo
-#echo -e '%_pkgverify_level none\n%_pkgverify_flags 0x0' >> /root/.rpmmacros
-#pdnf install --nogpgcheck --from-repo=ookla_speedtest-cli speedtest
-#rm -f /root/.rpmmacros
+# starship
+copr_install_isolated "atim/starship" "starship"
