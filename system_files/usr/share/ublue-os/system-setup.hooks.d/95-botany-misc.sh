@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script botany-misc system 5 || exit 0
+version-script botany-misc system 6 || exit 0
 
 set -x
 
@@ -17,6 +17,7 @@ append_group() {
 
 append_group usershares
 append_group libvirt
+append_group printadmin
 
 # Remove Homebrew remnants
 rm -rf /var/home/linuxbrew /var/lib/homebrew /var/cache/homebrew \
@@ -32,4 +33,11 @@ fi
 # Do ZSTD compression for BTRFS (append compress-force=zstd:1 to rootflags=subvol=root)
 if [[ -d /boot/loader/entries && -w /boot/loader/entries ]]; then # directory and writable
 	find /boot/loader/entries -name 'ostree-*.conf' | xargs sed -ie 's!\(rootflags=subvol=root\)\( \|$\)!\1,compress-force=zstd:1\2!g' >/dev/null
+fi
+
+# Allow user group "printadmin" to manage CUPS
+if [ -f /etc/cups/cups-files.conf ]; then
+	if grep -q '^SystemGroup sys root wheel$' /etc/cups/cups-files.conf; then
+		sed -i 's/^SystemGroup sys root wheel$/SystemGroup sys root wheel printadmin/g' /etc/cups/cups-files.conf
+	fi
 fi
