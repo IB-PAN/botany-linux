@@ -10,7 +10,7 @@ LoadCredential=beszel_token
 LoadCredential=beszel_key
 Environment=TOKEN_FILE=%d/beszel_token
 Environment=KEY_FILE=%d/beszel_key
-Environment="LISTEN=45876"
+Environment="LISTEN=127.0.0.1:45876"
 EnvironmentFile=/usr/share/botany/beszel-agent.env
 Restart=on-failure
 RestartSec=5

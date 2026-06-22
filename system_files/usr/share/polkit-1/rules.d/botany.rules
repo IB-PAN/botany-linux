@@ -1,6 +1,9 @@
 // cups-pk-helper: allow everyone to manage printers
 polkit.addRule(function(action, subject) { 
-    if (action.id.startsWith("org.opensuse.cupspkhelper.mechanism.")) {
+    if (action.id.startsWith("org.opensuse.cupspkhelper.mechanism.")
+        /*&& subject.local && subject.active*/) {
         return polkit.Result.YES; 
-    } 
+    }
+
+    return polkit.Result.NOT_HANDLED;
 });

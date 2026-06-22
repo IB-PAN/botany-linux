@@ -2,7 +2,7 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script botany-misc user 2 || exit 0
+version-script botany-misc user 3 || exit 0
 
 set -x
 
@@ -14,4 +14,9 @@ fi
 if [[ ! -f "$HOME"/.var/app/org.gnome.Crosswords/config/glib-2.0/settings/keyfile ]]; then
 	mkdir -p "$HOME"/.var/app/org.gnome.Crosswords/config/glib-2.0/settings/
 	echo -e "[org/gnome/Crosswords]\nshown-puzzle-sets=['technopol-daily']" > "$HOME"/.var/app/org.gnome.Crosswords/config/glib-2.0/settings/keyfile
+fi
+
+# The executable for this is gone, so remove the bogus autostart file
+if [[ -f "$HOME"/.config/autostart/sb-key-notify.desktop ]]; then
+	rm -f "$HOME"/.config/autostart/sb-key-notify.desktop
 fi

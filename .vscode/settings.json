@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "**/polkit-1/rules.d/*.rules": "javascript"
+    }
+}
