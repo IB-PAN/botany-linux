@@ -1,0 +1,11 @@
+#!/bin/bash
+
+uuid="$1"
+
+size_bytes="$(lsblk --fs --list --noheadings --output "SIZE" --filter "UUID == \"$uuid\"" --bytes)"
+db_size="$(cat /etc/bees/$uuid.conf | grep '^DB_SIZE=' | sed 's/DB_SIZE=//g;s/\s*//g')"
+
+# Convert db_size from bytes to MB for memory threshold
+mem_thresh_mb=$((db_size / 1024**2))
+
+test $(free -m | awk '/^Mem:/ {print $7}') -gt ${mem_thresh_mb}

@@ -2,9 +2,20 @@
 
 source /usr/lib/ublue/setup-services/libsetup.sh
 
-version-script botany-bees system 1 || exit 0
+version-script botany-bees system 2 || exit 0
 
 set -x
+
+# Update: remove old override.conf files
+find /etc/systemd/system -type d -name "beesd@*.service.d" | while read -r parentdir; do
+	local file="$parentdir/override.conf"
+	if [[ -f "$file" ]]; then
+		if [[ -z "$(grep -vP '^(\[Service\]|ExecCondition=/bin/sh -c "test \$\(free -m.*)$' $file)" ]]; then
+			echo "Removing outdated beesd override.conf file at: $file"
+			rm -r "$file"
+		fi
+	fi
+done
 
 # adapted from:
 # https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/just/82-bazzite-beesd.just
@@ -82,14 +93,8 @@ if [[ -d "/etc/bees" ]]; then
 fi
 
 # Create menu options and size map
-menu_options=()
-unset filesystem_size_map
-declare -A filesystem_size_map
 for line in "${raw_btrfs_output[@]}"; do
 	read -r name uuid size_bytes <<< "$line"
-	# Convert bytes to human readable for display
-	size_human=$(numfmt --to=iec-i --suffix=B "$size_bytes")
-	filesystem_size_map["$uuid"]="$size_bytes"
 
 	if ! [[ -n "${configured_uuids[$uuid]}" ]]; then
 		if [[ "$uuid" == "$UUID_SYSROOT" ]]; then # /sysroot
@@ -102,8 +107,6 @@ for line in "${raw_btrfs_output[@]}"; do
 			# Size MUST be multiple of 128KB
 			# DB_SIZE=$((1024*1024*1024)) # 1G in bytes
 			db_size=$((size_tb * $HASH_SIZE_MB_PER_TB * 1024**2))
-			# Convert db_size from bytes to MB for memory threshold
-			mem_thresh_mb=$((db_size / 1024**2))
 
 			mkdir -p /etc/bees
 			cp /usr/etc/bees/beesd.conf.sample "/etc/bees/${uuid}.conf"
@@ -112,15 +115,6 @@ for line in "${raw_btrfs_output[@]}"; do
 			sed -i "s/# DB_SIZE=.*/DB_SIZE=${db_size}/" "/etc/bees/${uuid}.conf"
 			echo "Created /etc/bees/${uuid}.conf with DB_SIZE=$((db_size / 1024**2)) MB"
 
-			# Only start the service if enough memory is free
-			# Per service as hash table size may differ in each configuration
-			mkdir -p "/etc/systemd/system/beesd@${uuid}.service.d"
-			{
-				echo "[Service]"
-				echo "ExecCondition=/bin/sh -c \"test \$(free -m | awk '/^Mem:/ {print \$7}') -gt ${mem_thresh_mb}\""
-			} | tee "/etc/systemd/system/beesd@${uuid}.service.d/override.conf" > /dev/null
-
-			systemctl daemon-reload
 			systemctl enable --now "beesd@${uuid}.timer"
 		fi
 	fi
