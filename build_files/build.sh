@@ -133,7 +133,9 @@ systemctl enable xfs_scrub_all.timer
 
 # Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
-hardlink --ignore-time --method sha1 --respect-xattrs /usr /opt
+# Disabled due to error in CI: hardlink: misc-utils/hardlink.c:581: file_xattrs_equal: Assertion `(len_a > 0) && (len_a == len_b)' failed.
+# (I am also not sure if the hardlinks get propagated all the way to the final installation drive)
+#hardlink --ignore-time --method sha1 --respect-xattrs /usr /opt
 
 # Cleanup
 rm -rf /tmp/* || true
