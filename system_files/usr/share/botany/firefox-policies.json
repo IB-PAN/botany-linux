@@ -10,7 +10,7 @@
       },
       {
         "name": "Strona Instytutu Botaniki",
-        "url": "https://botany.pl"
+        "url": "https://botany.edu.pl"
       },
       {
         "name": "Biuletyn Informacji Publicznej",
@@ -26,6 +26,10 @@
           {
             "name": "Repozytorium Cyfrowe Instytutów Naukowych — IB PAN",
             "url": "https://rcin.org.pl/dlibra/collectiondescription/428"
+          },
+          {
+            "name": "Narzędzia ATPOL",
+            "url": "https://ib-pan.github.io/atpol.js/"
           }
         ]
       }
@@ -40,9 +44,9 @@
       "Add": [
         {
           "Name": "Strona IB PAN",
-          "URLTemplate": "https://botany.pl/pl/search-results-pl?q={searchTerms}",
+          "URLTemplate": "https://botany.edu.pl/pl/search-results-pl?q={searchTerms}",
           "Method": "GET",
-          "IconURL": "https://botany.pl/favicon.ico",
+          "IconURL": "https://botany.edu.pl/favicon.ico",
           "Alias": "@ibpan",
           "Description": "Przeszukaj stronę Instytutu Botaniki PAN"
         },
