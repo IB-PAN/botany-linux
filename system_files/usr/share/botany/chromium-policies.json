@@ -1,0 +1,95 @@
+{
+  "EssentialSearchEnabled": true,
+  "UrlKeyedAnonymizedDataCollectionEnabled": false,
+  "BackgroundModeEnabled": false,
+  "HighEfficiencyModeEnabled": true,
+  "ManagedBookmarks": [
+    {
+      "toplevel_name": "Instytut Botaniki"
+    },
+    {
+      "name": "Poczta Google",
+      "url": "https://mail.google.com"
+    },
+    {
+      "name": "Strona WWW",
+      "url": "https://botany.edu.pl"
+    },
+    {
+      "name": "Biuletyn Informacji Publicznej",
+      "url": "https://ibpan_krakow.bip.gov.pl/"
+    },
+    {
+      "name": "Katalog biblioteki",
+      "url": "https://biblioteka.botany.pl/"
+    },
+    {
+      "name": "Zasoby",
+      "children": [
+        {
+          "name": "Repozytorium Cyfrowe Instytutów Naukowych (RCIN) — kolekcja IB PAN",
+          "url": "https://rcin.org.pl/dlibra/collectiondescription/428"
+        },
+        {
+          "name": "Repozytorium Otwartych Danych (RepOD) — kolekcja IB PAN",
+          "url": "https://repod.icm.edu.pl/dataverse/ibpan"
+        },
+        {
+          "name": "Baza wiedzy (publikacje)",
+          "url": "https://ib.bazawiedzy.org.pl/"
+        }
+      ]
+    },
+    {
+      "name": "Różne",
+      "children": [
+        {
+          "name": "Narzędzia ATPOL",
+          "url": "https://ib-pan.github.io/atpol.js/"
+        }
+      ]
+    }
+  ],
+  "SiteSearchSettings": [
+    {
+      "name": "Strona IB PAN",
+      "shortcut": "ibpan",
+      "url": "https://botany.edu.pl/pl/search-results-pl?q={searchTerms}",
+      "featured": true
+    },
+    {
+      "name": "Biblioteka IB PAN",
+      "shortcut": "bib",
+      "url": "https://biblioteka.botany.pl/search?q={searchTerms}",
+      "featured": true
+    },
+    {
+      "name": "NUKAT",
+      "shortcut": "nukat",
+      "url": "https://katalog.nukat.edu.pl/search?q={searchTerms}"
+    },
+    {
+      "name": "BIP IB PAN",
+      "shortcut": "bip",
+      "url": "https://ibpan_krakow.bip.gov.pl/artykuly/wyszukaj/name:{searchTerms}"
+    }
+  ],
+  "RegisteredProtocolHandlers": [
+    {
+      "default": true,
+      "protocol": "mailto",
+      "url": "https://mail.google.com/mail/?extsrc=mailto&url=%s"
+    }
+  ],
+  "ExtensionSettings": {
+    "cimiefiiaegbelhefglklhhakcgmhkai": {
+      "installation_mode": "normal_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "override_update_url": false,
+      "toolbar_pin": "default_unpinned"
+    }
+  },
+  "MandatoryExtensionsForIncognitoNavigation": [
+    "cimiefiiaegbelhefglklhhakcgmhkai"
+  ]
+}
