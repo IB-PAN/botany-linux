@@ -17,12 +17,13 @@ echo "{\"auths\":{\
 # temporary
 mkdir -p /var/roothome/.gpg
 mkdir -p /var/usrlocal/{bin,etc,games,include,lib,man,share,src}
-mkdir -p /var/{home,srv}
+mkdir -p /var/{home,srv,spool}
 ln -sf ../run /var/run
 ln -sf ../run/lock /var/lock
 ln -sf spool/mail /var/mail
 
 # work around a bug in `filesystem` package's postun script
+# and make sure both sbin dirs are symlinked to bin
 mkdir -p /var/usrlocal/bin /usr/bin
 ln -sf bin /var/usrlocal/sbin
 ln -sf bin /usr/sbin
@@ -147,12 +148,36 @@ systemctl enable xfs_scrub_all.timer
 # (I am also not sure if the hardlinks get propagated all the way to the final installation drive)
 #hardlink --ignore-time --method sha1 --respect-xattrs /usr /opt
 
-# Cleanup
-rm -rf /tmp/* || true
-rm -rf /var/lib/dnf /var/lib/rpm-state /var/roothome /var/opt/* || true
-find /var/* -maxdepth 0 -type d \! -name cache \! -name log -exec rm -fr {} \;
-find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 \! -name rpm-ostree -exec rm -fr {} \;
-find /boot -mindepth 1 -delete
+# From Aurora:
+# this invalidates libdnf5 package (chunkah)
+rm -rf /usr/lib/sysimage/libdnf5/*
+# Relink rpm-ostree-base-db to rpmdb to ensure it correctly reflects the system
+# image's rpmdb and doesn't carry over package info from the base image.
+# See: https://github.com/coreos/rpm-ostree/issues/4554
+# https://forge.fedoraproject.org/atomic/tracker/issues/82
+for file in rpmdb.sqlite rpmdb.sqlite-shm rpmdb.sqlite-wal; do
+    target="/usr/share/rpm/${file}"
+    link_path="/usr/lib/sysimage/rpm-ostree-base-db/${file}"
+    if [[ -f "${target}" && -f "${link_path}" ]]; then
+        # Note, this needs to be a hardlink, not a symbolic link.
+        ln -f "${target}" "${link_path}"
+    fi
+done
+
+# Cleanup (things we can't delete here are mounts from podman)
+find /var/* -maxdepth 0 -type d \! -name cache -exec rm -fr {} \;
+find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 -exec rm -fr {} \;
+mkdir -p /var/tmp
+rm -rf /tmp/*
+find /run -mindepth 1 \
+    ! -path '/run/systemd' \
+    ! -path '/run/systemd/resolve' \
+    ! -path '/run/systemd/resolve/stub-resolv.conf' \
+    ! -path '/run/secrets' \
+    ! -path '/run/secrets/*' \
+    ! -path '/run/.containerenv' \
+    -delete
+
 echo "Build script completed!"
 
 /ctx/build_files/tests.sh

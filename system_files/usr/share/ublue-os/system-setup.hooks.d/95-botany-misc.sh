@@ -32,7 +32,7 @@ fi
 
 # Do ZSTD compression for BTRFS (append compress-force=zstd:1 to rootflags=subvol=root)
 if [[ -d /boot/loader/entries && -w /boot/loader/entries ]]; then # directory and writable
-	find /boot/loader/entries -name 'ostree-*.conf' | xargs sed -ie 's!\(rootflags=subvol=root\)\( \|$\)!\1,compress-force=zstd:1\2!g' >/dev/null
+	find /boot/loader/entries -name 'ostree-*.conf*' | xargs sed -ie 's!\(rootflags=subvol=root\)\( \|$\)!\1,compress-force=zstd:1\2!g' >/dev/null
 fi
 
 # Allow user group "printadmin" to manage CUPS
