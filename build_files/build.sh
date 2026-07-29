@@ -16,6 +16,16 @@ echo "{\"auths\":{\
 
 # temporary
 mkdir -p /var/roothome/.gpg
+mkdir -p /var/usrlocal/{bin,etc,games,include,lib,man,share,src}
+mkdir -p /var/{home,srv}
+ln -sf ../run /var/run
+ln -sf ../run/lock /var/lock
+ln -sf spool/mail /var/mail
+
+# work around a bug in `filesystem` package's postun script
+mkdir -p /var/usrlocal/bin /usr/bin
+ln -sf bin /var/usrlocal/sbin
+ln -sf bin /usr/sbin
 
 # handle /opt
 rm -rf /opt /usr/opt

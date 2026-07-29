@@ -98,6 +98,22 @@ test -e /usr/bin/pdf-xchange
 test -d /usr/lib/pdf-xchange
 test -f /usr/share/applications/pdf-xchange.desktop
 
+# make sure the symlinks are as expected
+if [[ "$(readlink /usr/sbin)" != "bin" ]]; then exit 1; fi
+if [[ "$(readlink /usr/local)" != "../var/usrlocal" ]]; then exit 1; fi
+if [[ "$(readlink /usr/tmp)" != "../var/tmp" ]]; then exit 1; fi
+if [[ "$(readlink /bin)" != "usr/bin" ]]; then exit 1; fi
+if [[ "$(readlink /home)" != "var/home" ]]; then exit 1; fi
+if [[ "$(readlink /lib)" != "usr/lib" ]]; then exit 1; fi
+if [[ "$(readlink /lib64)" != "usr/lib64" ]]; then exit 1; fi
+if [[ "$(readlink /media)" != "run/media" ]]; then exit 1; fi
+if [[ "$(readlink /mnt)" != "var/mnt" ]]; then exit 1; fi
+if [[ "$(readlink /ostree)" != "sysroot/ostree" ]]; then exit 1; fi
+if [[ "$(readlink /root)" != "var/roothome" ]]; then exit 1; fi
+if [[ "$(readlink /sbin)" != "usr/sbin" ]]; then exit 1; fi
+if [[ "$(readlink /srv)" != "var/srv" ]]; then exit 1; fi
+if [[ "$(readlink /)" != "" ]]; then exit 1; fi
+
 # Check for KDE Plasma version mismatch
 # Fedora Repos have gotten the newer one, trying to upgrade
 # everything except a few packages, breaking SDDM and shell
