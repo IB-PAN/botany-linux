@@ -3,6 +3,7 @@
   "UrlKeyedAnonymizedDataCollectionEnabled": false,
   "BackgroundModeEnabled": false,
   "HighEfficiencyModeEnabled": true,
+  "GenAiDefaultSettings": 2,
   "ManagedBookmarks": [
     {
       "toplevel_name": "Instytut Botaniki"
