@@ -91,6 +91,22 @@ EOF
 sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/vscode.repo
 pdnf install --from-repo=code code
 
+# authentik Agent
+prpm --import https://pkg.goauthentik.io/keys/gpg-key.asc
+tee /etc/yum.repos.d/authentik.repo <<'EOF'
+[authentik]
+name=authentik
+baseurl=https://pkg.goauthentik.io
+enabled=1
+gpgcheck=1
+gpgkey=https://pkg.goauthentik.io/keys/gpg-key.asc
+EOF
+sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/authentik.repo
+pdnf install --from-repo=authentik authentik-cli authentik-sysd libnss-authentik libpam-authentik
+pdnf install --from-repo=authentik authentik-agent || true # has a problem with %post script, tries to enable ak-agent.service as a system service while it's a user service
+systemctl enable ak-sysd.service
+systemctl --global enable ak-agent.service
+
 # QDiskInfo
 copr_install_isolated "birkch/QDiskInfo" "QDiskInfo"
 

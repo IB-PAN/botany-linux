@@ -88,9 +88,16 @@
       "update_url": "https://clients2.google.com/service/update2/crx",
       "override_update_url": false,
       "toolbar_pin": "default_unpinned"
+    },
+    "dklfpnaeklldfpmhkbfjbmbnmkfafdma": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "override_update_url": false,
+      "toolbar_pin": "default_unpinned"
     }
   },
   "MandatoryExtensionsForIncognitoNavigation": [
-    "cimiefiiaegbelhefglklhhakcgmhkai"
+    "cimiefiiaegbelhefglklhhakcgmhkai",
+    "dklfpnaeklldfpmhkbfjbmbnmkfafdma"
   ]
 }

@@ -112,6 +112,11 @@
         "installation_mode": "normal_installed",
         "install_url": "https://addons.mozilla.org/firefox/downloads/file/4298512/latest.xpi",
         "private_browsing": true
+      },
+      "platform-browser-extension@goauthentik.io": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/file/4645196/latest.xpi",
+        "private_browsing": true
       }
     },
     "OverrideFirstRunPage": ""
