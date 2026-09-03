@@ -14,7 +14,7 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
     gparted gsmartcontrol btrfs-assistant btrfsmaintenance snapper xfsprogs-xfs_scrub duperemove fdupes ncdu sysstat ntfs2btrfs \
-    dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose \
+    dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose xdg-native-messaging-proxy \
     tesseract-langpack-pol tesseract-langpack-eng \
     sane-backends sane-airscan \
     orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd \
