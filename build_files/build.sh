@@ -142,6 +142,13 @@ systemctl enable btrfs-scrub.timer
 sed -i 's!^OnCalendar=.*$!OnCalendar=monthly\nAccuracySec=1h!' /usr/lib/systemd/system/xfs_scrub_all.timer
 systemctl enable xfs_scrub_all.timer
 
+echo "Build script completed!"
+
+echo "Running tests..."
+/ctx/build_files/tests.sh
+
+echo "Performing cleanup..."
+
 # Hardlink identical files in /usr (--respect-xattrs makes it 8x longer, but it's safer probably?)
 # (sha1 instead of sha256 makes it noticeably faster, not using crc32c since it's less secure and actually slower than sha1)
 # Disabled due to error in CI: hardlink: misc-utils/hardlink.c:581: file_xattrs_equal: Assertion `(len_a > 0) && (len_a == len_b)' failed.
@@ -155,12 +162,15 @@ rm -rf /usr/lib/sysimage/libdnf5/*
 # image's rpmdb and doesn't carry over package info from the base image.
 # See: https://github.com/coreos/rpm-ostree/issues/4554
 # https://forge.fedoraproject.org/atomic/tracker/issues/82
+sqlite3 /usr/share/rpm/rpmdb.sqlite -batch "PRAGMA wal_checkpoint(TRUNCATE);" >/dev/null
 for file in rpmdb.sqlite rpmdb.sqlite-shm rpmdb.sqlite-wal; do
     target="/usr/share/rpm/${file}"
     link_path="/usr/lib/sysimage/rpm-ostree-base-db/${file}"
     if [[ -f "${target}" && -f "${link_path}" ]]; then
         # Note, this needs to be a hardlink, not a symbolic link.
         ln -f "${target}" "${link_path}"
+    elif [[ ! -f "${target}" && -f "${link_path}" ]]; then
+        rm -f "${link_path}"
     fi
 done
 
@@ -178,6 +188,4 @@ find /run -mindepth 1 \
     ! -path '/run/.containerenv' \
     -delete
 
-echo "Build script completed!"
-
-/ctx/build_files/tests.sh
+echo "All done!"
