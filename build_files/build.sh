@@ -61,7 +61,7 @@ rm -rf /usr/share/plasma/look-and-feel/dev.getaurora.aurora.desktop
 ### Install packages
 
 # these packages are needed for parallel runs
-dnf5 install -y moreutils parallel curl zstd xmlstarlet jq yq bc
+dnf5 install -y --allowerasing moreutils parallel curl libcurl zstd xmlstarlet jq yq bc
 
 run_parallel \
     /ctx/build_files/50-packages.sh \
