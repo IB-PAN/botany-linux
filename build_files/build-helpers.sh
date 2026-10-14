@@ -76,6 +76,23 @@ pdnf_install_rpm() {
     popd
 }
 
+pdnf_install_rpms() {
+    URLS=("$@")
+    pushd /tmp
+    echo "[pdnf_install_rpm] Downloading ${#URLS[@]} files..."
+    declare -a RPM_FILENAMES=()
+    for URL in "${URLS[@]}"; do
+        echo "[pdnf_install_rpm] Downloading ${URL}..."
+        RPM_FILENAME=$(curl --no-progress-meter --retry 3 -OJL "$URL" -w "%{filename_effective}")
+        RPM_FILENAMES+=("$RPM_FILENAME")
+    done
+    echo "[pdnf_install_rpm] Installing ${#RPM_FILENAMES[@]} RPM files..."
+    pdnf install --nogpgcheck "${RPM_FILENAMES[@]}"
+    echo "[pdnf_install_rpm] Done."
+    rm -f "${RPM_FILENAMES[@]}"
+    popd
+}
+
 pdnf_install_rpm_checksig() {
     URL="$1"
     pushd /tmp
