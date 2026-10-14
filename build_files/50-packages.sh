@@ -10,6 +10,7 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     gnome-commander doublecmd-qt6 \
     kcalc gwenview okular kweather krecorder haruna kolourpaint kcolorchooser kcharselect qdirstat kdiskmark filelight cpu-x audacity diffpdf \
     sbsigntools zram-generator stress stress-ng memtester monitor-edid edid-decode drm_info rocm-smi igt-gpu-tools \
+    gnome-firmware \
     ripgrep msedit \
     wine q4wine wine-dxvk wine-mono winetricks \
     samba samba-tools \
