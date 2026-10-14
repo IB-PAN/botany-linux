@@ -24,6 +24,7 @@ pdnf download --resolve --destdir=/tmp/crans --from-repo="copr:copr.fedorainfrac
     R-CRAN-sdm R-CRAN-enmSdmX R-CRAN-ENMTools R-CRAN-gam R-CRAN-spatstat R-CRAN-ppmlasso \
     R-CRAN-SSDM R-CRAN-Hmsc R-CRAN-boral R-CRAN-jSDM R-CRAN-phytools R-CRAN-ape R-CRAN-geiger
 find /tmp/crans -name '*.src.rpm' -type f -delete
+find /tmp/crans -name 'libcurl-minimal-*.rpm' -type f -delete
 prpm --install --replacefiles --badreloc --relocate /usr/local/lib/R/library/=/usr/lib64/R/library/ /tmp/crans/*.rpm
 rm -rf /tmp/crans
 
