@@ -9,7 +9,7 @@
       "toplevel_name": "Instytut Botaniki"
     },
     {
-      "name": "Poczta Google",
+      "name": "Poczta e-mail Google",
       "url": "https://mail.google.com"
     },
     {
@@ -21,7 +21,7 @@
       "url": "https://ibpan_krakow.bip.gov.pl/"
     },
     {
-      "name": "Katalog biblioteki",
+      "name": "Biblioteka – katalog",
       "url": "https://biblioteka.botany.pl/"
     },
     {
@@ -38,6 +38,36 @@
         {
           "name": "Baza wiedzy (publikacje)",
           "url": "https://ib.bazawiedzy.org.pl/"
+        }
+      ]
+    },
+    {
+      "name": "Czasopisma",
+      "children": [
+        {
+          "name": "Acta Palaeobotanica",
+          "url": "https://acpa.botany.pl/"
+        },
+        {
+          "name": "Plant and Fungal Systematics",
+          "url": "https://pfsyst.botany.pl/"
+        },
+        {
+          "name": "Fragmenta Floristica et Geobotanica Polonica",
+          "url": "https://ffgp.botany.pl/"
+        }
+      ]
+    },
+    {
+      "name": "Dostępność",
+      "children": [
+        {
+          "name": "Sa11y",
+          "url": "javascript:(function(){  const sa11yDialog = document.getElementById(\"sa11y-csp\");  const sa11yScripts = document.querySelectorAll(\"script[src*='sa11y']\");  const createAlert = (message) => {    const sa11yDialog = document.createElement(\"div\");    sa11yDialog.id = \"sa11y-csp\";    sa11yDialog.role = \"dialog\";    sa11yDialog.textContent = message;    sa11yDialog.style.position = \"fixed\";    sa11yDialog.style.display = \"block\";    sa11yDialog.style.bottom = \"50px\";    sa11yDialog.style.right = \"50px\";    sa11yDialog.style.margin = \"auto 0\";    sa11yDialog.style.width = \"400px\";    sa11yDialog.style.zIndex = \"10000\";    sa11yDialog.style.padding = \"10px 80px 10px 10px\";    sa11yDialog.style.backgroundColor = \"#fff%22;%20%20%20%20sa11yDialog.style.border%20=%20%225px%20solid%20#ff0000%22;%20%20%20%20sa11yDialog.style.fontWeight%20=%20%22bold%22;%20%20%20%20sa11yDialog.style.fontSize%20=%20%2217px%22;%20%20%20%20sa11yDialog.style.fontFamily%20=%20%22system-ui,%20sans-serif%22;%20%20%20%20sa11yDialog.style.boxShadow%20=%20%220%200%2020px%204px%20rgba(154,161,177,.15),0%204px%2080px%20-8px%20rgba(36,40,47,.25),0%204px%204px%20-2px%20%20%20%20rgba(91,94,105,.15)%22;%20%20%20%20sa11yDialog.style.borderRadius%20=%20%225px%22;%20%20%20%20sa11yDialog.setAttribute(%22role%22,%20%22alert%22);%20%20%20%20document.body.appendChild(sa11yDialog);%20%20%20%20const%20closeButton%20=%20document.createElement(%22button%22);%20%20%20%20closeButton.id%20=%20%22csp-close%22;%20%20%20%20closeButton.textContent%20=%20%22Close%22;%20%20%20%20closeButton.style.position%20=%20%22absolute%22;%20%20%20%20closeButton.style.top%20=%20%2210px%22;%20%20%20%20closeButton.style.color%20=%20%22#000%22;%20%20%20%20closeButton.style.right%20=%20%2210px%22;%20%20%20%20closeButton.style.padding%20=%20%225px%2010px%22;%20%20%20%20closeButton.style.backgroundColor%20=%20%22#f6f6f6%22;%20%20%20%20closeButton.style.border%20=%20%222px%20solid%20#949494%22;%20%20%20%20closeButton.style.borderRadius%20=%20%225px%22;%20%20%20%20closeButton.style.cursor%20=%20%22pointer%22;%20%20%20%20closeButton.style.fontSize%20=%20%2215px%22;%20%20%20%20sa11yDialog.appendChild(closeButton);%20%20%20%20closeButton.addEventListener(%22click%22,%20()%20=%3E%20{%20%20%20%20%20%20sa11yDialog.remove();%20%20%20%20});%20%20%20%20const%20close%20=%20document.getElementById(%22csp-close%22);%20%20%20%20setTimeout(()%20=%3E%20close.focus(),%20300);%20%20%20%20document.addEventListener(%22keyup%22,%20(event)%20=%3E%20{%20%20%20%20%20%20if%20(event.key%20===%20'Escape')%20{%20%20%20%20%20%20sa11yDialog.remove();%20%20%20%20%20%20}%20%20%20%20});%20%20};%20%20const%20securityListener%20=%20()%20=%3E%20{%20%20%20%20if%20(typeof%20sa11y%20===%20'undefined')%20{%20%20%20%20%20%20createAlert('This%20website%20has%20a%20security%20policy%20that%20prevents%20Sa11y%20from%20working%20on%20its%20pages.%20Press%20Escape%20to%20dismiss%20this%20message.');%20%20%20%20}%20%20};%20%20const%20url%20=%20window.location.href;%20%20if%20(url.includes('bookmarklet')%20&&%20url.includes('sa11y'))%20{%20%20%20%20createAlert('Drag%20the%20%22Sa11y%22%20button%20into%20your%20bookmarks%20bar.%20Then%20click%20the%20bookmark%20on%20any%20webpage.');%20%20}%20else%20if%20(sa11yDialog%20==%20null%20&&%20sa11yScripts.length%20===%200)%20{%20%20%20%20const%20inject%20=%20document.createElement(%22script%22);%20%20%20%20inject.src%20=%20%22https://cdn.jsdelivr.net/gh/ryersondmp/sa11y@latest/bookmarklet/v2.js%22;%20%20%20%20document.body.appendChild(inject);%20%20}%20else%20{%20%20%20%20location.reload();%20%20}%20%20document.addEventListener(%22securitypolicyviolation%22,%20securityListener);%20%20setTimeout(()%20=%3E%20document.removeEventListener(%22securitypolicyviolation%22,%20securityListener),%20100);})();"
+        },
+        {
+          "name": "ANDI",
+          "url": "javascript:void((function(){andiScript=document.createElement('script');andiScript.setAttribute('src','https://lepszyweb.pl/andi/andi.js');document.body.appendChild(andiScript)})());"
         }
       ]
     },
