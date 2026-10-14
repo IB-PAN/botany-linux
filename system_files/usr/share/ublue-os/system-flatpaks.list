@@ -34,6 +34,8 @@ org.flozz.yoga-image-optimizer
 com.github.tenderowl.frog
 com.github.huluti.Curtail
 com.jeffser.Pigment
+org.gnome.design.Contrast
+com.markwyner.ratio
 com.anydesk.Anydesk
 com.rustdesk.RustDesk
 org.remmina.Remmina
