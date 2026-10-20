@@ -18,6 +18,8 @@ pdnf install screen signon-kwallet-extension signon-ui tecla gphoto2 v4l-utils x
     dialog freerdp git iproute libnotify nmap-ncat iperf3 podman-compose xdg-native-messaging-proxy \
     tesseract-langpack-pol tesseract-langpack-eng \
     sane-backends sane-airscan \
+    freerdp xorg-x11-server-Xvfb xdotool libsecret wireshark-cli usbutils ImageMagick acpica-tools xorriso \
+    gcc make autoconf automake libtool autoconf-archive gettext-devel pkgconf libusb1-devel libxml2-devel \
     orca speech-dispatcher espeak-ng speech-dispatcher-espeak-ng qt6-qtspeech qt6-qtspeech-speechd qt5-qtspeech qt5-qtspeech-speechd \
     uv python3-decorator
 

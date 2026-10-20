@@ -32,3 +32,9 @@ curl --no-progress-meter --retry 3 -Lo /usr/lib/naps2/components/tesseract4/best
 curl --no-progress-meter --retry 3 -Lo /usr/lib/naps2/components/tesseract4/best/eng.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/eng.traineddata
 ln -sf /usr/share/tesseract/tessdata/pol.traineddata /usr/lib/naps2/components/tesseract4/fast/pol.traineddata
 ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/tesseract4/fast/eng.traineddata
+
+# custom SANE backend for Plustek scanners
+curl --no-progress-meter --retry 3 -Lo /usr/lib64/sane/libsane-pl99102.so.1.4.0 https://biblioteka.botany.pl/zasoby/libsane-pl99102.so.1.4.0
+ln -sf /usr/lib64/sane/libsane-pl99102.so.1.4.0 /usr/lib64/sane/libsane-pl99102.so.1
+ln -sf /usr/lib64/sane/libsane-pl99102.so.1.4.0 /usr/lib64/sane/libsane-pl99102.so
+echo 'pl99102' > /etc/sane.d/dll.d/pl99102
