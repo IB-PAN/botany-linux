@@ -859,3 +859,19 @@ meta:
       - /usr/share/licenses/openrefine/*
       - /usr/share/applications/openrefine.desktop
       - /usr/share/icons/hicolor/scalable/apps/openrefine.svg
+  artcraft:
+    packages:
+      - photocraft
+      - vectorcraft
+      - filmcraft
+      - lightcraft
+      - pdfcraft
+      - effectcraft
+      - designcraft
+      - figcraft
+      - wordcraft
+      - deckcraft
+      - gridcraft
+      - soundcraft
+      - cadcraft
+    dedicated: False
