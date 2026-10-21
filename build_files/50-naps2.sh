@@ -34,7 +34,10 @@ ln -sf /usr/share/tesseract/tessdata/pol.traineddata /usr/lib/naps2/components/t
 ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/tesseract4/fast/eng.traineddata
 
 # custom SANE backend for Plustek scanners
-curl --no-progress-meter --retry 3 -Lo /usr/lib64/sane/libsane-pl99102.so.1.4.0 https://biblioteka.botany.pl/zasoby/libsane-pl99102.so.1.4.0
+curl --no-progress-meter --retry 3 -Lo /usr/lib64/sane/libsane-pl99102.so.1.4.0 https://biblioteka.botany.pl/zasoby/plustek/libsane-pl99102.so.1.4.0
 ln -sf /usr/lib64/sane/libsane-pl99102.so.1.4.0 /usr/lib64/sane/libsane-pl99102.so.1
 ln -sf /usr/lib64/sane/libsane-pl99102.so.1.4.0 /usr/lib64/sane/libsane-pl99102.so
 echo 'pl99102' > /etc/sane.d/dll.d/pl99102
+curl --no-progress-meter --retry 3 -L https://biblioteka.botany.pl/zasoby/plustek/pl99102.desc \
+    | sed -n 's/^:usbid "0x\(....\)" "0x\(....\)".*/SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="\1", ATTR{idProduct}=="\2", ENV{libsane_matched}="yes"/p' \
+    | tee /usr/lib/udev/rules.d/64-pl99102.rules
