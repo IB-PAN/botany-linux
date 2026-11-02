@@ -16,7 +16,7 @@ jq --arg desktopName "rstudio.desktop" '.["desktopName"] = ($desktopName)' /usr/
 pdnf copr enable "iucar/cran"
 pdnf copr disable "iucar/cran"
 mkdir -p /tmp/crans
-pdnf download --resolve --destdir=/tmp/crans --from-repo="copr:copr.fedorainfracloud.org:iucar:cran" \
+pdnf download --resolve --skip-unavailable --destdir=/tmp/crans --from-repo="copr:copr.fedorainfracloud.org:iucar:cran" \
     R-CRAN-languageserver \
     R-CRAN-rmarkdown R-CRAN-rgbif R-CRAN-spocc R-CRAN-maps R-CRAN-mapproj R-CRAN-mapdata R-CRAN-dismo R-CRAN-raster R-CRAN-plotly \
     R-CRAN-RColorBrewer R-CRAN-tidyverse R-CRAN-readxl R-CRAN-leafpop R-CRAN-geodata \
