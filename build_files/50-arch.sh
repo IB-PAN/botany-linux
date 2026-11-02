@@ -23,8 +23,13 @@ sed -i '1s|^|Server = https://ftp.psnc.pl/linux/archlinux/$repo/os/$arch\n|' /et
 echo 'Server = https://archive.archlinux.org/.all' >> /etc/pacman.d/mirrorlist
 
 mkdir -p /tmp/pacmanroot
-mkdir -p /tmp/pacmanroot/var/{cache,lib}/pacman /tmp/pacmanroot/{etc/pacman.d,log}
+mkdir -p /tmp/pacmanroot/var/cache/pacman/pkg
+mkdir -p /tmp/pacmanroot/var/lib/pacman/{local,sync}
+mkdir -p /tmp/pacmanroot/var/log
+mkdir -p /tmp/pacmanroot/etc/pacman.d
 rsync -arv /etc/pacman.d/ /tmp/pacmanroot/pacman.d/
+cp /etc/pacman.conf /tmp/pacmanroot/etc/pacman.conf
+touch /tmp/pacmanroot/var/log/pacman.log
 
 # Populate pacman keys using existing files at /usr/share/pacman/keyrings initially (from Fedora's archlinux-keyring package),
 # so that we can download any packages
