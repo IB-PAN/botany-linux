@@ -78,7 +78,6 @@ run_parallel \
     /ctx/build_files/50-beszel.sh \
     /ctx/build_files/50-rstudio.sh \
     /ctx/build_files/50-openrefine.sh \
-    /ctx/build_files/50-arch.sh \
     /ctx/build_files/50-ananicy.sh \
     /ctx/build_files/50-ookla-speedtest.sh \
     /ctx/build_files/50-artcraft.sh
