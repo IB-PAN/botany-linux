@@ -5,7 +5,14 @@ set -ouex pipefail
 source /ctx/build_files/build-helpers.sh
 
 # NAPS2
-NAPS2_RPM_URL="$(curl --no-progress-meter --retry 3 https://api.github.com/repos/cyanfish/naps2/releases/latest | awk '/naps2-.*-linux-x64.rpm/&&/browser_download_url/{ gsub(/"/, "", $2); print $2 }')"
+if ! NAPS2_RPM_URL=$(curl --no-progress-meter --retry 3 --fail https://api.github.com/repos/cyanfish/naps2/releases/latest | jq -r '[.assets[] | select(.name | test("^naps2-.*-linux-x64\\.rpm$")) | .browser_download_url] | first // empty'); then
+    echo "[naps2] failed to query latest release" >&2
+    exit 1
+fi
+if [[ -z $NAPS2_RPM_URL ]]; then
+    echo "[naps2] no linux-x64 RPM found in latest release" >&2
+    exit 1
+fi
 pdnf_install_rpm "$NAPS2_RPM_URL"
 xmlstarlet edit --inplace --update "/AppConfig/HideDonateButton" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/NoUpdatePrompt" --value "true" /usr/lib/naps2/appsettings.xml 2>/dev/null
@@ -28,16 +35,16 @@ xmlstarlet edit --inplace --update "/AppConfig/DefaultProfileSettings/PageSize" 
 xmlstarlet edit --inplace --update "/AppConfig/OcrDefaultLanguage" --value "pol+eng" /usr/lib/naps2/appsettings.xml 2>/dev/null
 xmlstarlet edit --inplace --update "/AppConfig/ComponentsPath" --value "/usr/lib/naps2/components" /usr/lib/naps2/appsettings.xml 2>/dev/null
 mkdir -p /usr/lib/naps2/components/tesseract4/{best,fast}
-curl --no-progress-meter --retry 3 -Lo /usr/lib/naps2/components/tesseract4/best/pol.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/pol.traineddata
-curl --no-progress-meter --retry 3 -Lo /usr/lib/naps2/components/tesseract4/best/eng.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/eng.traineddata
+curl --no-progress-meter --retry 3 --fail -Lo /usr/lib/naps2/components/tesseract4/best/pol.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/pol.traineddata
+curl --no-progress-meter --retry 3 --fail -Lo /usr/lib/naps2/components/tesseract4/best/eng.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/eng.traineddata
 ln -sf /usr/share/tesseract/tessdata/pol.traineddata /usr/lib/naps2/components/tesseract4/fast/pol.traineddata
 ln -sf /usr/share/tesseract/tessdata/eng.traineddata /usr/lib/naps2/components/tesseract4/fast/eng.traineddata
 
 # custom SANE backend for Plustek scanners
-curl --no-progress-meter --retry 3 -Lo /usr/lib64/sane/libsane-pl99102.so.1.4.0 https://biblioteka.botany.pl/zasoby/plustek/libsane-pl99102.so.1.4.0
+curl --no-progress-meter --retry 3 --fail -Lo /usr/lib64/sane/libsane-pl99102.so.1.4.0 https://biblioteka.botany.pl/zasoby/plustek/libsane-pl99102.so.1.4.0
 ln -sf /usr/lib64/sane/libsane-pl99102.so.1.4.0 /usr/lib64/sane/libsane-pl99102.so.1
 ln -sf /usr/lib64/sane/libsane-pl99102.so.1.4.0 /usr/lib64/sane/libsane-pl99102.so
 echo 'pl99102' > /etc/sane.d/dll.d/pl99102
-curl --no-progress-meter --retry 3 -L https://biblioteka.botany.pl/zasoby/plustek/pl99102.desc \
+curl --no-progress-meter --retry 3 --fail -L https://biblioteka.botany.pl/zasoby/plustek/pl99102.desc \
     | sed -n 's/^:usbid "0x\(....\)" "0x\(....\)".*/SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="\1", ATTR{idProduct}=="\2", ENV{libsane_matched}="yes"/p' \
     | tee /usr/lib/udev/rules.d/64-pl99102.rules

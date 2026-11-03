@@ -62,13 +62,26 @@ run_parallel() {
     parallel --no-notice --jobs 0 --halt-on-error now,fail=1 --color-failed "set -o pipefail ; echo '::group::==={}===' && stdbuf -oL bash -c {} 2>&1 | ts -s -m '%.s' && echo -e '===END===\n::endgroup::'" ::: "$@"
 }
 
+_download_rpm() {
+    # prints the downloaded filename; fails on empty URL or HTTP/network error
+    local url="$1"
+    if [[ -z $url ]]; then
+        echo "[download_rpm] Empty URL" >&2
+        return 1
+    fi
+    curl --no-progress-meter --retry 3 --fail -OJL "$url" -w "%{filename_effective}" || {
+        echo "[download_rpm] Download of ${url} failed" >&2
+        return 1
+    }
+}
+
 pdnf_install_rpm() {
     URL="$1"
     #shift
     #OPTIONS=("$@")
     pushd /tmp
     echo "[pdnf_install_rpm] Downloading ${URL}..."
-    RPM_FILENAME=$(curl --no-progress-meter --retry 3 -OJL "$URL" -w "%{filename_effective}")
+    RPM_FILENAME=$(_download_rpm "$URL")
     echo "[pdnf_install_rpm] Installing ${RPM_FILENAME}..."
     pdnf install --nogpgcheck "$RPM_FILENAME"
     echo "[pdnf_install_rpm] Done."
@@ -83,7 +96,7 @@ pdnf_install_rpms() {
     declare -a RPM_FILENAMES=()
     for URL in "${URLS[@]}"; do
         echo "[pdnf_install_rpm] Downloading ${URL}..."
-        RPM_FILENAME=$(curl --no-progress-meter --retry 3 -OJL "$URL" -w "%{filename_effective}")
+        RPM_FILENAME=$(_download_rpm "$URL")
         RPM_FILENAMES+=("$RPM_FILENAME")
     done
     echo "[pdnf_install_rpm] Installing ${#RPM_FILENAMES[@]} RPM files..."
@@ -97,7 +110,7 @@ pdnf_install_rpm_checksig() {
     URL="$1"
     pushd /tmp
     echo "[pdnf_install_rpm_checksig] Downloading ${URL}..."
-    RPM_FILENAME=$(curl --no-progress-meter --retry 3 -OJL "$URL" -w "%{filename_effective}")
+    RPM_FILENAME=$(_download_rpm "$URL")
     echo "[pdnf_install_rpm_checksig] Checking signature of ${RPM_FILENAME}..."
     prpm --checksig "$RPM_FILENAME"
     echo "[pdnf_install_rpm_checksig] Installing ${RPM_FILENAME}..."
