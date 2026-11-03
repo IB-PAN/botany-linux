@@ -3,7 +3,7 @@ pref("media.webspeech.synth.enabled", false);
 pref("general.autoScroll", true);
 pref("browser.crashReports.unsubmittedCheck.autoSubmit2", true);
 
-pref("browser.newtabpage.activity-stream.default.sites", "https://botany.pl/,https://mail.google.com,https://biblioteka.botany.pl/,https://www.wikipedia.org/,https://rcin.org.pl/dlibra/collectiondescription/428");
+pref("browser.newtabpage.activity-stream.default.sites", "https://botany.edu.pl/,https://mail.google.com,https://biblioteka.botany.pl/,https://www.wikipedia.org/,https://rcin.org.pl/dlibra/collectiondescription/428");
 pref("browser.newtabpage.activity-stream.feeds.section.highlights", true); // Recent activity section
 
 pref("browser.newtabpage.activity-stream.system.showWeather", true);

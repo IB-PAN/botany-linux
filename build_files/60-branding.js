@@ -94,7 +94,7 @@ const osRelease = Object.fromEntries((await osReleaseFile.text()).split("\n").ma
 
 osRelease.PRETTY_NAME = `Botany Linux ${osRelease.VERSION_ID}`;
 osRelease.NAME = "Botany Linux";
-osRelease.HOME_URL = "https://botany.pl";
+osRelease.HOME_URL = "https://botany.edu.pl";
 osRelease.LOGO = "ibpan-logo";
 osRelease.DEFAULT_HOSTNAME = "botany-linux-default-hostname";
 osRelease.VERSION_CODENAME = ""; // Stargazer

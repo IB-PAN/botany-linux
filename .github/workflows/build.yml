@@ -16,7 +16,7 @@ on:
 env:
   IMAGE_DESC: "Botany Linux"
   IMAGE_KEYWORDS: "bootc,ublue,universal-blue"
-  IMAGE_LOGO_URL: "https://botany.pl/images/Layout/logo.svg"  # Put your own image here for a fancy profile on https://artifacthub.io/!
+  IMAGE_LOGO_URL: "https://botany.edu.pl/images/Layout/logo.svg"  # Put your own image here for a fancy profile on https://artifacthub.io/!
   IMAGE_NAME: "${{ github.event.repository.name }}"  # output image name, usually same as repo name
   IMAGE_REGISTRY: "${{ secrets.IMAGE_REGISTRY }}"
   IMAGE_REGISTRY_ALT: "${{ secrets.IMAGE_REGISTRY_ALT }}"  # previous domain name that we used...
