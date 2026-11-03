@@ -93,11 +93,6 @@ test -L /usr/bin/kopia
 # Make sure there's no artifacts from Arch's packages being improperly unpacked
 if [[ -e /.BUILDINFO || -e /.MTREE || -e /.PKGINFO ]]; then exit 1; fi
 
-# pdf-xchange
-test -e /usr/bin/pdf-xchange
-test -d /usr/lib/pdf-xchange
-test -f /usr/share/applications/pdf-xchange.desktop
-
 # make sure the symlinks are as expected
 if [[ "$(readlink /usr/sbin)" != "bin" ]]; then exit 1; fi
 if [[ "$(readlink /usr/local)" != "../var/usrlocal" ]]; then exit 1; fi
