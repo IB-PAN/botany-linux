@@ -7,6 +7,8 @@ if (systemtrayId) {
     const hiddenItemsToAdd = [
         "KopiaUI_status_icon_1",
         "Sigillum Monitor",
+        "org.gnome.World.PikaBackup",
+        "io.github.kolunmi.Bazaar",
     ];
     hiddenItemsToAdd.forEach(i => { if (!hiddenItems.includes(i)) hiddenItems.push(i); });
     systrayContainer.writeConfig("hiddenItems", hiddenItems);
